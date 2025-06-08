@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
+import React from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import MotionWrapper from "../components/MotionWrapper";
+import { InitTheme } from "@/providers/Theme/InitTheme";
+import { Providers } from "@/providers";
+import Footer from "@/components/Footer/Footer";
+import Navbar from "@/components/Nabar/Navbar";
+import clsx from "clsx"; // ✅ Make sure to install this if you haven't: npm install clsx
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,11 +30,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+    <html
+      className={clsx(geistSans.variable)}
+      lang="en"
+      suppressHydrationWarning
+    >
+      <head>
+        <InitTheme />
+        <link href="/favicon.ico" rel="icon" sizes="32x32" />
+        <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+      </head>
+      <body>
+        <Providers>
+          <div className={clsx(geistMono.variable)} />
+          {/* <div className="bg-[#1A1A1A] text-white min-h-screen flex flex-col"> */}
+          <Navbar />
+          <MotionWrapper>{children}</MotionWrapper>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

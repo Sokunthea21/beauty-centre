@@ -14,6 +14,9 @@ import Tiktok from "./Tiktok.svg";
 import telegram from "./telegram.svg";
 import bloomleft from "./bloom-left.svg";
 import bloomright from "./bloom-right.svg";
+import Trending_1 from "./Trending_1.png";
+import Trending_2 from "./Trending_2.png";
+import Trending_3 from "./Trending_3.png";
 
 //Image Categories
 import Sunscreen from "./Categories_Sunscreen.png";
@@ -36,6 +39,15 @@ import Iunik from "./Brand_Iunik.png";
 import Skin1004 from "./Brand_Skin1004.png";
 import MaryandMay from "./Brand_Mary&May.png";
 
+//Image Products
+// import SerumJAPANCherry from "./Serum_JAPAN_Cherry.png";
+// import SileFeelCotton from "./Sile_feel_cotton.png";
+
+// export const products = {
+//   SerumJAPANCherry,
+//   SileFeelCotton,
+// };
+
 export const assets = {
   Beauty_Center,
   cart,
@@ -53,6 +65,9 @@ export const assets = {
   Tiktok,
   bloomleft,
   bloomright,
+  Trending_1,
+  Trending_2,
+  Trending_3,
 };
 
 export const categories = {

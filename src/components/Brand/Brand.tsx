@@ -4,7 +4,7 @@ import { assets, brandList } from "@/app/assets/assets";
 
 const Components = () => {
   return (
-    <div className="py-12">
+    <div className="container max-auto">
       <div className="text-center mb-4">
         <div className="flex justify-center items-center gap-2">
           <Image

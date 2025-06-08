@@ -1,12 +1,12 @@
 import { assets } from "@/app/assets/assets";
 import Image from "next/image";
-import React, { useState, useRef, useEffect } from "react";
+// import React, { useState, useRef, useEffect } from "react";
 
 const Navbar: React.FC = () => {
   return (
     <>
       {/* Navbar */}
-      <header className="w-full px-5 lg:px-8 xl:px-[8%] py-4 z-50 bg-white shadow-xs">
+      <header className="container max-auto w-full px-5 lg:px-8 xl:px-[8%] py-4 z-50 bg-white shadow-xs">
         <div className="py-4 flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-2">
@@ -34,9 +34,9 @@ const Navbar: React.FC = () => {
                   stroke="currentColor"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1117 9a7.5 7.5 0 01-.35 7.65z"
                   />
                 </svg>

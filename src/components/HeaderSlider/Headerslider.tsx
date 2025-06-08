@@ -14,12 +14,12 @@ const HeaderSlider = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % sliderData.length);
-    }, 4000);
+    }, 5000);
     return () => clearInterval(interval);
   }, [sliderData.length]);
 
   return (
-    <div className="relative overflow-hidden w-full mt-10">
+    <div className="container relative overflow-hidden w-full mt-10">
       <div
         className="flex transition-transform duration-700 ease-in-out"
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
