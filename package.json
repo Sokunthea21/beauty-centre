@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build:css": "tailwindcss build styles.css -o public/styles.css",
+    "build:css": "npx tailwindcss -i ./styles.css -o ./public/styles.css",
     "build:css:prod": "tailwindcss build styles.css -o public/styles.css --minify",
     "build:css:watch": "tailwindcss build styles.css -o public/styles.css --watch",
     "postbuild:css": "npm run build:css",

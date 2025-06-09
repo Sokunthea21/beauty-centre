@@ -21,7 +21,7 @@ const Components = () => {
         </div>
       </div>
 
-      <div className="bg-[#F8FFAD] p-6 rounded-lg">
+      <div className="bg-[var(--secondary)] p-6 rounded-lg">
         <div className="overflow-x-auto scrollbar-hidden snap-x snap-mandatory">
           <div className="grid grid-flow-col auto-cols-[150px] gap-6 px-2">
             {brandList.map((brand) => (

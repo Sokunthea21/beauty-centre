@@ -27,12 +27,13 @@ const Categories = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-8">
         {categoryList.map((cat, index) => (
           <div key={index} className="flex flex-col items-center space-y-2">
-            <div className="w-[126px] h-[126px] rounded-lg bg-[#F1F1F1] flex items-center justify-center shadow-sm hover:shadow-md transition">
+            <div className="w-[126px] h-[126px] rounded-lg bg-[#F1F1F1] flex items-center justify-center">
               <Image
                 src={cat.Image}
                 width={100}
                 height={100}
-                className="object-contain"
+                className="object-contain transition-all duration-200 hover:scale-105"
+                loading="lazy"
                 alt={cat.title}
               />
             </div>

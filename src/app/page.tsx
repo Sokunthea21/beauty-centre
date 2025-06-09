@@ -7,6 +7,7 @@ import Category from "@/components/Categories/Category";
 import Brand from "@/components/Brand/Brand";
 import NewArrivals from "@/components/NewArrivals/NewArrivals";
 import Trending from "@/components/Trand/Tranding";
+import Spotlight from "@/components/Spotlight/Spotlight";
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
       <Brand />
       <NewArrivals />
       <Trending />
+      <Spotlight />
     </>
   );
 }

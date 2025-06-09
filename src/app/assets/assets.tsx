@@ -17,6 +17,8 @@ import bloomright from "./bloom-right.svg";
 import Trending_1 from "./Trending_1.png";
 import Trending_2 from "./Trending_2.png";
 import Trending_3 from "./Trending_3.png";
+import Spotlight_1 from "./Spotlght_1.png";
+import Spotlight_2 from "./Spotlght_2.png";
 
 //Image Categories
 import Sunscreen from "./Categories_Sunscreen.png";
@@ -68,6 +70,8 @@ export const assets = {
   Trending_1,
   Trending_2,
   Trending_3,
+  Spotlight_1,
+  Spotlight_2,
 };
 
 export const categories = {

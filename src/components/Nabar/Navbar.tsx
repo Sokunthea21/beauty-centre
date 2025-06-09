@@ -6,7 +6,7 @@ const Navbar: React.FC = () => {
   return (
     <>
       {/* Navbar */}
-      <header className="container max-auto w-full px-5 lg:px-8 xl:px-[8%] py-4 z-50 bg-white shadow-xs">
+      <header className="w-full px-5 lg:px-8 xl:px-[8%] py-4 z-50 bg-white shadow-xs">
         <div className="py-4 flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-2">
