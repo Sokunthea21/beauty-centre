@@ -4,7 +4,7 @@ import { assets, brandList } from "@/app/assets/assets";
 
 const Components = () => {
   return (
-    <div className="container max-auto">
+    <div className="container mx-auto">
       <div className="text-center mb-4">
         <div className="flex justify-center items-center gap-2">
           <Image
@@ -21,7 +21,7 @@ const Components = () => {
         </div>
       </div>
 
-      <div className="bg-[var(--secondary)] p-6 rounded-lg">
+      <div className="bg-[var(--secondary)]/60 p-6 rounded-lg">
         <div className="overflow-x-auto scrollbar-hidden snap-x snap-mandatory">
           <div className="grid grid-flow-col auto-cols-[150px] gap-6 px-2">
             {brandList.map((brand) => (

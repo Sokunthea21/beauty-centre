@@ -4,8 +4,8 @@ import { assets, categoryList } from "@/app/assets/assets"; // Adjust if needed
 
 const Categories = () => {
   return (
-    <section className="py-12">
-      {/* Section Heading */}
+    <div className="container mx-auto py-12">
+      {/* Section Title */}
       <div className="text-center mb-4">
         <div className="flex justify-center items-center gap-2">
           <Image
@@ -20,7 +20,7 @@ const Categories = () => {
             className="h-[50px] w-[60px]"
           />
         </div>
-        <p className="text-sm text-gray-500 mt-1">See All</p>
+        <p className="text-sm text-gray-500">See All</p>
       </div>
 
       {/* Category Grid */}
@@ -43,7 +43,7 @@ const Categories = () => {
           </div>
         ))}
       </div>
-    </section>
+    </div>
   );
 };
 

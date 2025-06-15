@@ -4,7 +4,7 @@ import { assets, categories } from "@/app/assets/assets";
 
 const Trending = () => {
   return (
-    <div className="container py-12">
+    <div className="container mx-auto py-12">
       <div className="text-center mb-4">
         <div className="flex justify-center items-center gap-2 mb-4">
           <Image
@@ -14,7 +14,7 @@ const Trending = () => {
           />
           <h2 className="text-lg font-bold uppercase">Trending</h2>
           <Image
-            src={assets.bloomright}
+            src={assets.bloomleft}
             alt="Right Bloom"
             className="h-[50px] w-[60px]"
           />

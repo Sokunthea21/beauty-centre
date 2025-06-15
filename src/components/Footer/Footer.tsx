@@ -6,21 +6,21 @@ const Footer = () => {
   return (
     <footer className="bg-[#2E2E2E] text-white mt-auto">
       <div className="container mx-auto pt-[60px] pb-[40px] border-b border-gray-500/30">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-[20px]">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-[36px]">
           {/* Left Block */}
           <div className="space-y-5 col-span-1 lg:col-span-1">
             <Image
               src={assets.Beauty_Center}
               alt="Logo"
-              className="h-12 w-auto"
+              className="h-16 w-auto"
             />
             {/* <h2 className="text-xl font-bold text-pink-300">
               Beauty <span className="text-white">Centre</span>
             </h2> */}
-            <p className="text-lg text-gray-300">
+            <p className="text-md text-gray-300">
               Discover nature's beauty with our natural care products.
             </p>
-            <ul className="text-lg text-gray-300 space-y-1">
+            <ul className="text-md text-gray-300 space-y-1">
               <li className="flex items-center gap-2 mb-4">
                 <span>
                   <Image src={assets.Call} alt="Call" className="h-6 w-auto" />
@@ -54,7 +54,7 @@ const Footer = () => {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-[20px] col-span-1 lg:col-span-4">
             <div>
               <h3 className="text-lg font-normal text-white mb-4">HELP</h3>
-              <ul className="space-y-2 text-lg text-gray-300">
+              <ul className="space-y-2 text-md text-gray-300">
                 <li>Contact us</li>
                 <li>FAQ</li>
                 <li>Shipping & Returns</li>
@@ -64,7 +64,7 @@ const Footer = () => {
               <h3 className="text-lg font-normal text-white mb-4">
                 MY ACCOUNT
               </h3>
-              <ul className="space-y-2 text-lg text-gray-300">
+              <ul className="space-y-2 text-md text-gray-300">
                 <li>Addresses</li>
                 <li>Order Status</li>
                 <li>Wishlist</li>
@@ -74,7 +74,7 @@ const Footer = () => {
               <h3 className="text-lg font-normal text-white mb-4">
                 CUSTOMER CARE
               </h3>
-              <ul className="space-y-2 text-lg text-gray-300">
+              <ul className="space-y-2 text-md text-gray-300">
                 <li>About us</li>
                 <li>Blog</li>
               </ul>
@@ -83,7 +83,7 @@ const Footer = () => {
               <h3 className="text-lg font-normal text-white mb-4">
                 SIGN UP FOR EMAILS
               </h3>
-              <p className="text-lg text-gray-300 mb-2">
+              <p className="text-md text-gray-300 mb-2">
                 Stay informed, subscribe to our newsletter now!
               </p>
               <form className="flex flex-col gap-2">
@@ -103,7 +103,7 @@ const Footer = () => {
 
       {/* Bottom Section */}
       <div className="bg-[#222] py-4 px-6">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between text-base text-gray-400">
+        <div className="container flex flex-col md:flex-row items-center justify-between text-base text-gray-400">
           <p className="mb-2 md:mb-0">
             {" "}
             © {new Date().getFullYear()}. Beauty Centre.

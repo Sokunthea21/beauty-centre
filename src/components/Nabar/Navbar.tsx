@@ -1,13 +1,14 @@
 import { assets } from "@/app/assets/assets";
 import Image from "next/image";
+import HeaderSlider from "../HeaderSlider/Headerslider";
 // import React, { useState, useRef, useEffect } from "react";
 
 const Navbar: React.FC = () => {
   return (
     <>
       {/* Navbar */}
-      <header className="w-full px-5 lg:px-8 xl:px-[8%] py-4 z-50 bg-white shadow-xs">
-        <div className="py-4 flex items-center justify-between">
+      <header className="w-full py-4 z-50 bg-white shadow-xs">
+        <div className="container py-4 flex items-center justify-between overflow-hidden">
           {/* Logo */}
           <div className="flex items-center space-x-2">
             <Image
@@ -54,7 +55,7 @@ const Navbar: React.FC = () => {
                   className="h-[24px] w-auto"
                 />
               </a>
-              <span className="mt-2">WISHLIST</span>
+              <span className="mt-2 hover:text-[#F178A1]">WISHLIST</span>
             </div>
             <div className="flex flex-col items-center">
               <a href="#">
@@ -64,7 +65,7 @@ const Navbar: React.FC = () => {
                   className="h-[24px] w-auto"
                 />
               </a>
-              <span className="mt-2">ACCOUNT</span>
+              <span className="mt-2 hover:text-[#F178A1]">ACCOUNT</span>
             </div>
             <div className="flex flex-col items-center">
               <a href="#">
@@ -74,7 +75,7 @@ const Navbar: React.FC = () => {
                   className="h-[24px] w-auto"
                 />
               </a>
-              <span className="mt-2">CART</span>
+              <span className="mt-2 hover:text-[#F178A1]">CART</span>
             </div>
           </div>
         </div>
@@ -82,27 +83,28 @@ const Navbar: React.FC = () => {
         {/* Navigation Links */}
         <nav className="bg-white">
           <div className="container mx-auto px-4 py-4 flex justify-center space-x-6 text-gray-900 text-lg">
-            <a href="#" className="hover:text-pink-600">
+            <a href="#" className="hover:text-[#F178A1]">
               SKINCARE
             </a>
-            <a href="#" className="hover:text-pink-600">
+            <a href="#" className="hover:text-[#F178A1]">
               HAIR & BODY
             </a>
-            <a href="#" className="hover:text-pink-600">
+            <a href="#" className="hover:text-[#F178A1]">
               MAKEUP & TOOLS
             </a>
-            <a href="#" className="hover:text-pink-600">
+            <a href="#" className="hover:text-[#F178A1]">
               NEW
             </a>
-            <a href="#" className="hover:text-pink-600">
+            <a href="#" className="hover:text-[#F178A1]">
               BRAND
             </a>
-            <a href="#" className="hover:text-pink-600">
+            <a href="#" className="hover:text-[#F178A1]">
               SUPPORT
             </a>
           </div>
         </nav>
       </header>
+      <HeaderSlider />
     </>
   );
 };

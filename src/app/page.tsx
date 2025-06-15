@@ -13,8 +13,7 @@ import Newsletter from "@/components/Newsletter/Newsletter";
 export default function Home() {
   return (
     <>
-      {/* <Navbar /> */}
-      <Headerslider />
+      
       <Category />
       <Brand />
       <NewArrivals />

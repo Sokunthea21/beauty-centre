@@ -3,7 +3,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 @layer base {
   :root {
     --primary: #f278a1;
@@ -33,6 +32,9 @@
     font-weight: 500;
     line-height: 1.15;
     letter-spacing: -0.022em;
+  }
+  .container {
+    margin: 0 auto;
   }
 }
 

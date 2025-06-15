@@ -14,12 +14,12 @@ const Spotlight = () => {
           />
           <h2 className="text-lg font-bold uppercase">In The Spotlight</h2>
           <Image
-            src={assets.bloomright}
+            src={assets.bloomleft}
             alt="Right Bloom"
             className="h-[50px] w-[60px]"
           />
         </div>
-        <p className="text-sm text-gray-500 mt-1">See All</p>
+        <p className="text-sm text-gray-500">See All</p>
       </div>
 
       <div className="mx-auto grid grid-cols-2 gap-6">
