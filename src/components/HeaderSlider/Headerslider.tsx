@@ -19,7 +19,7 @@ const HeaderSlider = () => {
   }, [sliderData.length]);
 
   return (
-    <div className="container relative overflow-hidden w-full mt-10">
+    <div className=" mx-auto relative overflow-hidden w-full mt-10 ">
       <div
         className="flex transition-transform duration-700 ease-in-out"
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}

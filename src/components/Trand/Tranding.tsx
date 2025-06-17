@@ -4,7 +4,7 @@ import { assets, categories } from "@/app/assets/assets";
 
 const Trending = () => {
   return (
-    <div className="container py-12">
+    <div className="container mx-auto py-12">
       <div className="text-center mb-4">
         <div className="flex justify-center items-center gap-2 mb-4">
           <Image
