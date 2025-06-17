@@ -14,36 +14,42 @@ const Trending = () => {
           />
           <h2 className="text-lg font-bold uppercase">Trending</h2>
           <Image
-            src={assets.bloomright}
+            src={assets.bloomleft}
             alt="Right Bloom"
             className="h-[50px] w-[60px]"
           />
         </div>
       </div>
 
-      <div className="mx-auto grid grid-cols-2 gap-6">
-        <div className="flex flex-col items-center space-y-4">
-          <Image
-            src={assets.Trending_1}
-            alt="Left Bloom"
-            className="h-[862px] w-[724px]"
-          />
+      <div className=" grid grid-cols-2 gap-6">
+        {/* Left Large Image */}
+        <div>
+          <a href="#">
+            <Image
+              src={assets.Trending_1}
+              alt="Trending 1"
+              className="w-full h-[704px] object-cover transition-all duration-200 hover:shadow-lg md:hover:scale-105"
+            />
+          </a>
         </div>
-        <div className="flex w-[764px] flex-col items-start gap-5">
-          <div className="flex flex-col items-center space-y-4">
+
+        {/* Right Two Stacked Images */}
+        <div className="flex flex-col gap-6">
+          <a href="#">
             <Image
               src={assets.Trending_2}
-              alt="Left Bloom"
-              className="h-[420px] w-[764px]"
+              alt="Trending 2"
+              className="w-full h-[340px] object-cover transition-all duration-200 hover:shadow-lg md:hover:scale-105"
             />
-          </div>
-          <div className="flex flex-col items-center space-y-4">
+          </a>
+
+          <a href="#">
             <Image
               src={assets.Trending_3}
-              alt="Left Bloom"
-              className="h-[420px] w-[764px]"
+              alt="Trending 3"
+              className="w-full h-[340px] object-cover transition-all duration-200 hover:shadow-lg md:hover:scale-105"
             />
-          </div>
+          </a>
         </div>
       </div>
     </div>

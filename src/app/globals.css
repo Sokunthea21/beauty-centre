@@ -3,12 +3,38 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 @layer base {
+  :root {
+    --primary: #f278a1;
+    --secondary: #fff389;
+    --accent: #10b981;
+    --background: #f9fafb;
+    --text: #111827;
+  }
   body {
-    background-color: #fcfcfc; /* Tailwind bg-gray-100 */
-    color: #111827; /* Tailwind text-gray-900 */
+    background-color: #fcfcfc;
+    color: #111827;
     font-family: "Sofia Sans Semi Condensed", sans-serif;
+  }
+  h1,
+  .h1,
+  h2,
+  .h2,
+  h3,
+  .h3,
+  h4,
+  .h4,
+  h5,
+  .h5,
+  h6,
+  .h6 {
+    font-family: "Sofia Sans Semi Condensed", sans-serif;
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.022em;
+  }
+  .container {
+    margin: 0 auto;
   }
 }
 

@@ -1,5 +1,6 @@
 import { assets } from "@/app/assets/assets";
 import Image from "next/image";
+import HeaderSlider from "../HeaderSlider/Headerslider";
 // import React, { useState, useRef, useEffect } from "react";
 
 const Navbar: React.FC = () => {
