@@ -6,7 +6,7 @@ import MotionWrapper from "../components/MotionWrapper";
 import { InitTheme } from "@/providers/Theme/InitTheme";
 import { Providers } from "@/providers";
 import Footer from "@/components/Footer/Footer";
-import Navbar from "@/components/Nabar/Navbar";
+import Navbar from "@/components/Navbar/Navbar";
 import clsx from "clsx";
 const geistSans = Geist({
   variable: "--font-geist-sans",

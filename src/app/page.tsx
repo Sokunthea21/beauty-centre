@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import Navbar from "@/components/Nabar/Navbar";
+import Navbar from "@/components/Navbar/Navbar";
 import Headerslider from "@/components/HeaderSlider/Headerslider";
 import Footer from "@/components/Footer/Footer";
 import Category from "@/components/Categories/Category";
@@ -13,7 +13,7 @@ import Newsletter from "@/components/Newsletter/Newsletter";
 export default function Home() {
   return (
     <>
-      
+      <Headerslider />
       <Category />
       <Brand />
       <NewArrivals />
