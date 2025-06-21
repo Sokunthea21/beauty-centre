@@ -1,6 +1,8 @@
 import React from "react";
 import Image from "next/image";
 import { assets, categoryList } from "@/app/assets/assets"; // Adjust if needed
+import Link from "next/link";
+
 
 const Categories = () => {
   return (
@@ -20,7 +22,10 @@ const Categories = () => {
             className="h-[50px] w-[60px]"
           />
         </div>
-        <p className="text-sm text-gray-500">See All</p>
+        <Link href="/categorieslist">
+        <span className="text-sm text-gray-500 cursor-pointer">See All</span>
+      </Link>
+        
       </div>
 
       {/* Category Grid */}
