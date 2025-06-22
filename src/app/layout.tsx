@@ -28,6 +28,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Determine if the current route is an admin route
+  const isAdminRoute =
+    typeof window !== "undefined" &&
+    window.location.pathname.startsWith("/admin");
+
   return (
     <html
       className={clsx(geistSans.variable)}
@@ -43,9 +48,9 @@ export default function RootLayout({
         <Providers>
           <div className={clsx(geistMono.variable)} />
           {/* <div className="bg-[#1A1A1A] text-white min-h-screen flex flex-col"> */}
-          <Navbar />
+          {!isAdminRoute || <Navbar />}
           <MotionWrapper>{children}</MotionWrapper>
-          <Footer />
+          {!isAdminRoute || <Footer />}
         </Providers>
       </body>
     </html>
