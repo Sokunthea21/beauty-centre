@@ -9,7 +9,9 @@ import NewArrivals from "@/components/NewArrivals/NewArrivals";
 import Trending from "@/components/Trand/Tranding";
 import Spotlight from "@/components/Spotlight/Spotlight";
 import Newsletter from "@/components/Newsletter/Newsletter";
-
+import Bestseller from "@/components/Bestseller/Bestseller";
+import Categories from "@/components/Categories/Category";
+import Categorieslist from "@/components/Categorieslist/Categorieslist";
 export default function Home() {
   return (
     <>
@@ -17,6 +19,7 @@ export default function Home() {
       <Category />
       <Brand />
       <NewArrivals />
+      <Bestseller />
       <Trending />
       <Spotlight />
       <Newsletter />

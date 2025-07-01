@@ -24,6 +24,7 @@ import heart_icon from "./heart_icon.svg";
 import arrows_left from "./arrows_left.svg";
 import arrows_right from "./arrows_right.svg";
 import star_dull_icon from "./star_dull_icon.svg";
+import img_login from "./img-login.png";
 
 //Image Categories
 import Sunscreen from "./Categories_Sunscreen.png";
@@ -49,6 +50,9 @@ import MaryandMay from "./Brand_Mary&May.png";
 //Image Products
 import SerumJAPANCherry from "./SerumJAPANCherry.png";
 import SileFeelCotton from "./Sile feel cotton Puff.png";
+import DailySunscreen from "./Daily_UV_Sunscreen.png";
+import jejucherrycream from "./Jeju_cherry_cream.png";
+import poreclaymask from "./Pore_clay_mask.png";
 
 export const assets = {
   Beauty_Center,
@@ -79,6 +83,10 @@ export const assets = {
   arrows_right,
   SerumJAPANCherry,
   SileFeelCotton,
+  DailySunscreen,
+  jejucherrycream,
+  poreclaymask,
+  img_login,
 };
 
 export const categories = {

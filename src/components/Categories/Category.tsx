@@ -3,7 +3,6 @@ import Image from "next/image";
 import { assets, categoryList } from "@/app/assets/assets"; // Adjust if needed
 import Link from "next/link";
 
-
 const Categories = () => {
   return (
     <div className="container mx-auto py-12">
@@ -22,10 +21,11 @@ const Categories = () => {
             className="h-[50px] w-[60px]"
           />
         </div>
-        <Link href="/categorieslist">
-        <span className="text-sm text-gray-500 cursor-pointer">See All</span>
-      </Link>
-        
+        <Link href="/categories" className="mt-2 inline-block">
+          <span className="text-sm text-gray-500 cursor-pointer hover:underline">
+            See All
+          </span>
+        </Link>
       </div>
 
       {/* Category Grid */}

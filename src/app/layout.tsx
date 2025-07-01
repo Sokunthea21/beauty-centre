@@ -49,9 +49,9 @@ export default function RootLayout({
         <Providers>
           <div className={clsx(geistMono.variable)} />
           {/* <div className="bg-[#1A1A1A] text-white min-h-screen flex flex-col"> */}
-          {!isAdminRoute || <Navbar />}
+          {!isAdminRoute && <Navbar />}
           <MotionWrapper>{children}</MotionWrapper>
-          {!isAdminRoute || <Footer />}
+          {!isAdminRoute && <Footer />}
         </Providers>
       </body>
     </html>

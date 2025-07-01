@@ -28,7 +28,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/components/ProductCard",
-    "tailwind.config.mjs"
+    "tailwind.config.js"
   ],
   "exclude": ["node_modules"]
 }

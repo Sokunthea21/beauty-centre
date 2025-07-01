@@ -1,34 +1,34 @@
 // src/components/Navbar/Navbar.tsx
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { onAuthStateChanged, User } from 'firebase/auth';
-import { auth } from '@/lib/firebase/firebase';
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { onAuthStateChanged, User } from "firebase/auth";
+import { auth } from "@/lib/firebase/firebase";
 import { assets } from "@/app/assets/assets";
 
 const Navbar: React.FC = () => {
-    const [user, setUser] = useState<User | null>(null);
-    const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        // Listen for auth state changes to update the UI
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
-            setLoading(false);
-        });
-        // Cleanup subscription on unmount
-        return () => unsubscribe();
-    }, []);
+  useEffect(() => {
+    // Listen for auth state changes to update the UI
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, []);
 
-    // Determines the correct link for the account button
-    const getAccountHref = () => {
-        if (loading) return '/login'; // Default to login while checking auth state
-        if (!user || !user.emailVerified) return '/login'; // If no user or not verified, go to login
-        if (user.email === 'ngylyteng@gmail.com') return '/dashboard'; // Admin goes to dashboard
-        return '/myacc'; // Logged-in users go to their account/home page
-    };
+  // Determines the correct link for the account button
+  const getAccountHref = () => {
+    if (loading) return "/login"; // Default to login while checking auth state
+    if (!user || !user.emailVerified) return "/login"; // If no user or not verified, go to login
+    if (user.email === "ngylyteng@gmail.com") return "/dashboard"; // Admin goes to dashboard
+    return "/myacc"; // Logged-in users go to their account/home page
+  };
 
   return (
     <>
@@ -85,17 +85,20 @@ const Navbar: React.FC = () => {
               />
               <span className="mt-2">WISHLIST</span>
             </Link>
-            
+
             {/* THIS IS THE FIXED ACCOUNT BUTTON */}
-            <Link href={getAccountHref()} className="flex flex-col items-center">
-                <Image
-                  src={assets.account}
-                  alt="Account"
-                  width={24}
-                  height={24}
-                  className="h-[24px] w-auto"
-                />
-                <span className="mt-2">ACCOUNT</span>
+            <Link
+              href={getAccountHref()}
+              className="flex flex-col items-center"
+            >
+              <Image
+                src={assets.account}
+                alt="Account"
+                width={24}
+                height={24}
+                className="h-[24px] w-auto"
+              />
+              <span className="mt-2">ACCOUNT</span>
             </Link>
 
             <Link href="#" className="flex flex-col items-center">

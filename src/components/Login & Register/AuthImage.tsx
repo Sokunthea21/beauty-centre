@@ -1,5 +1,7 @@
 // src/components/Login & Register/AuthImage.tsx
 import Image from 'next/image';
+import React from 'react';
+import { assets } from '@/app/assets/assets'; // Adjust the import path as necessary
 
 interface AuthImageProps {
   src: string;
@@ -13,7 +15,7 @@ const AuthImage: React.FC<AuthImageProps> = ({ src, alt }) => {
   return (
     <div className="hidden lg:block lg:w-1/2 h-screen relative">
       <Image
-        src={imagePath}
+        src={assets.img_login} // Use the imported image from assets
         alt={alt}
         layout="fill"
         objectFit="cover"
