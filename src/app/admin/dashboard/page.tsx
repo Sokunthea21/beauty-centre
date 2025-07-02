@@ -1,6 +1,10 @@
-"use client";
+// src/app/dashboard/page.tsx
+'use client';
 
-import { useState } from "react";
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { onAuthStateChanged, signOut, User } from 'firebase/auth';
+import { auth } from '@/lib/firebase/firebase';
 import {
   BarChart,
   Bar,
@@ -9,27 +13,62 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-} from "recharts";
-import { CircleGauge, Package, ShoppingCart, Users } from "lucide-react";
+} from 'recharts';
+import { CircleGauge, Package, ShoppingCart, Users } from 'lucide-react';
 
 const data = [
-  { name: "Week one", store: 10, online: 20 },
-  { name: "Week two", store: 70, online: 40 },
-  { name: "Week three", store: 40, online: 50 },
-  { name: "Week four", store: 100, online: 60 },
+  { name: 'Week one', store: 10, online: 20 },
+  { name: 'Week two', store: 70, online: 40 },
+  { name: 'Week three', store: 40, online: 50 },
+  { name: 'Week four', store: 100, online: 60 },
 ];
 
-const Dashboard = () => {
-  const [month, setMonth] = useState("December 2025");
+export default function DashboardPage() {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [month, setMonth] = useState('December 2025');
+  const router = useRouter();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        if (currentUser.email === 'ngylyteng@gmail.com' && currentUser.emailVerified) {
+          setUser(currentUser);
+        } else {
+          router.push('/home');
+        }
+      } else {
+        router.push('/login');
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [router]);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      router.push('/login');
+    } catch (error) {
+      console.error('Error signing out: ', error);
+    }
+  };
+
+  if (loading || !user) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-blue-100">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen bg-gray-100 text-gray-900">
-      <aside className="w-60 bg-[var(--primary)] text-white p-4">
+      <aside className="w-60 bg-[var(--primary)] text-white p-4 flex flex-col">
         <h1 className="text-3xl font-bold mb-6">LAMA</h1>
         <nav className="flex flex-col gap-4">
-          <button className="bg-white text-black rounded-lg px-4 py-2">
-            Home
-          </button>
+          <button className="bg-white text-black rounded-lg px-4 py-2">Home</button>
           <button>Orders</button>
           <button>Product</button>
           <button>Category</button>
@@ -37,8 +76,11 @@ const Dashboard = () => {
           <button>Customer</button>
           <button>Setting</button>
         </nav>
-        <button className="mt-auto text-sm mt-20">Logout</button>
+        <button onClick={handleLogout} className="mt-auto text-sm mt-20">
+          Logout
+        </button>
       </aside>
+
       <main className="flex-1 p-6">
         <header className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-bold">Welcome back 👋</h2>
@@ -49,24 +91,14 @@ const Dashboard = () => {
               className="px-3 py-1 rounded-lg border"
             />
             <span className="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center">
-              EM
+              {user.email?.slice(0, 2).toUpperCase()}
             </span>
           </div>
         </header>
 
         <section className="grid grid-cols-4 gap-4 mb-6">
-          <Card
-            icon={<CircleGauge />}
-            label="Revenue"
-            value="$50k"
-            change="+16%"
-          />
-          <Card
-            icon={<ShoppingCart />}
-            label="Orders"
-            value="2k"
-            change="+16%"
-          />
+          <Card icon={<CircleGauge />} label="Revenue" value="$50k" change="+16%" />
+          <Card icon={<ShoppingCart />} label="Orders" value="2k" change="+16%" />
           <Card icon={<Users />} label="Customers" value="5k" change="-16%" />
           <Card icon={<Package />} label="Products" value="2k" change="+16%" />
         </section>
@@ -144,7 +176,6 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {/* Example row */}
                 <tr className="border-t">
                   <td className="px-4 py-2">#12345</td>
                   <td className="px-4 py-2">Product A</td>
@@ -161,7 +192,7 @@ const Dashboard = () => {
       </main>
     </div>
   );
-};
+}
 
 const Card = ({
   icon,
@@ -179,15 +210,11 @@ const Card = ({
     <div>
       <div className="text-lg font-bold">{value}</div>
       <div className="text-sm text-gray-600">
-        {label}{" "}
-        <span
-          className={change.startsWith("-") ? "text-red-500" : "text-green-500"}
-        >
+        {label}{' '}
+        <span className={change.startsWith('-') ? 'text-red-500' : 'text-green-500'}>
           {change}
         </span>
       </div>
     </div>
   </div>
 );
-
-export default Dashboard;

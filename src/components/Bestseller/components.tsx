@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { assets } from "@/app/assets/assets";
 import { productData } from "@/app/assets/productData";
-import ProductCard from "../ProductCard/ProductCard";
+import ProductCard from "../ProductCard/component";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 
@@ -97,23 +97,23 @@ const NewArrivals: React.FC = () => {
           }}
           className="mySwiper"
         >
-          
           {productData.map((product, index) => {
             const cleanPrice = Number(product.price.replace(/[^0-9.]/g, ""));
             return (
               <SwiperSlide key={index}>
                 <ProductCard
+                  key={product.title + index}
                   productData={{
                     _id: product.id?.toString() ?? "",
                     name: product.title ?? "Unnamed Product",
-                    price: isNaN(cleanPrice) ? 20 : cleanPrice,
-                    offerPrice: isNaN(cleanPrice) ? 0 : cleanPrice,
+                    price: 32,
                     description: product.description ?? "",
                     image: [
                       typeof product.Image === "string"
                         ? product.Image
                         : product.Image?.src ?? "",
                     ],
+                    offerPrice: 0,
                   }}
                 />
               </SwiperSlide>

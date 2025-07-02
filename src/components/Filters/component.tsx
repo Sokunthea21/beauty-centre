@@ -33,7 +33,7 @@ const Filters: React.FC = () => {
   return (
     <div className="border border-gray-100 rounded-sm p-5 shadow-sm bg-white mb-5">
       <div className="mt-4">
-        <h2 className="text-lg font-bold text-gray-800 mb-2">FILTERS</h2>
+        <h2 className="text-lg text-gray-800 mb-2">FILTERS</h2>
 
         {/* Skin Type Filter */}
         <div className="mb-4">
@@ -81,6 +81,9 @@ const Filters: React.FC = () => {
                   <label htmlFor={range}>{range}</label>
                 </div>
               ))}
+              <button className="w-full border border-black text-black py-2 mt-4 hover:bg-gray-100 rounded-sm">
+                Apply
+              </button>
             </div>
           )}
         </div>

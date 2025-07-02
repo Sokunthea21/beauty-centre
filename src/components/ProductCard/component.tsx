@@ -14,15 +14,23 @@ type ProductDataType = {
   price: number;
   description: string;
   image: string[];
+  rating?: number; // Optional, in case not all products have a rating
   offerPrice: number;
 };
 
 type ProductCardProps = {
   productData: ProductDataType;
-  isList?: boolean; // ✅ NEW
+  isList?: boolean;
+  isCompact?: boolean; // For 2-column layout
+  gridCols?: "grid-2" | "grid-3" | "grid-4" | "list";
 };
 
-const ProductCard = ({ productData, isList = false }: ProductCardProps) => {
+const ProductCard = ({
+  productData,
+  isList = false,
+  isCompact = false,
+  gridCols,
+}: ProductCardProps) => {
   const { currency, router } = useAppContext() as AppContextType;
 
   const handleClick = () => {
@@ -30,28 +38,49 @@ const ProductCard = ({ productData, isList = false }: ProductCardProps) => {
     scrollTo(0, 0);
   };
 
+  const baseStyle = `cursor-pointer bg-white hover:shadow-lg transition-all duration-200`;
+  const listStyle = `flex max-w-full w-full gap-1`;
+  const compactStyle = `flex flex-col items-start max-w-full w-full gap-3 shadow-sm`;
+  const gridStyle = `flex flex-col items-start gap-0.5 w-full ${
+    gridCols === "grid-4" ? "max-w-[240px]" : "max-w-full"
+  }`;
+
   return (
     <div
       onClick={handleClick}
-      className={`cursor-pointer bg-white hover:shadow-lg transition-all duration-200
-        ${isList ? "flex max-w-full w-full gap-4 p-4" : "flex flex-col items-start gap-0.5 max-w-[240px] w-full"}
-      `}
+      className={`${baseStyle} ${
+        isList ? listStyle : isCompact ? compactStyle : gridStyle
+      }  shadow-sm`}
     >
       {/* Image */}
       <div
         className={`relative bg-gray-100 rounded-lg flex items-center justify-center
-          ${isList ? "min-w-[160px] max-w-[160px] h-[160px]" : "w-full h-52"}
+          ${
+            isList
+              ? "min-w-[200px] max-w-[200px] h-[200px]"
+              : isCompact
+              ? "w-full h-[300px]"
+              : "w-full h-52"
+          }
         `}
       >
         <Image
           src={productData.image[0]}
           alt={productData.name}
-          className={`object-cover rounded ${isList ? "w-full h-full" : "w-4/5 h-4/5 md:w-full md:h-full"}`}
+          className={`object-cover  ${
+            isList ? "w-full h-full" : "w-full h-full"
+          }`}
           width={800}
           height={800}
         />
         <button className="absolute top-2 right-2 p-2">
-          <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            width="19"
+            height="18"
+            viewBox="0 0 19 18"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
               d="M0.371865 8.59832C-0.701135 5.24832 0.552865 1.41932 4.06987 0.286322C5.91987 -0.310678 7.96187 0.0413219 9.49987 1.19832C10.9549 0.0733218 13.0719 -0.306678 14.9199 0.286322C18.4369 1.41932 19.6989 5.24832 18.6269 8.59832C16.9569 13.9083 9.49987 17.9983 9.49987 17.9983C9.49987 17.9983 2.09787 13.9703 0.371865 8.59832Z"
               fill="#B0A6BD"
@@ -61,8 +90,18 @@ const ProductCard = ({ productData, isList = false }: ProductCardProps) => {
       </div>
 
       {/* Content */}
-      <div className={`flex flex-col justify-between ${isList ? "w-full" : "w-full p-4 pt-1"}`}>
-        <p className="md:text-base font-medium pt-2 w-full truncate">{productData.name}</p>
+      <div
+        className={`flex flex-col justify-between p-6 ${
+          isList ? "w-full" : "w-full pt-2"
+        }`}
+      >
+        <p className="md:text-base font-medium w-full truncate">
+          {productData.name}
+        </p>
+
+        <p className="text-xs mt-2 text-gray-500/70 max-sm:hidden truncate">
+          {productData.description}
+        </p>
 
         <div className="flex items-center gap-2 mt-1">
           <div className="flex items-center gap-0.5">
@@ -70,7 +109,11 @@ const ProductCard = ({ productData, isList = false }: ProductCardProps) => {
               <Image
                 key={index}
                 className="h-3 w-3"
-                src={index < Math.floor(4.5) ? assets.star_icon : assets.star_dull_icon}
+                src={
+                  index < Math.floor(4.5)
+                    ? assets.star_icon
+                    : assets.star_dull_icon
+                }
                 alt="star_icon"
                 width={12}
                 height={12}
@@ -78,21 +121,21 @@ const ProductCard = ({ productData, isList = false }: ProductCardProps) => {
             ))}
           </div>
           <p className="text-sm text-gray-500/70 max-sm:hidden">
-            {productData.price}
+            {productData.rating} ({Math.floor(Math.random() * 1000)} reviews)
           </p>
         </div>
-
-        <p className="text-xs mt-2 text-gray-500/70 max-sm:hidden truncate">
-          {productData.description}
-        </p>
 
         <p className="text-base mt-2 font-medium">
           {currency}
           {productData.price}
         </p>
 
-        <div className="flex justify-start mt-4">
-          <button className="max-sm:hidden px-6 py-1.5 text-black hover:text-white border border-black rounded-sm text-xs hover:bg-black transition">
+        <div
+          className={`w-full ${
+            isList ? "max-w-[34%]" : ""
+          } flex justify-center`}
+        >
+          <button className="mt-2 w-full px-6 py-1.5 text-black hover:text-white border border-black rounded-sm text-xs hover:bg-black transition">
             Add to bag
           </button>
         </div>

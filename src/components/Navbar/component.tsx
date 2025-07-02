@@ -25,9 +25,9 @@ const Navbar: React.FC = () => {
   // Determines the correct link for the account button
   const getAccountHref = () => {
     if (loading) return "/login"; // Default to login while checking auth state
-    if (!user || !user.emailVerified) return "/login"; // If no user or not verified, go to login
-    if (user.email === "ngylyteng@gmail.com") return "/dashboard"; // Admin goes to dashboard
-    return "/myacc"; // Logged-in users go to their account/home page
+    if (!user || !user.emailVerified) return "admin/login"; // If no user or not verified, go to login
+    if (user.email === "ngylyteng@gmail.com") return "admin/dashboard"; // Admin goes to dashboard
+    return "admin/myacc"; // Logged-in users go to their account/home page
   };
 
   return (

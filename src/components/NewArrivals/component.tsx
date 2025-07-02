@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { assets } from "@/app/assets/assets";
 import { productData } from "@/app/assets/productData";
-import ProductCard from "../ProductCard/ProductCard";
+import ProductCard from "../ProductCard/component";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 

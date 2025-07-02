@@ -1,9 +1,9 @@
 "use client";
-import Layout from "../../components/Layout";
-import CategorySidebar from "../../components/CategorySidebar/page";
-import BrandFilter from "../../components/BrandFilter/page";
-import Filters from "../../components/Filters/page";
-import ProductGrid from "../../components/ProductGrid";
+import Layout from "../../components/Layout/component";
+import CategorySidebar from "../../components/CategorySidebar/component";
+import BrandFilter from "../../components/BrandFilter/component";
+import Filters from "../../components/Filters/component";
+import ProductGrid from "../../components/ProductGrid/page";
 
 export default function Home() {
   return (
