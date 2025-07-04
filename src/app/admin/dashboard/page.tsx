@@ -66,11 +66,11 @@ export default function DashboardPage() {
   return (
     <div className="flex min-h-screen bg-gray-100 text-gray-900">
       <aside className="w-60 bg-[var(--primary)] text-white p-4 flex flex-col">
-        <h1 className="text-3xl font-bold mb-6">LAMA</h1>
+        <h1 className="uppercase text-3xl font-bold mb-6">Beauty center</h1>
         <nav className="flex flex-col gap-4">
           <button className="bg-white text-black rounded-lg px-4 py-2">Home</button>
           <button>Orders</button>
-          <button>Product</button>
+          <button onClick={() => router.push('/dashboard/products')}>Product</button>
           <button>Category</button>
           <button>Brand</button>
           <button>Customer</button>

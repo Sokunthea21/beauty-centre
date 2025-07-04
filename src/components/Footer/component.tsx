@@ -90,7 +90,7 @@ const Footer = () => {
                 <input
                   type="email"
                   placeholder="Email"
-                  className="px-4 py-2 rounded text-black focus:outline-none bg-white"
+                  className="px-4 py-2 text-black focus:outline-none bg-white"
                 />
                 <button className="text-base font-medium flex items-center gap-1 text-white hover:text-pink-300 transition">
                   Subscribe →

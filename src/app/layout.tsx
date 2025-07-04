@@ -32,7 +32,7 @@ export default function RootLayout({
   // Determine if the current route is an admin route
   const isAdminRoute =
     typeof window !== "undefined" &&
-    window.location.pathname.startsWith("/admin");
+    window.location.pathname.startsWith("/admin/dashboard");
 
   return (
     <html
@@ -49,9 +49,9 @@ export default function RootLayout({
         <Providers>
           <div className={clsx(geistMono.variable)} />
           {/* <div className="bg-[#1A1A1A] text-white min-h-screen flex flex-col"> */}
-          {!isAdminRoute && <Navbar />}
+          <Navbar />
           <MotionWrapper>{children}</MotionWrapper>
-          {!isAdminRoute && <Footer />}
+          <Footer />
         </Providers>
       </body>
     </html>

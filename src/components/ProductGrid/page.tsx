@@ -46,7 +46,7 @@ export default function ProductGrid() {
       {/* Header with view mode icons */}
       <div className="flex items-center justify-between mb-6 border-t border-gray-200  pt-4">
         <div className="flex items-center gap-1 text-gray-600">
-          <span className="text-md font-medium tracking-wide text-pink-500">
+          <span className="text-md font-medium tracking-wide text-[var(--primary)]">
             VIEW AS
           </span>
 

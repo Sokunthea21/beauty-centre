@@ -23,7 +23,7 @@ export default function CategorySidebar() {
             <li
               key={cat}
               className={`cursor-pointer hover:text-pink-500 ${
-                cat === "Sunscreen" ? "text-pink-500 font-medium" : ""
+                cat === "Sunscreen" ? "text-[var(--primary)] font-medium" : ""
               }`}
             >
               {cat}

@@ -1,18 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Sofia+Sans+Semi+Condensed&display=swap");
 @import "tailwindcss";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 @layer base {
   :root {
-    --primary: #f278a1;
+    --primary: #F6A5C1;
     --secondary: #fff389;
     --accent: #10b981;
     --background: #f9fafb;
     --text: #111827;
   }
   body {
-    background-color: inherit;
+    background-color: #FCFCFC;
     color: #111827;
     font-family: "Sofia Sans Semi Condensed", sans-serif;
   }

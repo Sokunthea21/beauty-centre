@@ -33,7 +33,7 @@ const Navbar: React.FC = () => {
   return (
     <>
       {/* Navbar */}
-      <header className="sticky top-0 w-full px-5 lg:px-8 xl:px-[8%] py-4 z-50 bg-white shadow-xs">
+      <header className="sticky top-0 w-full px-5 lg:px-8 xl:px-[8%] py-3 z-50 bg-white shadow-xs">
         <div className="py-4 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">

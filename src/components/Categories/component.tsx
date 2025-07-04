@@ -32,7 +32,7 @@ const Categories = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-8">
         {categoryList.map((cat, index) => (
           <div key={index} className="flex flex-col items-center space-y-2">
-            <div className="w-[126px] h-[126px] rounded-lg bg-[#F1F1F1] flex items-center justify-center">
+            <div className="w-[126px] h-[126px] rounded-md bg-[#F1F1F1] flex items-center justify-center">
               <Image
                 src={cat.Image}
                 width={100}

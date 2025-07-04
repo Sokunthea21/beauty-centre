@@ -40,7 +40,7 @@ const ProductCard = ({
 
   const baseStyle = `cursor-pointer bg-white hover:shadow-lg transition-all duration-200`;
   const listStyle = `flex max-w-full w-full gap-1`;
-  const compactStyle = `flex flex-col items-start max-w-full w-full gap-3 shadow-sm`;
+  const compactStyle = `flex flex-col items-start max-w-full w-full gap-3`;
   const gridStyle = `flex flex-col items-start gap-0.5 w-full ${
     gridCols === "grid-4" ? "max-w-[240px]" : "max-w-full"
   }`;
@@ -54,7 +54,7 @@ const ProductCard = ({
     >
       {/* Image */}
       <div
-        className={`relative bg-gray-100 rounded-lg flex items-center justify-center
+        className={`relative bg-gray-100 flex items-center justify-center
           ${
             isList
               ? "min-w-[200px] max-w-[200px] h-[200px]"
@@ -135,7 +135,7 @@ const ProductCard = ({
             isList ? "max-w-[34%]" : ""
           } flex justify-center`}
         >
-          <button className="mt-2 w-full px-6 py-1.5 text-black hover:text-white border border-black rounded-sm text-xs hover:bg-black transition">
+          <button className="mt-2 w-full px-6 py-1.5 text-black hover:text-white border border-black text-xs hover:bg-black transition">
             Add to bag
           </button>
         </div>
