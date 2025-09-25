@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import Header from "./components/Header";
-import Sidebar from "./components/Sidebar";
+
 import "../../globals.css";
+import Sidebar from "../dashboard/components/Sidebar";
+import Header from "../dashboard/components/Header";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard",

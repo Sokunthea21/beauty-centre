@@ -1,5 +1,4 @@
 // tailwind.config.ts
-import { Config } from "tailwindcss";
 
 const config = {
   content: [

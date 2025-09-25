@@ -1,4 +1,5 @@
 import Beauty_Center from "./Beauty_Center.png";
+import Logo from "./Logo.png";
 import Slider1 from "./Slider-1.png";
 import Slider2 from "./Slider-2.png";
 import Slider3 from "./Slider-3.png";
@@ -56,6 +57,7 @@ import poreclaymask from "./Pore_clay_mask.png";
 
 export const assets = {
   Beauty_Center,
+  Logo,
   cart,
   wishlist,
   account,

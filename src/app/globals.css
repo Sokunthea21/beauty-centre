@@ -1,17 +1,18 @@
-@import url("https://fonts.googleapis.com/css2?family=Sofia+Sans+Semi+Condensed&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 @import "tailwindcss";
 @layer base {
   :root {
-    --primary: #F6A5C1;
+    --primary: #f6a5c1;
     --secondary: #fff389;
     --accent: #10b981;
     --background: #f9fafb;
     --text: #111827;
   }
   body {
-    background-color: #FCFCFC;
+    background-color: #fef1f5;
     color: #111827;
-    font-family: "Sofia Sans Semi Condensed", sans-serif;
+    font-family: "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+      Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", sans-serif;
   }
   h1,
   .h1,
@@ -25,7 +26,8 @@
   .h5,
   h6,
   .h6 {
-    font-family: "Sofia Sans Semi Condensed", sans-serif;
+    font-family: "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+      Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", sans-serif;
     font-weight: 500;
     line-height: 1.15;
     letter-spacing: -0.022em;

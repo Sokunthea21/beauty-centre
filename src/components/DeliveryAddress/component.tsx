@@ -100,7 +100,7 @@ export default function DeliveryAddress({
       />
 
       {/* Google Map */}
-      <div className="h-64 w-full rounded overflow-hidden my-4">
+      {/* <div className="h-64 w-full rounded overflow-hidden my-4">
         <GoogleMap
           mapContainerStyle={containerStyle}
           center={markerPosition}
@@ -109,7 +109,7 @@ export default function DeliveryAddress({
         >
           <Marker position={markerPosition} />
         </GoogleMap>
-      </div>
+      </div> */}
 
       <button className="w-full mt-4 bg-[var(--primary)] text-white py-2 hover:bg-pink-300">
         Save

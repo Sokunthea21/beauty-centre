@@ -3,11 +3,13 @@ import { useState } from "react";
 import OrderSummary from "../../components/OrderSummary/component";
 import CustomerInfo from "../../components/CustomerInfo/component";
 import DeliveryAddress from "../../components/DeliveryAddress/component";
+import PaymentOptions from "../../components/PaymentOptions/component";
 
 export default function CheckoutPage() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [payment, setPayment] = useState<string | null>(null);
 
   const subtotal = 15.67;
   const deliveryFee = 15.67;
@@ -30,6 +32,10 @@ export default function CheckoutPage() {
         <DeliveryAddress
           address={address}
           onAddressChange={setAddress}
+        />
+        <PaymentOptions
+          selectedPayment={payment}
+          onChange={setPayment}
         />
       </div>
 

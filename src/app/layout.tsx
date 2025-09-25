@@ -8,6 +8,8 @@ import { Providers } from "@/providers";
 import Footer from "@/components/Footer/component";
 import Navbar from "@/components/Navbar/component";
 import clsx from "clsx";
+import LayoutContent from "./LayoutContent";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,14 +28,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-  // Determine if the current route is an admin route
-  const isAdminRoute =
-    typeof window !== "undefined" &&
-    window.location.pathname.startsWith("/admin/dashboard");
-
+}) {
   return (
     <html
       className={clsx(geistSans.variable)}
@@ -48,10 +45,7 @@ export default function RootLayout({
       <body>
         <Providers>
           <div className={clsx(geistMono.variable)} />
-          {/* <div className="bg-[#1A1A1A] text-white min-h-screen flex flex-col"> */}
-          <Navbar />
-          <MotionWrapper>{children}</MotionWrapper>
-          <Footer />
+          <LayoutContent>{children}</LayoutContent>
         </Providers>
       </body>
     </html>

@@ -11,7 +11,7 @@ import Spotlight from "@/components/Spotlight/component";
 import Newsletter from "@/components/Newsletter/component";
 import Bestseller from "@/components/Bestseller/components";
 import Categories from "@/components/Categories/component";
-import Categorieslist from "@/components/Categorieslist/Categorieslist";
+// import Categorieslist from "@/components/Categorieslist/Categorieslist";
 export default function Home() {
   return (
     <>

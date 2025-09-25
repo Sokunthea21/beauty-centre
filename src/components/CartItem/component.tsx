@@ -27,7 +27,7 @@ export default function CartItem({
   const total = (price * quantity).toFixed(2);
 
   return (
-    <div className="flex items-center justify-between border border-[#E3E3E3] py-4 mb-6">
+    <div className="flex items-center justify-between bg-white border border-[#E3E3E3] py-4 mb-6">
       <div className="flex items-center gap-4">
         <Image
           src={categories.Sunscreen}

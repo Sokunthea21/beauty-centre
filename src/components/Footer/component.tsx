@@ -10,7 +10,7 @@ const Footer = () => {
           {/* Left Block */}
           <div className="space-y-5 col-span-1 lg:col-span-1">
             <Image
-              src={assets.Beauty_Center}
+              src={assets.Logo}
               alt="Logo"
               className="h-16 w-auto"
             />
