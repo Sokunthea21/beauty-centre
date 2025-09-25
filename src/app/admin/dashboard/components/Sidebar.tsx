@@ -1,18 +1,20 @@
 "use client";
 
-import { LayoutDashboard, Package, ShoppingCart, Users, Settings, Tag } from "lucide-react";
+import { LayoutDashboard, Package, ShoppingCart, Users, Settings, Tag, Star, BarChart3, Receipt, Heart, DollarSign, List, Grid } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+// NOTE: Adjusted icons to better match the typical lucide library if available
 const menuItems = [
+  // Href paths are simplified/relative here, adjust as needed for your Next.js routing
   { name: "Dashboard", icon: <LayoutDashboard size={18} />, href: "dashboard" },
   { name: "Products", icon: <Package size={18} />, href: "products" },
   { name: "Orders", icon: <ShoppingCart size={18} />, href: "orders" },
-  { name: "Category", icon: <Tag size={18} />, href: "category" },
-  { name: "Brand", icon: <Tag size={18} />, href: "brand" },
+  { name: "Category", icon: <Grid size={18} />, href: "category" }, 
+  { name: "Brand", icon: <Star size={18} />, href: "brand" },
   { name: "Customer", icon: <Users size={18} />, href: "customers" },
-  { name: "Slider", icon: <Tag size={18} />, href: "slider" },
-  { name: "Coupon Management", icon: <Tag size={18} />, href: "coupons" },
+  { name: "Slider", icon: <List size={18} />, href: "slider" },
+  { name: "Coupon Management", icon: <Receipt size={18} />, href: "coupons" },
   { name: "Settings", icon: <Settings size={18} />, href: "settings" },
 ];
 
@@ -20,25 +22,36 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 bg-pink-300 p-4 w-64 h-screen fixed text-gray-900 ">
+    // Updated background color and text color for the sidebar
+    <aside className="w-64 h-screen fixed text-white bg-[#F6A5C1] shadow-2xl" 
+    // You can use a specific hex code for the background if default pink-500 isn't dark enough:
+    // style={{ backgroundColor: '#e48299' }}
+    >
       {/* Logo */}
-      <div className="px-6 py-4 font-bold text-xl border-b border-pink-300">
+      <div className="px-6 py-8 font-extrabold text-2xl tracking-wider text-black">
         BEAUTY CENTRE
       </div>
 
       {/* Menu */}
-      <nav className="flex-1 p-4 space-y-2">
+      <nav className="p-4 space-y-1">
         {menuItems.map((item, index) => {
-          const isActive = pathname === item.href;
+          // Check if the current path matches the item's href (case-insensitive and partial match safety)
+          const isActive = pathname.includes(item.href) && item.href !== "/";
+          
           return (
             <Link
               key={index}
               href={item.href}
-              className={`flex items-center gap-3 px-3 py-2 rounded-lg transition ${
-                isActive
-                  ? "bg-pink-500 text-white"
-                  : "hover:bg-pink-100 text-gray-700"
-              }`}
+              className={`
+                flex items-center gap-3 px-3 py-3 rounded-lg font-medium transition duration-150
+                ${
+                  // Active Link Style: Black background, white text
+                  isActive
+                    ? "bg-black text-[#F6A5C1] shadow-xl"
+                    // Inactive Link Style: Default text, slight hover effect
+                    : "text-black opacity-80 hover:bg-black/10"
+                }
+              `}
             >
               {item.icon}
               <span>{item.name}</span>
