@@ -48,7 +48,7 @@ export default function DeliveryAddress({
   if (!isLoaded) return <p>Loading map...</p>;
 
   return (
-    <div className="bg-white p-6 border border-[#E3E3E3] mt-6">
+    <div className="bg-white p-6  mt-6">
       <h2 className="font-semibold mb-4">Delivery Address</h2>
 
       {/* Add Address Section */}

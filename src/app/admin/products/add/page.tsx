@@ -127,13 +127,13 @@ const ImageUpload: React.FC = () => (
 
 export default function AddProductForm() {
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 min-h-screen">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-semibold text-gray-800">
           Add New product
         </h1>
-        <button className="bg-pink-400 hover:bg-pink-500 text-white font-medium py-2 px-4 rounded-lg shadow-md transition duration-150 flex items-center">
+        <button className="bg-[#F6A5C1] hover:bg-pink-500 text-white font-medium py-2 px-4 rounded-lg shadow-md transition duration-150 flex items-center">
           <svg
             className="w-5 h-5 mr-2"
             fill="none"

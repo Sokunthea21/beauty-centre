@@ -38,7 +38,7 @@ const ImageUploadArea: React.FC = () => (
 
 export default function SliderManagementPage() {
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6min-h-screen">
       
       {/* Header: Title */}
       <div className="flex justify-between items-center mb-6">
@@ -73,7 +73,7 @@ export default function SliderManagementPage() {
             
             {/* Add Image Button (styled like a primary action) */}
             <div className="pt-4">
-                <button className="flex items-center bg-pink-300 hover:bg-pink-400 text-white font-medium py-2 px-4 rounded-lg shadow-sm transition duration-150">
+                <button className="flex items-center bg-[#F6A5C1]  hover:bg-pink-400 text-white font-medium py-2 px-4 rounded-lg shadow-sm transition duration-150">
                     <Plus size={18} className="mr-1"/> Add Image
                 </button>
             </div>

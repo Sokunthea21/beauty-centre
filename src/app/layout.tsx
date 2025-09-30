@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import React from "react";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Manrope, Poppins } from "next/font/google";
 import "./globals.css";
 import MotionWrapper from "../components/MotionWrapper";
 import { InitTheme } from "@/providers/Theme/InitTheme";
@@ -10,14 +10,15 @@ import Navbar from "@/components/Navbar/component";
 import clsx from "clsx";
 import LayoutContent from "./LayoutContent";
 
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const poppinsFont = Poppins({
+  variable: "--font-poppins",
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const manRopeFont = Manrope({
+  variable: "--font-manrope",
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
 });
 
@@ -33,7 +34,7 @@ export default function RootLayout({
 }) {
   return (
     <html
-      className={clsx(geistSans.variable)}
+      className={clsx(poppinsFont.variable, manRopeFont.variable)}
       lang="en"
       suppressHydrationWarning
     >
@@ -44,7 +45,7 @@ export default function RootLayout({
       </head>
       <body>
         <Providers>
-          <div className={clsx(geistMono.variable)} />
+          <div className={clsx(poppinsFont.variable)} />
           <LayoutContent>{children}</LayoutContent>
         </Providers>
       </body>

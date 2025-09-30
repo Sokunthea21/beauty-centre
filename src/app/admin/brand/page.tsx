@@ -67,7 +67,7 @@ export default function BrandGrid() {
   };
 
   return (
-    <div className="p-4 bg-gray-50 min-h-screen">
+    <div className="p-4 min-h-screen">
       
       {/* --- Header: Brand Title & Add Brand Button --- */}
       <div className="flex items-center justify-between mb-6">
@@ -77,7 +77,7 @@ export default function BrandGrid() {
           
           {/* Add Brand Button */}
           <Link href="/admin/brand/add" passHref> {/* Assuming an add brand page */}
-            <button className="flex items-center bg-pink-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-pink-600 transition duration-150">
+            <button className="flex items-center bg-[#F6A5C1] text-white font-medium py-2 px-4 rounded-lg hover:bg-pink-600 transition duration-150">
                 <Plus size={20} className="mr-1" /> Add Brand
             </button>
           </Link>
@@ -89,23 +89,22 @@ export default function BrandGrid() {
         {currentBrands.map((brand) => (
           <div
             key={brand.id}
-            className="bg-white rounded-xl shadow-md overflow-hidden transition duration-300 hover:shadow-lg p-6 flex flex-col items-center text-center"
+            className="bg-white rounded-lg shadow-sm overflow-hidden transition duration-300 hover:shadow-lg"
           >
             {/* Brand Image/Logo Area */}
-            <div className="relative w-full h-40 flex items-center justify-center bg-gray-50 rounded-lg p-4">
+            <div className="relative w-full h-60">
               {/* Note: Using a simple Image component here. For real logos, you might use a specific dimension */}
               <Image
                 src={brand.image}
                 alt={brand.name}
-                width={200} // Set width to control size within the card
-                height={100} // Set height to control size within the card
-                objectFit="contain" // Ensure logo fits without cropping
-                className="w-full h-full"
+                layout="fill" 
+                objectFit="cover" // Ensure logo fits without cropping
+                className="cover"
               />
             </div>
             
             {/* Brand Info */}
-            <div className="mt-4">
+            <div className="p-8">
               <h3 className="text-lg font-semibold text-gray-800">
                 {brand.name}
               </h3>

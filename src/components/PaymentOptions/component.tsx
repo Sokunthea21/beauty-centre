@@ -1,12 +1,16 @@
 "use client";
 
+import { assets } from "@/app/assets/assets";
 import { useState } from "react";
+import Image from "next/image";
+
+import type { StaticImageData } from "next/image";
 
 interface PaymentOption {
   id: string;
   name: string;
   description: string;
-  logo: string;
+  logo: string | StaticImageData;
 }
 
 interface Props {
@@ -23,13 +27,13 @@ export default function PaymentOptions({ selectedPayment, onChange, total }: Pro
       id: "aba",
       name: "ABA KHQR",
       description: "Scan to pay with any banking app.",
-      logo: "/logos/aba.png",
+      logo: assets.ABA
     },
     {
       id: "cod",
       name: "Cash on Delivery",
       description: "Pay with cash when product arrival.",
-      logo: "/logos/cod.png",
+      logo: assets.cod
     },
   ];
 
@@ -41,18 +45,18 @@ export default function PaymentOptions({ selectedPayment, onChange, total }: Pro
   };
 
   return (
-    <div className="bg-white border rounded-lg p-6 mb-6">
+    <div className="bg-white p-6 mb-6">
       <h2 className="font-semibold mb-4">SELECT PAYMENT OPTIONS</h2>
       <div className="space-y-3">
         {paymentOptions.map((opt) => (
           <div
             key={opt.id}
-            className={`flex items-center gap-3 border rounded p-3 cursor-pointer transition ${
+            className={`flex items-center gap-3 border p-3 cursor-pointer transition ${
               selectedPayment === opt.id ? "border-pink-500 bg-pink-50" : "hover:border-pink-300"
             }`}
             onClick={() => handleSelect(opt.id)}
           >
-            <img src={opt.logo} alt={opt.name} className="w-12 h-8 object-contain" />
+            <Image src={opt.logo} alt={opt.name} className="w-12 h-12 object-contain" />
             <div>
               <p className="font-medium">{opt.name}</p>
               <p className="text-sm text-gray-500">{opt.description}</p>
@@ -64,7 +68,7 @@ export default function PaymentOptions({ selectedPayment, onChange, total }: Pro
       {/* ABA QR Modal */}
       {showQR && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-[340px] relative shadow-xl">
+          <div className="bg-white p-6 w-[340px] relative shadow-xl rounded-lg">
             {/* Close button */}
             <button
               onClick={() => setShowQR(false)}
@@ -74,7 +78,6 @@ export default function PaymentOptions({ selectedPayment, onChange, total }: Pro
             </button>
 
             <div className="text-center">
-              <img src="/logos/aba.png" alt="ABA Logo" className="mx-auto h-8 mb-4" />
               <h3 className="text-lg font-bold mb-2">ABA PAY</h3>
               <p className="text-2xl font-bold text-gray-800 mb-2">
                 {total ? total.toFixed(2) : "0.00"} USD
@@ -82,10 +85,10 @@ export default function PaymentOptions({ selectedPayment, onChange, total }: Pro
               <p className="text-sm text-gray-500 mb-4">Scan to Pay</p>
 
               {/* Replace with your real QR code image */}
-              <img
-                src="/qr/aba-qr.png"
+              <Image
+                src={assets.KHQR}
                 alt="ABA QR Code"
-                className="mx-auto w-48 h-48"
+                className="mx-auto w-60 h-60"
               />
             </div>
           </div>

@@ -32,29 +32,36 @@ export default function PaymentPage() {
         </div>
 
         {/* Customer Info (read-only) */}
-        <div className="bg-white border rounded-lg p-6 mb-6">
+        <div className="bg-white  p-6 mb-6">
           <h2 className="font-semibold mb-4">CUSTOMER INFORMATION</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
             <div>
-              <p className="text-gray-500">Name</p>
-              <p className="font-medium">{customer.name}</p>
+              <p className="text-gray-500 mb-2">Name</p>
+              <div className="w-full border p-4">
+                <p className="font-medium">{customer.name}</p>
+              </div>
             </div>
             <div>
-              <p className="text-gray-500">Contact</p>
-              <p className="font-medium">{customer.phone}</p>
+              <p className="text-gray-500 mb-2">Contact</p>
+              <div className="w-full border p-4">
+                <p className="font-medium">{customer.phone}</p>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Delivery Address (read-only) */}
-        <div className="bg-white border rounded-lg p-6 mb-6">
+        <div className="bg-white p-6 mb-6">
           <h2 className="font-semibold mb-4">DELIVERY ADDRESS</h2>
           <p className="text-sm">{customer.address}</p>
         </div>
 
-        <DeliveryOptions selectedDelivery={selectedDelivery ? selectedDelivery.id : null} onChange={function (id: string): void {
-          throw new Error("Function not implemented.");
-        } } />
+        <DeliveryOptions
+          selectedDelivery={selectedDelivery ? selectedDelivery.id : null}
+          onChange={function (id: string): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
         {/* Payment Options */}
         <PaymentOptions selectedPayment={payment} onChange={setPayment} />
       </div>

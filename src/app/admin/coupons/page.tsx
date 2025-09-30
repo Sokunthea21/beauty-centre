@@ -42,11 +42,11 @@ export default function CouponManagementPage() {
 
 
   return (
-    <div className="p-4 bg-gray-50 min-h-screen">
+    <div className="p-4 min-h-screen">
       
       {/* --- Header: Title, Filters, & Add Coupon Button --- */}
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-semibold text-gray-800">Coupon Management</h1>
+        <h1 className="text-3xl font-semibold text-gray-800">Coupon</h1>
         <div className="flex items-center gap-4">
           
           {/* Filters Button */}
@@ -57,7 +57,7 @@ export default function CouponManagementPage() {
 
           {/* Add Coupon Button */}
           <Link href="/admin/coupons/add" passHref> {/* Assuming an add coupon page */}
-            <button className="flex items-center bg-pink-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-pink-600 transition duration-150">
+            <button className="flex items-center bg-[#F6A5C1] text-white font-medium py-2 px-4 rounded-lg hover:bg-pink-600 transition duration-150">
                 <Plus size={20} className="mr-1" /> Add Coupon
             </button>
           </Link>
@@ -65,12 +65,12 @@ export default function CouponManagementPage() {
       </div>
 
       {/* --- Main Table Container --- */}
-      <div className="bg-white rounded-xl shadow-lg border border-gray-100">
+      <div className="bg-white rounded-xl shadow-lg">
           <div className="overflow-x-auto">
             <table className="min-w-full table-auto">
               {/* Table Header: Pink background, bold text */}
               <thead className="text-left">
-                <tr className="bg-pink-100 text-pink-700 font-semibold uppercase text-xs">
+                <tr className="bg-[#F6A5C1] text-black font-semibold text-xs">
                   <th className="p-4 rounded-tl-xl">
                     <input
                       type="checkbox"

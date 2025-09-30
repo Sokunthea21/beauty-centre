@@ -26,6 +26,12 @@ import arrows_left from "./arrows_left.svg";
 import arrows_right from "./arrows_right.svg";
 import star_dull_icon from "./star_dull_icon.svg";
 import img_login from "./img-login.png";
+import ABA from "./ABA.png";
+import cod from "./cod.png";
+import Delivery from "./Delivery.png";
+import jandt from "./jandt.png";
+import Vet from "./Vet.png";
+import KHQR from "./KHQR.png";
 
 //Image Categories
 import Sunscreen from "./Categories_Sunscreen.png";
@@ -89,6 +95,12 @@ export const assets = {
   jejucherrycream,
   poreclaymask,
   img_login,
+  ABA,
+  cod,
+  Delivery,
+  jandt,
+  Vet,
+  KHQR,
 };
 
 export const categories = {

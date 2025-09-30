@@ -1,20 +1,31 @@
 "use client";
 
-import { LayoutDashboard, Package, ShoppingCart, Users, Settings, Tag, Star, BarChart3, Receipt, Heart, DollarSign, List, Grid } from "lucide-react";
+import {
+  House,
+  Package,
+  ShoppingCart,
+  Users,
+  Settings,
+  Star,
+  TicketPercent,
+  Image,
+  Grid2x2,
+} from "lucide-react";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 // NOTE: Adjusted icons to better match the typical lucide library if available
 const menuItems = [
   // Href paths are simplified/relative here, adjust as needed for your Next.js routing
-  { name: "Dashboard", icon: <LayoutDashboard size={18} />, href: "dashboard" },
+  { name: "Dashboard", icon: <House size={18} />, href: "dashboard" },
   { name: "Products", icon: <Package size={18} />, href: "products" },
   { name: "Orders", icon: <ShoppingCart size={18} />, href: "orders" },
-  { name: "Category", icon: <Grid size={18} />, href: "category" }, 
+  { name: "Category", icon: <Grid2x2 size={18} />, href: "category" },
   { name: "Brand", icon: <Star size={18} />, href: "brand" },
   { name: "Customer", icon: <Users size={18} />, href: "customers" },
-  { name: "Slider", icon: <List size={18} />, href: "slider" },
-  { name: "Coupon Management", icon: <Receipt size={18} />, href: "coupons" },
+  { name: "Slider", icon: <Image size={18} />, href: "slider" },
+  { name: "Coupon", icon: <TicketPercent size={18} />, href: "coupons" },
   { name: "Settings", icon: <Settings size={18} />, href: "settings" },
 ];
 
@@ -23,9 +34,10 @@ export default function Sidebar() {
 
   return (
     // Updated background color and text color for the sidebar
-    <aside className="w-64 h-screen fixed text-white bg-[#F6A5C1] shadow-2xl" 
-    // You can use a specific hex code for the background if default pink-500 isn't dark enough:
-    // style={{ backgroundColor: '#e48299' }}
+    <aside
+      className="w-64 h-screen fixed text-white bg-[#F6A5C1] shadow-2xl"
+      // You can use a specific hex code for the background if default pink-500 isn't dark enough:
+      // style={{ backgroundColor: '#e48299' }}
     >
       {/* Logo */}
       <div className="px-6 py-8 font-extrabold text-2xl tracking-wider text-black">
@@ -37,7 +49,7 @@ export default function Sidebar() {
         {menuItems.map((item, index) => {
           // Check if the current path matches the item's href (case-insensitive and partial match safety)
           const isActive = pathname.includes(item.href) && item.href !== "/";
-          
+
           return (
             <Link
               key={index}
@@ -48,8 +60,8 @@ export default function Sidebar() {
                   // Active Link Style: Black background, white text
                   isActive
                     ? "bg-black text-[#F6A5C1] shadow-xl"
-                    // Inactive Link Style: Default text, slight hover effect
-                    : "text-black opacity-80 hover:bg-black/10"
+                    : // Inactive Link Style: Default text, slight hover effect
+                      "text-black opacity-80 hover:bg-black/10"
                 }
               `}
             >

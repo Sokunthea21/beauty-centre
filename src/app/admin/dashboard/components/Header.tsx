@@ -1,6 +1,7 @@
 "use client";
 
 import { Search, Calendar } from "lucide-react";
+import Link from "next/link";
 
 export default function Header() {
   return (
@@ -24,17 +25,19 @@ export default function Header() {
         </button>
 
         {/* Profile */}
-        <div className="flex items-center gap-2">
-          <img
-            src="https://i.pravatar.cc/40?img=1"
-            alt="profile"
-            className="w-9 h-9 rounded-full"
-          />
-          <div className="text-sm">
-            <p className="font-medium">Robert Allen</p>
-            <p className="text-gray-500 text-xs">Admin</p>
+        <Link href="settings">
+          <div className="flex items-center gap-2">
+            <img
+              src="https://i.pravatar.cc/40?img=1"
+              alt="profile"
+              className="w-9 h-9 rounded-full"
+            />
+            <div className="text-sm">
+              <p className="font-medium">Robert Allen</p>
+              <p className="text-gray-500 text-xs">Admin</p>
+            </div>
           </div>
-        </div>
+        </Link>
       </div>
     </header>
   );

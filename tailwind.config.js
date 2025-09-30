@@ -48,9 +48,9 @@ const config = {
         background: "var(--background)",
         text: "var(--text)",
       },
-      fontFamily: {
-        mono: ["var(--font-geist-mono)"],
-        sans: ['"Sofia Sans Semi Condensed"', "sans-serif"],
+     fontFamily: {
+        mono: ['var(--font-geist-mono)'],
+        sans: ['var(--font-geist-sans)'],
       },
       keyframes: {
         "accordion-down": {

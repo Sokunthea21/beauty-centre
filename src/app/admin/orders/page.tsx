@@ -4,8 +4,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { MoreVertical, List, LayoutGrid } from "lucide-react";
-import Link from "next/link"; 
+import { MoreVertical, Filter } from "lucide-react";
 
 // --- MOCK DATA (Matching the table image) ---
 const products = [
@@ -56,19 +55,19 @@ export default function OrderListTable() {
         <h1 className="text-3xl font-semibold text-gray-800">Order</h1>
         <div className="flex items-center gap-4">
           <button className="flex items-center bg-white border border-gray-300 px-3 py-2 rounded-lg text-sm text-gray-700 font-medium hover:bg-gray-50 transition">
-            <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414A1 1 0 0011 15.586V19h2v2h-2v-1.414a1 1 0 00-.293-.707l-6.414-6.414A1 1 0 013 6.586V4z"></path></svg>
+            <Filter size={16} className="mr-1" />
             Filtres
           </button>
         </div>
       </div>
 
       {/* --- Main Table Container --- */}
-      <div className="bg-white rounded-xl shadow-lg border border-gray-100">
+      <div className="bg-white rounded-xl shadow-lg">
           <div className="overflow-x-auto">
             <table className="min-w-full table-auto">
               {/* Table Header: Pink background */}
               <thead className="text-left">
-                <tr className="bg-pink-100 text-pink-700 font-semibold uppercase text-xs">
+                <tr className="bg-[#F6A5C1] text-black font-semibold text-xs">
                   <th className="p-4 rounded-tl-xl">
                     <input
                       type="checkbox"

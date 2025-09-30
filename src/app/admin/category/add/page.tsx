@@ -37,14 +37,14 @@ const ImageUploadArea: React.FC = () => (
 
 export default function AddNewCategoryPage() {
   return (
-    <div className="p-6 bg-gray-50 h-screen">
+    <div className="p-6 h-screen">
       
       {/* Header: Title and Upload Button */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-semibold text-gray-800">
           Add New Category
         </h1>
-        <button className="bg-pink-400 hover:bg-pink-500 text-white font-medium py-2 px-4 rounded-lg shadow-md transition duration-150 flex items-center">
+        <button className="bg-[#F6A5C1] hover:bg-pink-500 text-white font-medium py-2 px-4 rounded-lg shadow-md transition duration-150 flex items-center">
           <Upload size={18} className="mr-1"/> Upload Category
         </button>
       </div>

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { List, Grid } from "lucide-react";
+import { List, Grid, Filter, MoreVertical } from "lucide-react";
 import Link from "next/dist/client/link";
 
 const products = [
@@ -90,7 +90,10 @@ export default function ProductTable() {
       : products.filter((p) => p.status === statusFilter);
 
   // pagination
-  const totalPages = Math.ceil(filteredProducts.length / rowsPerPage);
+  const totalItems = products.length;
+  const totalPages = Math.ceil(totalItems / rowsPerPage);
+  const startRange = (currentPage - 1) * rowsPerPage;
+  const endRange = Math.min(currentPage * rowsPerPage, totalItems);
   const currentProducts = filteredProducts.slice(
     (currentPage - 1) * rowsPerPage,
     currentPage * rowsPerPage
@@ -120,11 +123,11 @@ export default function ProductTable() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="p-4 min-h-screen">
       {/* Header stays OUTSIDE */}
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Products</h2>
-        <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-3xl font-semibold text-gray-800">Products</h2>
+        <div className="flex items-center gap-4">
           {/* Always include All Status */}
           <select
             value={statusFilter}
@@ -134,13 +137,14 @@ export default function ProductTable() {
             }}
             className="border px-3 py-1 rounded text-gray-600"
           >
+            <Filter size={16} className="mr-1" />
             <option>Filtres</option>
             <option>Delivered</option>
             <option>Processing</option>
           </select>
 
           <Link href="/admin/products/add">
-            <button className="px-3 py-1 bg-pink-500 text-white rounded hover:bg-pink-600">
+            <button className="flex items-center bg-[#F6A5C1] text-white font-medium py-2 px-4 rounded-lg hover:bg-pink-600 transition duration-150">
               + Add Product
             </button>
           </Link>
@@ -163,70 +167,75 @@ export default function ProductTable() {
       </div>
 
       {/* Main content */}
-      <div className="bg-white shadow rounded-lg p-4">
+      <div className="bg-white rounded-xl shadow-lg">
         {/* List view */}
         {view === "list" ? (
           <div className="overflow-x-auto">
-            <table className="min-w-full border rounded-lg overflow-hidden">
-              <thead className="bg-pink-200 text-left">
-                <tr>
-                  <th className="p-3">
+            <table className="min-w-full table-auto">
+              <thead className="text-left">
+                <tr className="bg-[#F6A5C1] text-black font-semibold text-xs">
+                  <th className="p-4 rounded-tl-xl">
                     <input
                       type="checkbox"
                       checked={isAllSelected}
                       onChange={toggleSelectAll}
+                      className="form-checkbox h-4 w-4 text-pink-500 rounded border-gray-300 focus:ring-pink-500"
                     />
                   </th>
-                  <th className="p-3">Order ID</th>
-                  <th className="p-3">Products</th>
-                  <th className="p-3">Date</th>
-                  <th className="p-3">Price</th>
-                  <th className="p-3">Method</th>
-                  <th className="p-3">Status</th>
-                  <th className="p-3">Action</th>
+                  <th className="p-4">Order ID</th>
+                  <th className="p-4">Products</th>
+                  <th className="p-4">Date</th>
+                  <th className="p-4">Price</th>
+                  <th className="p-4">Method</th>
+                  <th className="p-4">Status</th>
+                  <th className="p-4 rounded-tr-xl text-center">Action</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-gray-100 text-gray-700 text-sm">
                 {currentProducts.map((product) => (
-                  <tr key={product.id} className="hover:bg-gray-50 border-b">
-                    <td className="p-3">
+                  <tr key={product.id} className="hover:bg-pink-50/20 transition duration-100">
+                    <td className="p-4">
                       <input
                         type="checkbox"
                         checked={selectedIds.includes(product.id)}
                         onChange={() => toggleSelect(product.id)}
+                        className="form-checkbox h-4 w-4 text-pink-500 rounded border-gray-300 focus:ring-pink-500"
                       />
                     </td>
-                    <td className="p-3">{product.id}</td>
-                    <td className="p-3 flex items-center gap-2">
+                    <td className="p-4 font-mono">{product.id}</td>
+                    <td className="p-4 flex items-center gap-3">
                       <Image
                         src={product.image}
                         alt={product.name}
                         width={32}
                         height={32}
-                        className="rounded-full"
+                        className="rounded-full h-9 w-9 object-cover"
                       />
-                      <span>{product.name}</span>
+                      <span className="font-medium text-gray-800">{product.name}</span>
                     </td>
-                    <td className="p-3">{product.date}</td>
-                    <td className="p-3">${product.price.toFixed(2)}</td>
-                    <td className="p-3">{product.method}</td>
-                    <td className="p-3">
+                    <td className="p-4">{product.date}</td>
+                    <td className="p-4">${product.price.toFixed(2)}</td>
+                    <td className="p-4">{product.method}</td>
+                    <td className="p-4">
                       <span
-                        className={`px-3 py-1 rounded-full text-sm ${statusColor(
+                        className={`px-3 py-1 rounded-full text-xs font-medium  ${statusColor(
                           product.status
                         )}`}
                       >
                         {product.status}
                       </span>
                     </td>
-                    <td className="p-3">•••</td>
+                    <td className="p-4 text-center">
+                      <button className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100">
+                          <MoreVertical size={20} />
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
         ) : (
-          /* Card view */
           /* Card view */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {currentProducts.map((product) => (
@@ -265,7 +274,9 @@ export default function ProductTable() {
                   <p className="text-base font-bold text-gray-900 mt-1">
                     ${product.price.toFixed(2)}
                   </p>
-                  <p className="text-xs text-gray-400 mt-0.5">{product.method}</p>{" "}
+                  <p className="text-xs text-gray-400 mt-0.5">
+                    {product.method}
+                  </p>{" "}
                   {/* Using 'sku' for '123456' */}
                   {/* Checkbox (optional - could be moved to an overlay or action menu if needed) */}
                   {/* If you want the checkbox, you might put it in an absolute position in the top-left of the image div as well */}
@@ -276,41 +287,45 @@ export default function ProductTable() {
         )}
 
         {/* Pagination */}
-        <div className="flex justify-between items-center mt-4 text-sm text-gray-600">
-          <div className="flex items-center gap-2">
-            <span>Rows per page:</span>
+        <div className="flex justify-end items-center px-4 py-3 border-t text-sm text-gray-600">
+          {/* Rows Per Page Dropdown */}
+          <div className="flex items-center gap-2 mr-6">
+            <span className="text-gray-500">Rows per page:</span>
             <select
               value={rowsPerPage}
               onChange={(e) => {
                 setRowsPerPage(Number(e.target.value));
                 setCurrentPage(1);
               }}
-              className="border rounded px-2 py-1"
+              className="border rounded px-2 py-1 bg-white text-gray-700 focus:ring-pink-500 focus:border-pink-500"
             >
               <option value={5}>5</option>
               <option value={10}>10</option>
             </select>
           </div>
-          <div className="flex items-center gap-2">
-            <span>
-              {currentPage}-
-              {Math.min(currentPage * rowsPerPage, filteredProducts.length)} of{" "}
-              {filteredProducts.length}
+
+          {/* Item Range and Nav Buttons */}
+          <div className="flex items-center gap-4">
+            <span className="font-medium text-gray-700">
+              {startRange + 1}-{endRange} of {totalItems}
             </span>
-            <button
-              className="px-2 py-1 border rounded disabled:opacity-50"
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-            >
-              ‹
-            </button>
-            <button
-              className="px-2 py-1 border rounded disabled:opacity-50"
-              disabled={currentPage === totalPages}
-              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-            >
-              ›
-            </button>
+
+            <div className="flex items-center gap-1">
+              <button
+                className="p-1 rounded-full disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100 transition duration-150"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((p) => p - 1)}
+              >
+                &lt;
+              </button>
+              <button
+                className="p-1 rounded-full disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100 transition duration-150"
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage((p) => p + 1)}
+              >
+                &gt;
+              </button>
+            </div>
           </div>
         </div>
       </div>

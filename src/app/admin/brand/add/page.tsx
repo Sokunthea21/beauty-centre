@@ -38,7 +38,7 @@ const ImageUploadArea: React.FC = () => (
 
 export default function AddNewBrandPage() {
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 min-h-screen">
       
       {/* Header: Title and Upload Button */}
       <div className="flex justify-between items-center mb-6">

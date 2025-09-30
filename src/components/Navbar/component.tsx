@@ -95,7 +95,7 @@ const Navbar: React.FC = () => {
 
         {/* Icons */}
         <div className="flex space-x-6 text-sm text-gray-900 items-center">
-          <Link href="#" className="flex flex-col items-center">
+          <Link href="/account" className="flex flex-col items-center">
             <Image
               src={assets.wishlist}
               alt="Wishlist"
@@ -146,7 +146,7 @@ const Navbar: React.FC = () => {
 
                 {/* Dropdown */}
                 {dropdownItems[menu] && openDropdown === menu && (
-                  <div className="absolute left-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-50">
+                  <div className="absolute left-0 mt-2 w-48 bg-white z-50">
                     {dropdownItems[menu].map((item) => (
                       <Link
                         key={item.name}

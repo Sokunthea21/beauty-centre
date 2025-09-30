@@ -48,7 +48,7 @@ export default function CustomersListTable() {
 
 
   return (
-    <div className="p-4 bg-gray-50 min-h-screen">
+    <div className="p-4 min-h-screen">
       
       {/* --- Header: Customers Title & Filters Button --- */}
       <div className="flex items-center justify-between mb-6">
@@ -64,12 +64,12 @@ export default function CustomersListTable() {
       </div>
 
       {/* --- Main Table Container --- */}
-      <div className="bg-white rounded-xl shadow-lg border border-gray-100">
+      <div className="bg-white rounded-xl shadow-lg">
           <div className="overflow-x-auto">
             <table className="min-w-full table-auto">
               {/* Table Header: Pink background, bold text */}
               <thead className="text-left">
-                <tr className="bg-pink-100 text-pink-700 font-semibold uppercase text-xs">
+                <tr className="bg-[#F6A5C1] text-black font-semibold text-xs">
                   <th className="p-4 rounded-tl-xl">
                     <input
                       type="checkbox"
