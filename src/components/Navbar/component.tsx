@@ -22,10 +22,10 @@ const Navbar: React.FC = () => {
   }, []);
 
   const getAccountHref = () => {
-    if (loading) return "admin/login";
-    if (!user || !user.emailVerified) return "admin/login";
-    if (user.email === "ngylyteng@gmail.com") return "admin/login";
-    return "admin/myacc";
+    if (loading) return "/login";
+    if (!user || !user.emailVerified) return "/login";
+    if (user.email === "ngylyteng@gmail.com") return "/login";
+    return "/admin/myacc";
   };
 
   // Dropdown items

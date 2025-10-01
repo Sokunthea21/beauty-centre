@@ -129,19 +129,18 @@ export default function ProductTable() {
         <h2 className="text-3xl font-semibold text-gray-800">Products</h2>
         <div className="flex items-center gap-4">
           {/* Always include All Status */}
-          <select
+            <select
             value={statusFilter}
             onChange={(e) => {
               setStatusFilter(e.target.value);
               setCurrentPage(1);
             }}
-            className="border px-3 py-1 rounded text-gray-600"
-          >
-            <Filter size={16} className="mr-1" />
-            <option>Filtres</option>
-            <option>Delivered</option>
-            <option>Processing</option>
-          </select>
+            className="border border-gray-300 bg-white px-3 py-2 rounded-lg text-gray-700 font-medium  transition duration-150"
+            >
+            <option value="All Status" className="text-gray-500">All Status</option>
+            <option value="Delivered" className="text-green-600">Delivered</option>
+            <option value="Processing" className="text-blue-600">Processing</option>
+            </select>
 
           <Link href="/admin/products/add">
             <button className="flex items-center bg-[#F6A5C1] text-white font-medium py-2 px-4 rounded-lg hover:bg-pink-600 transition duration-150">
@@ -149,20 +148,30 @@ export default function ProductTable() {
             </button>
           </Link>
 
-          <div className="flex border rounded overflow-hidden">
+            <div className="flex border border-gray-300 rounded-lg overflow-hidden">
             <button
-              className={`p-2 ${view === "list" ? "bg-gray-100" : ""}`}
+              className={`p-2 transition-colors duration-150 ${
+              view === "list"
+                ? "bg-pink-100 text-pink-600"
+                : "bg-white text-gray-500 hover:bg-gray-50"
+              }`}
               onClick={() => setView("list")}
+              aria-label="List view"
             >
               <List size={18} />
             </button>
             <button
-              className={`p-2 ${view === "card" ? "bg-gray-100" : ""}`}
+              className={`p-2 transition-colors duration-150 ${
+              view === "card"
+                ? "bg-pink-100 text-pink-600"
+                : "bg-white text-gray-500 hover:bg-gray-50"
+              }`}
               onClick={() => setView("card")}
+              aria-label="Card view"
             >
               <Grid size={18} />
             </button>
-          </div>
+            </div>
         </div>
       </div>
 
@@ -237,7 +246,7 @@ export default function ProductTable() {
           </div>
         ) : (
           /* Card view */
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
             {currentProducts.map((product) => (
               <div
                 key={product.id}

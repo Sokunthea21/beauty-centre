@@ -15,7 +15,7 @@ const AuthImage: React.FC<AuthImageProps> = ({ src, alt }) => {
   return (
     <div className="hidden lg:block lg:w-1/2 h-screen relative">
       <Image
-        src={assets.img_login} // Use the imported image from assets
+        src={assets.beauty_center_opening} 
         alt={alt}
         layout="fill"
         objectFit="cover"

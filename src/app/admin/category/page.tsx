@@ -104,7 +104,7 @@ export default function CategoryGrid() {
             onClick={() => setCurrentPage(i)}
             className={`h-7 w-7 rounded-full text-sm font-medium transition duration-150 ${
               isCurrent
-                ? "bg-pink-500 text-white"
+                ? "bg-gray-500 text-white"
                 : "text-gray-600 hover:bg-gray-100"
             }`}
           >
@@ -181,8 +181,8 @@ export default function CategoryGrid() {
       </div>
 
       {/* --- Pagination Dots --- */}
-      <div className="flex justify-center mt-8">
-        <div className="flex items-center gap-1">{renderPagination()}</div>
+      <div className="flex justify-center mt-10">
+        <div className="flex items-center space-x-2">{renderPagination()}</div>
       </div>
     </div>
   );

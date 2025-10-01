@@ -32,6 +32,7 @@ import Delivery from "./Delivery.png";
 import jandt from "./jandt.png";
 import Vet from "./Vet.png";
 import KHQR from "./KHQR.png";
+import beauty_center_opening from "./beauty-centre-opening.png";
 
 //Image Categories
 import Sunscreen from "./Categories_Sunscreen.png";
@@ -95,6 +96,7 @@ export const assets = {
   jejucherrycream,
   poreclaymask,
   img_login,
+  beauty_center_opening,
   ABA,
   cod,
   Delivery,
