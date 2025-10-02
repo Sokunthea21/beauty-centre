@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { User, MapPin, ShoppingBag, Heart, Key, LogOut } from "lucide-react";
+import Image from "next/image";
+import { assets } from "@/app/assets/assets";
 
 const menuItems = [
   { id: "profile", label: "My Profile", icon: <User size={18} /> },
@@ -19,11 +21,11 @@ interface Props {
 export default function Sidebar({ selected, onSelect }: Props) {
   return (
     <div className="bg-white p-6 w-full md:w-72">
-      <div className="flex flex-col items-center mb-6">
-        <img
-          src="user.png"
+      <div className="flex gap-6 items-center mb-6">
+        <Image
+          src={assets.Logo}
           alt="User"
-          className="w-20 h-20 rounded-full mb-2"
+          className="w-14 h-14 rounded-full"
         />
         <h2 className="font-semibold">MAO SOKUNTHEA</h2>
       </div>

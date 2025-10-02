@@ -79,7 +79,7 @@ export default function LoginPage() {
       }
 
       if (userCredential.user.email === "ngylyteng@gmail.com") {
-        router.push("admin/dashboard");
+        router.push("/account");
       } else {
         router.push("/account");
       }

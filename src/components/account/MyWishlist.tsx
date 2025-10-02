@@ -30,7 +30,7 @@ const mockWishlist: WishlistItem[] = [
 
 export default function MyWishlist() {
   return (
-    <div className=" p-6 w-full">
+    <div className="bg-white p-6 w-full">
       <h2 className="text-lg font-semibold mb-4">My Wishlist</h2>
 
       {mockWishlist.length === 0 ? (
@@ -40,7 +40,7 @@ export default function MyWishlist() {
           {mockWishlist.map((item) => (
             <div
               key={item.id}
-              className="flex items-center bg-white gap-4 p-6"
+              className="border border-[#E3E3E3] flex items-center bg-white gap-4 p-6"
             >
               <img
                 src={item.image}

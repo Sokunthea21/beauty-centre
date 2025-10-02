@@ -26,7 +26,7 @@ export default function MyOrders() {
           {mockOrders.map((order) => (
             <div
               key={order.id}
-              className="border p-4 flex flex-col gap-2"
+              className="border border-[#E3E3E3] p-4 flex flex-col gap-2"
             >
               <div className="flex justify-between text-gray-700">
                 <span>Order ID:</span>
