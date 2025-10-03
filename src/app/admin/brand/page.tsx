@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 
-// --- MOCK DATA FOR BRAND CARDS ---
+// --- MOCK DATA FOR BRAND CARDS (Increased for better pagination demonstration) ---
 const brands = [
   { id: 1, name: "Anua", productCount: 100, image: "/brand_anua.png" },
   { id: 2, name: "Beauty of Joseon", productCount: 100, image: "/brand_boj.png" },
@@ -14,12 +14,17 @@ const brands = [
   { id: 5, name: "Innisfree", productCount: 100, image: "/brand_innisfree.png" },
   { id: 6, name: "COSRX", productCount: 100, image: "/brand_cosrx.png" },
   { id: 7, name: "Round Lab", productCount: 100, image: "/brand_roundlab.png" },
-  // Add more brands for pagination testing
+  // Adding more brands to demonstrate pagination over multiple pages (12 total items = 2 pages)
+  { id: 8, name: "Pyunkang Yul", productCount: 100, image: "/brand_anua.png" },
+  { id: 9, name: "Dr. Jart+", productCount: 100, image: "/brand_boj.png" },
+  { id: 10, name: "Laneige", productCount: 100, image: "/brand_marymay.png" },
+  { id: 11, name: "Sulwhasoo", productCount: 100, image: "/brand_skin1004.png" },
+  { id: 12, name: "Missha", productCount: 100, image: "/brand_innisfree.png" },
 ];
 
 export default function BrandGrid() {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6; // 3 columns, 2 rows as per image
+  const itemsPerPage = 6; // 3 columns, 2 rows
 
   // Pagination Logic
   const totalItems = brands.length;
@@ -29,41 +34,61 @@ export default function BrandGrid() {
     currentPage * itemsPerPage
   );
 
-  // Function to render pagination dots (reused from previous components)
+  // --- FIXED: Simplified and corrected pagination rendering ---
   const renderPagination = () => {
-    const pages = [];
-    const maxPagesToShow = 5; 
+    // Only render controls if there is more than one page
+    if (totalPages <= 1) return null;
 
+    // Use a simpler approach to render page buttons without complex ellipsis logic
+    // since the total number of pages is likely small in most admin interfaces.
+    // If you need complex ellipsis, a dedicated library or robust implementation is better.
+    const pages = [];
     for (let i = 1; i <= totalPages; i++) {
-        const isCurrent = i === currentPage;
-        
-        // Simplified logic to handle ellipses for the final look
-        if (i <= maxPagesToShow || i === totalPages || (i > currentPage - 1 && i < currentPage + 2)) {
-            pages.push(
-                <button
-                    key={i}
-                    onClick={() => setCurrentPage(i)}
-                    className={`h-7 w-7 rounded-full text-sm font-medium transition duration-150 ${
-                        isCurrent 
-                            ? 'bg-pink-500 text-white' 
-                            : 'text-gray-600 hover:bg-gray-100'
-                    }`}
-                >
-                    {i}
-                </button>
-            );
-        } else if (
-            !(
-                pages[pages.length - 1] &&
-                (pages[pages.length - 1] as any).type === "span" &&
-                (pages[pages.length - 1] as any).props &&
-                (pages[pages.length - 1] as any).props.children === "..."
-            )
-        ) {
-            pages.push(<span key={`ellipsis-${i}`} className="px-2">...</span>);
-        }
+      const isCurrent = i === currentPage;
+      pages.push(
+        <button
+          key={i}
+          onClick={() => setCurrentPage(i)}
+          className={`h-7 w-7 rounded-full text-sm font-medium transition duration-150 ${
+            isCurrent
+              ? 'bg-[#F6A5C1] text-white' // Use theme color
+              : 'text-gray-600 hover:bg-gray-100'
+          }`}
+          aria-current={isCurrent ? 'page' : undefined}
+        >
+          {i}
+        </button>
+      );
     }
-    return pages;
+
+    return (
+      <div className="flex justify-center items-center gap-2 mt-8">
+        {/* Previous Button */}
+        <button
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="text-gray-500 disabled:opacity-30 h-7 w-7 flex items-center justify-center"
+          aria-label="Previous Page"
+        >
+          &lt;
+        </button>
+
+        {/* Page Number Buttons */}
+        <div className="flex items-center gap-1">
+          {pages}
+        </div>
+
+        {/* Next Button */}
+        <button
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="text-gray-500 disabled:opacity-30 h-7 w-7 flex items-center justify-center"
+          aria-label="Next Page"
+        >
+          &gt;
+        </button>
+      </div>
+    );
   };
 
   return (
@@ -73,12 +98,11 @@ export default function BrandGrid() {
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-semibold text-gray-800">Brand</h1>
         <div className="flex items-center gap-4">
-          {/* Note: Filters button is absent in the Brand image, only the Add Brand button is present */}
           
           {/* Add Brand Button */}
-          <Link href="/admin/brand/add" passHref> {/* Assuming an add brand page */}
+          <Link href="/admin/brand/add" passHref>
             <button className="flex items-center bg-[#F6A5C1] text-white font-medium py-2 px-4 rounded-lg hover:bg-pink-600 transition duration-150">
-                <Plus size={20} className="mr-1" /> Add Brand
+              <Plus size={20} className="mr-1" /> Add Brand
             </button>
           </Link>
         </div>
@@ -92,14 +116,13 @@ export default function BrandGrid() {
             className="bg-white rounded-lg shadow-sm overflow-hidden transition duration-300 hover:shadow-lg"
           >
             {/* Brand Image/Logo Area */}
-            <div className="relative w-full h-60">
-              {/* Note: Using a simple Image component here. For real logos, you might use a specific dimension */}
+            <div className="relative w-full h-60 p-10 flex items-center justify-center"> {/* Added padding for logos */}
               <Image
                 src={brand.image}
                 alt={brand.name}
-                layout="fill" 
-                objectFit="cover" // Ensure logo fits without cropping
-                className="cover"
+                layout="fill"
+                objectFit="contain" // Use 'contain' for logos to prevent cropping and respect aspect ratio
+                className="p-10" // Padding on the image for better logo display
               />
             </div>
             
@@ -116,11 +139,9 @@ export default function BrandGrid() {
         ))}
       </div>
 
-      {/* --- Pagination Dots --- */}
+      {/* --- Pagination Controls --- */}
       <div className="flex justify-center mt-8">
-        <div className="flex items-center gap-1">
-            {renderPagination()}
-        </div>
+        {renderPagination()}
       </div>
     </div>
   );

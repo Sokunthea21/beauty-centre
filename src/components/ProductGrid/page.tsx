@@ -29,11 +29,11 @@ export default function ProductGrid() {
   const getGridCols = () => {
     switch (viewMode) {
       case "grid-2":
-        return "grid-cols-2";
+        return "grid-cols-1 md:grid-cols-2";
       case "grid-3":
-        return "grid-cols-3";
+        return "grid-cols-1 md:grid-cols-3";
       case "grid-4":
-        return "grid-cols-4";
+        return "grid-cols-1 md:grid-cols-3 lg:grid-cols-4";
       case "list":
         return "grid-cols-1";
       default:
