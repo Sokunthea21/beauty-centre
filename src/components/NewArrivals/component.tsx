@@ -88,14 +88,30 @@ const NewArrivals: React.FC = () => {
             nextEl: ".custom-next",
           }}
           loop={true}
-          slidesPerView={5}
           spaceBetween={20}
-          slidesPerGroup={5}
           onSwiper={setSwiperInstance}
           onSlideChange={(swiper) => {
             setCurrentSlide(swiper.realIndex);
           }}
-          className="mySwiper"
+          className="mySwiper "
+          breakpoints={{
+            320: {
+              slidesPerView: 1,
+              slidesPerGroup: 1,
+            },
+            640: {
+              slidesPerView: 2,
+              slidesPerGroup: 2,
+            },
+            1024: {
+              slidesPerView: 3,
+              slidesPerGroup: 3,
+            },
+            1280: {
+              slidesPerView: 5,
+              slidesPerGroup: 5,
+            },
+          }}
         >
           {productData.map((product, index) => (
             <SwiperSlide key={index}>

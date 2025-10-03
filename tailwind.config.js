@@ -27,8 +27,8 @@ const config = {
       },
     },
     extend: {
-       boxShadow: {
-        'custom-sm': '0px 2px 10px rgba(0, 0, 0, 0.1)',
+      boxShadow: {
+        "custom-sm": "0px 2px 10px rgba(0, 0, 0, 0.1)",
       },
       screens: {
         sm: "40rem",
@@ -48,9 +48,9 @@ const config = {
         background: "var(--background)",
         text: "var(--text)",
       },
-     fontFamily: {
-        mono: ['var(--font-geist-mono)'],
-        sans: ['var(--font-geist-sans)'],
+      fontFamily: {
+        mono: ["var(--font-geist-mono)"],
+        sans: ["var(--font-geist-sans)"],
       },
       keyframes: {
         "accordion-down": {

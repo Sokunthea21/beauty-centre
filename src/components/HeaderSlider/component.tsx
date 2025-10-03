@@ -37,9 +37,9 @@ const HeaderSlider = () => {
   };
 
   return (
-    <div className="container relative mt-10 overflow-hidden">
+    <div className="container mx-auto relative mt-10 overflow-hidden">
       {/* Custom Navigation Arrows */}
-      <div className="absolute top-1/2 left-4 transform -translate-y-1/2 z-10">
+      <div className="pl-4 absolute top-1/2 left-4 transform -translate-y-1/2 z-10">
         <button className="custom-prev bg-white/80 p-3 rounded-full shadow hover:bg-pink-500 transition">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +58,7 @@ const HeaderSlider = () => {
         </button>
       </div>
 
-      <div className="absolute top-1/2 right-4 transform -translate-y-1/2 z-10">
+      <div className="pr-4 absolute top-1/2 right-4 transform -translate-y-1/2 z-10">
         <button className="custom-next bg-white/80 p-3 rounded-full shadow hover:bg-pink-500 transition">
           <svg
             xmlns="http://www.w3.org/2000/svg"

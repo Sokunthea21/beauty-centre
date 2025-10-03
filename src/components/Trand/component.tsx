@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { assets, categories } from "@/app/assets/assets";
+import { assets } from "@/app/assets/assets";
 
 const Trending = () => {
   return (
@@ -21,14 +21,14 @@ const Trending = () => {
         </div>
       </div>
 
-      <div className=" grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Left Large Image */}
         <div>
           <a href="#">
             <Image
               src={assets.Trending_1}
               alt="Trending 1"
-              className="w-full h-[704px] object-cover transition-all duration-200 hover:shadow-lg md:hover:scale-105"
+              className="w-full h-[700px] md:h-[704px] object-cover transition-all duration-200 hover:shadow-lg md:hover:scale-105"
             />
           </a>
         </div>
@@ -39,7 +39,7 @@ const Trending = () => {
             <Image
               src={assets.Trending_2}
               alt="Trending 2"
-              className="w-full h-[340px] object-cover transition-all duration-200 hover:shadow-lg md:hover:scale-105"
+              className="w-full h-[340px] md:h-[340px] object-cover transition-all duration-200 hover:shadow-lg md:hover:scale-105"
             />
           </a>
 
@@ -47,7 +47,7 @@ const Trending = () => {
             <Image
               src={assets.Trending_3}
               alt="Trending 3"
-              className="w-full h-[340px] object-cover transition-all duration-200 hover:shadow-lg md:hover:scale-105"
+              className="w-full h-[340px] md:h-[340px] object-cover transition-all duration-200 hover:shadow-lg md:hover:scale-105"
             />
           </a>
         </div>

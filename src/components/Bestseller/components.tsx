@@ -96,6 +96,24 @@ const NewArrivals: React.FC = () => {
             setCurrentSlide(swiper.realIndex);
           }}
           className="mySwiper"
+          breakpoints={{
+            320: {
+              slidesPerView: 1,
+              slidesPerGroup: 1,
+            },
+            640: {
+              slidesPerView: 2,
+              slidesPerGroup: 2,
+            },
+            1024: {
+              slidesPerView: 3,
+              slidesPerGroup: 3,
+            },
+            1280: {
+              slidesPerView: 5,
+              slidesPerGroup: 5,
+            },
+          }}
         >
           {productData.map((product, index) => {
             const cleanPrice = Number(product.price.replace(/[^0-9.]/g, ""));
