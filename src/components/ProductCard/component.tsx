@@ -120,9 +120,11 @@ const ProductCard = ({
               />
             ))}
           </div>
-          <p className="text-sm text-gray-500/70 max-sm:hidden">
-            {productData.rating} ({Math.floor(Math.random() * 1000)} reviews)
-          </p>
+          {typeof productData.rating === "number" && (
+            <p className="text-sm text-gray-500/70 max-sm:hidden">
+              {productData.rating} ({Math.floor(Math.random() * 1000)} reviews)
+            </p>
+          )}
         </div>
 
         <p className="text-base mt-2 font-medium">

@@ -1,7 +1,8 @@
 // /components/ProductDetails.tsx
 import React, { useState } from "react";
 import { Star } from "lucide-react";
-import { Image, Product } from "@/types/product"; // Adjust the import path
+import { Image, Product } from "@/types/product";
+// Adjust the import path
 
 // --- Helper Components ---
 
@@ -223,9 +224,14 @@ const ProductDetailPage: React.FC<{ product: Product }> = ({ product }) => {
               How to Use:
             </h3>
             <ul className="list-disc list-inside text-gray-600 space-y-1 pl-4">
-              {howToUse.map((step, index) => (
-                <li key={index}>{step}</li>
-              ))}
+              {(Array.isArray(howToUse) ? howToUse : [howToUse]).map(
+                (
+                  step: string,
+                  index: number // <-- Explicitly define types
+                ) => (
+                  <li key={index}>{step}</li>
+                )
+              )}
             </ul>
           </section>
 

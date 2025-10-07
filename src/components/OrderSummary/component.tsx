@@ -31,9 +31,11 @@ export default function OrderSummary({
         <span>${total}</span>
       </div>
       <div className="mt-6">
-        <button className="mt-4 w-full bg-[var(--primary)] text-white py-2 ">
-          Proceed to Checkout
-        </button>
+        <a href="/checkout">
+          <button className="mt-4 w-full bg-[var(--primary)] text-white py-2 ">
+            Proceed to Checkout
+          </button>
+        </a>
         <button className="mt-2 w-full border py-2 ">Cancel</button>
       </div>
     </div>

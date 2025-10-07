@@ -12,12 +12,19 @@ export default function LayoutContent({
 }) {
   const pathname = usePathname();
   const isAdminRoute = pathname.startsWith("/admin");
+  const isAuthRoute =
+    pathname === "/login" ||
+    pathname === "/signup" ||
+    pathname.startsWith("/auth/login") ||
+    pathname.startsWith("/auth/signup");
+
+  const hideLayout = isAdminRoute || isAuthRoute;
 
   return (
     <>
-      {!isAdminRoute && <Navbar />}
+      {!hideLayout && <Navbar />}
       <MotionWrapper>{children}</MotionWrapper>
-      {!isAdminRoute && <Footer />}
+      {!hideLayout && <Footer />}
     </>
   );
 }
