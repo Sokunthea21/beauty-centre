@@ -56,35 +56,35 @@ const ProductCard = ({
       <div
         className={`relative bg-gray-100 flex items-center justify-center
           ${
-            isList
-              ? "min-w-[200px] max-w-[200px] h-[200px]"
-              : isCompact
-              ? "w-full h-[300px]"
-              : "w-full h-52"
+        isList
+          ? "min-w-[200px] max-w-[200px] h-[200px]"
+          : isCompact
+          ? "w-full h-[300px]"
+          : "w-full h-52"
           }
         `}
       >
         <Image
           src={productData.image[0]}
-          alt={productData.name}
+          alt={productData.name ? `Product image of ${productData.name}` : "Product image"}
           className={`object-cover  ${
-            isList ? "w-full h-full" : "w-full h-full"
+        isList ? "w-full h-full" : "w-full h-full"
           }`}
           width={800}
           height={800}
         />
         <button className="absolute top-2 right-2 p-2">
           <svg
-            width="19"
-            height="18"
-            viewBox="0 0 19 18"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+        width="19"
+        height="18"
+        viewBox="0 0 19 18"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
           >
-            <path
-              d="M0.371865 8.59832C-0.701135 5.24832 0.552865 1.41932 4.06987 0.286322C5.91987 -0.310678 7.96187 0.0413219 9.49987 1.19832C10.9549 0.0733218 13.0719 -0.306678 14.9199 0.286322C18.4369 1.41932 19.6989 5.24832 18.6269 8.59832C16.9569 13.9083 9.49987 17.9983 9.49987 17.9983C9.49987 17.9983 2.09787 13.9703 0.371865 8.59832Z"
-              fill="#B0A6BD"
-            />
+        <path
+          d="M0.371865 8.59832C-0.701135 5.24832 0.552865 1.41932 4.06987 0.286322C5.91987 -0.310678 7.96187 0.0413219 9.49987 1.19832C10.9549 0.0733218 13.0719 -0.306678 14.9199 0.286322C18.4369 1.41932 19.6989 5.24832 18.6269 8.59832C16.9569 13.9083 9.49987 17.9983 9.49987 17.9983C9.49987 17.9983 2.09787 13.9703 0.371865 8.59832Z"
+          fill="#B0A6BD"
+        />
           </svg>
         </button>
       </div>
