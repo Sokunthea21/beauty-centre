@@ -2,6 +2,7 @@
 
 import { Search, Calendar } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Header() {
   return (
@@ -27,8 +28,10 @@ export default function Header() {
         {/* Profile */}
         <Link href="settings">
           <div className="flex items-center gap-2">
-            <img
-              src="https://i.pravatar.cc/40?img=1"
+            <Image
+              src="/profile.jpg" 
+              width={36}
+              height={36}
               alt="profile"
               className="w-9 h-9 rounded-full"
             />

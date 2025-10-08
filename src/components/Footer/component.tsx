@@ -18,7 +18,7 @@ const Footer = () => {
               Beauty <span className="text-white">Centre</span>
             </h2> */}
             <p className="text-md text-gray-300">
-              Discover nature's beauty with our natural care products.
+              Discover natures beauty with our natural care products.
             </p>
             <ul className="text-md text-gray-300 space-y-1">
               <li className="flex items-center gap-2 mb-4">

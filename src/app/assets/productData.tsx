@@ -1,5 +1,4 @@
 import { assets } from "@/app/assets/assets";
-import { title } from "process";
 
 export const productData = [
   {

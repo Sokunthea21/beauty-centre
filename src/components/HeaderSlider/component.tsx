@@ -29,7 +29,7 @@ const HeaderSlider = () => {
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [swiperInstance, setSwiperInstance] = useState<any>(null);
+  const [swiperInstance, setSwiperInstance] = useState<import('swiper').Swiper | null>(null);
 
   const handlePaginationClick = (index: number) => {
     setCurrentSlide(index);

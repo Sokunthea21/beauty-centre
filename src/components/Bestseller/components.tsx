@@ -5,13 +5,22 @@ import { productData } from "@/app/assets/productData";
 import ProductCard from "../ProductCard/component";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
+import type { Swiper as SwiperClass } from "swiper/types";
 import "swiper/css";
 import "swiper/css/navigation";
 
 
+type Product = {
+  price: string;
+  title: string;
+  id: { toString: () => string };
+  description: string;
+  Image: string | { src: string };
+};
+
 const NewArrivals: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [swiperInstance, setSwiperInstance] = useState<any>(null);
+  const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
 
   const handlePaginationClick = (index: number) => {
     setCurrentSlide(index);
@@ -106,17 +115,12 @@ const NewArrivals: React.FC = () => {
               slidesPerGroup: 2,
             },
             1024: {
-              slidesPerView: 3,
-              slidesPerGroup: 3,
-            },
-            1280: {
               slidesPerView: 5,
               slidesPerGroup: 5,
             },
           }}
         >
-          {productData.map((product: { price: string; title: any; id: { toString: () => any; }; description: any; Image: string | { src: string } }, index: React.Key | null | undefined) => {
-            const cleanPrice = Number(product.price.replace(/[^0-9.]/g, ""));
+          {productData.map((product: Product, index: number) => {
             return (
               <SwiperSlide key={index}>
                 <ProductCard

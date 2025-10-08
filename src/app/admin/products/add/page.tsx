@@ -241,7 +241,7 @@ export default function AddProductForm() {
 
         // --- PLACEHOLDER API CALL ---
         console.log('--- Submitting Product Data ---');
-        for (let [key, value] of data.entries()) {
+        for (const [key, value] of data.entries()) {
             console.log(key, value);
         }
         

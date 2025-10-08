@@ -1,11 +1,7 @@
 // app/customers/page.tsx
-
 "use client";
-
 import { useState } from "react";
-import Image from "next/image";
 import { MoreVertical, Filter, User } from "lucide-react";
-import Link from "next/link"; 
 
 // --- MOCK DATA FOR CUSTOMER TABLE ---
 const customers = [

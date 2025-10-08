@@ -1,11 +1,6 @@
 "use client";
-import React, { useState, useCallback } from "react";
-import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
-
-const containerStyle = {
-  width: "100%",
-  height: "250px",
-};
+import React, { useState} from "react";
+import { useJsApiLoader } from "@react-google-maps/api";
 
 const defaultCenter = {
   lat: 11.5564,
@@ -21,23 +16,14 @@ export default function DeliveryAddress({
   address,
   onAddressChange,
 }: DeliveryAddressProps) {
-  const [markerPosition, setMarkerPosition] = useState(defaultCenter);
+  const [] = useState(defaultCenter);
   const [savedAddresses, setSavedAddresses] = useState<string[]>([]);
   const [newAddress, setNewAddress] = useState("");
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
   });
-
-  const handleMapClick = useCallback((e: google.maps.MapMouseEvent) => {
-    if (e.latLng) {
-      setMarkerPosition({
-        lat: e.latLng.lat(),
-        lng: e.latLng.lng(),
-      });
-    }
-  }, []);
-
+  // const containerStyle = {
   const handleAddAddress = () => {
     if (newAddress.trim()) {
       setSavedAddresses([...savedAddresses, newAddress.trim()]);

@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { assets, categories } from "@/app/assets/assets";
+import { assets } from "@/app/assets/assets";
 
 const Spotlight = () => {
   return (
@@ -37,7 +37,7 @@ const Spotlight = () => {
               Cracking the Coconut Code
             </h3>
             <p className="text-sm md:text-base">
-              Reveal your skin's natural glow with our Lotus Glow Kit.
+              Reveal your skins natural glow with our Lotus Glow Kit.
             </p>
           </div>
         </div>
@@ -54,7 +54,7 @@ const Spotlight = () => {
                 Cracking the Coconut Code
               </h3>
               <p className="text-sm md:text-base">
-                Reveal your skin's natural glow with our Lotus Glow Kit.
+                Reveal your skins natural glow with our Lotus Glow Kit.
               </p>
             </div>
           </div>

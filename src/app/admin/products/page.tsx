@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { List, Grid, Filter, MoreVertical } from "lucide-react";
+import { List, Grid, MoreVertical } from "lucide-react";
 import Link from "next/dist/client/link";
 
 const products = [

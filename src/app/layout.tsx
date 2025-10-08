@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
 import React from "react";
-import { Geist, Geist_Mono, Manrope, Poppins } from "next/font/google";
+import { Manrope, Poppins } from "next/font/google";
 import "./globals.css";
-import MotionWrapper from "../components/MotionWrapper";
 import { InitTheme } from "@/providers/Theme/InitTheme";
 import { Providers } from "@/providers";
-import Footer from "@/components/Footer/component";
-import Navbar from "@/components/Navbar/component";
 import clsx from "clsx";
 import LayoutContent from "./LayoutContent";
 

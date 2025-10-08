@@ -3,7 +3,6 @@
 import { useState } from "react";
 import ProductCard from "../ProductCard/component";
 import { productData } from "@/app/assets/productData";
-import { LayoutGrid, List, Square, Rows } from "lucide-react";
 
 type ViewMode = "grid-2" | "grid-3" | "grid-4" | "list";
 

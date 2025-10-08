@@ -8,7 +8,7 @@ import {
   Settings,
   Star,
   TicketPercent,
-  Image,
+  Image as ImageIcon,
   Grid2x2,
 } from "lucide-react";
 
@@ -24,7 +24,7 @@ const menuItems = [
   { name: "Category", icon: <Grid2x2 size={18} />, href: "category" },
   { name: "Brand", icon: <Star size={18} />, href: "brand" },
   { name: "Customer", icon: <Users size={18} />, href: "customers" },
-  { name: "Slider", icon: <Image size={18} />, href: "slider" },
+  { name: "Slider", icon: <ImageIcon size={18} />, href: "slider" },
   { name: "Coupon", icon: <TicketPercent size={18} />, href: "coupons" },
   { name: "Settings", icon: <Settings size={18} />, href: "settings" },
 ];

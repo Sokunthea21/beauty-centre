@@ -3,7 +3,7 @@ import ProductDetails from "@/components/ProductDetails/component";
 import { Product } from "@/types/product";
 
 // Function to call the external backend API
-async function fetchProductData(slug: string): Promise<Product | null> {
+async function fetchProductData(id: string): Promise<Product | null> {
   // 1. Get the base URL from the secure environment variable
   const API_BASE = process.env.BACKEND_API_URL;
   if (!API_BASE) {
@@ -11,7 +11,7 @@ async function fetchProductData(slug: string): Promise<Product | null> {
     return null;
   }
   const cleanApiBase = API_BASE.endsWith('/') ? API_BASE.slice(0, -1) : API_BASE;
-  const url = `${cleanApiBase}/Product/${slug}`; 
+  const url = `${cleanApiBase}/Product/${id}`; 
   console.log(`[API CHECK] Attempting to fetch product from: ${url}`);
 
   try {

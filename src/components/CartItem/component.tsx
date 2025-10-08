@@ -2,7 +2,7 @@
 import QuantityControl from "../QuantityControl/component";
 import React from "react";
 import Image from "next/image";
-import { assets, categories, categoryList } from "@/app/assets/assets";
+import {categories} from "@/app/assets/assets";
 
 interface Product {
   id: number;
@@ -23,7 +23,7 @@ export default function CartItem({
   onQuantityChange,
   onRemove,
 }: CartItemProps) {
-  const { id, name, image, price, quantity } = product;
+  const { id, name, price, quantity } = product;
   const total = (price * quantity).toFixed(2);
 
   return (

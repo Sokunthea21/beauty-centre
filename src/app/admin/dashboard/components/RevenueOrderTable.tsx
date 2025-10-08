@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image"; // For optimized image handling
 import { MoreVertical } from "lucide-react"; // For the action menu icon
 
 // --- TypeScript Interface for an Order ---
@@ -202,7 +203,6 @@ export default function RevenueOrderTable() {
       <div className="overflow-x-auto">
         <table className="min-w-full table-auto">
           <thead className="text-left">
-            {" "}
             {/* Adjusted color for header text */}
             <tr className="bg-[#F6A5C1] text-black font-semibold text-xs">
               {/* Checkbox Header */}
@@ -238,7 +238,7 @@ export default function RevenueOrderTable() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-100 text-gray-700 text-sm">
-            {mockOrders.map((order, i) => (
+            {mockOrders.map((order) => (
               <tr
                 key={order.id}
                 className="hover:bg-gray-50 transition duration-150 ease-in-out"
@@ -264,6 +264,8 @@ export default function RevenueOrderTable() {
                     <img
                       src={order.productImage}
                       alt={order.productName}
+                      width={40}
+                      height={40}
                       className="w-8 h-8 rounded-full object-cover mr-3 border border-gray-100"
                     />
                     <span className="text-gray-900">{order.productName}</span>

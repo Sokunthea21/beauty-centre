@@ -1,8 +1,8 @@
 // /components/ProductDetails.tsx
 import React, { useState } from "react";
-import { Star } from "lucide-react";
-import { Image, Product } from "@/types/product";
-// Adjust the import path
+import { Link, Star } from "lucide-react";
+import { Product, Image as ProductImage } from "@/types/product";
+import Image from "next/image";
 
 // --- Helper Components ---
 
@@ -33,7 +33,7 @@ const RatingStars: React.FC<{ rating: number; reviewCount: number }> = ({
 
 const ProductDetailPage: React.FC<{ product: Product }> = ({ product }) => {
   const [quantity, setQuantity] = useState<number>(1);
-  const [mainImage, setMainImage] = useState<Image>(product.images[0]);
+  const [mainImage, setMainImage] = useState<ProductImage>(product.images[0]);
 
   const {
     brand,
@@ -67,9 +67,9 @@ const ProductDetailPage: React.FC<{ product: Product }> = ({ product }) => {
     <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
       {/* Breadcrumbs */}
       <nav className="text-sm mb-6 text-gray-500">
-        <a href="/" className="hover:underline">
+        <Link href="/" className="hover:underline">
           Home
-        </a>{" "}
+        </Link>{" "}
         &gt; <span className="font-semibold">{name}</span>
       </nav>
 
@@ -79,10 +79,12 @@ const ProductDetailPage: React.FC<{ product: Product }> = ({ product }) => {
         <div className="flex flex-col gap-6">
           {/* Main Image - (The URL/source comes from the database) */}
           <div className="bg-gray-100 rounded-xl overflow-hidden shadow-lg border border-gray-100">
-            <img
+            <Image
               src={mainImage.url}
               alt={mainImage.alt}
               className="w-full h-auto object-cover"
+              width={500}
+              height={500}
             />
           </div>
 
@@ -98,10 +100,12 @@ const ProductDetailPage: React.FC<{ product: Product }> = ({ product }) => {
                 }`}
                 onClick={() => setMainImage(image)}
               >
-                <img
+                <Image
                   src={image.url}
                   alt={image.alt}
                   className="w-full h-full object-cover"
+                  width={80}
+                  height={80}
                 />
               </div>
             ))}

@@ -42,8 +42,15 @@ export default function OrderListTable() {
   const toggleSelectAll = () => {
     // ... (omitted for brevity, assume logic works)
   };
-  const toggleSelect = (id: number) => {
-    // ... (omitted for brevity, assume logic works)
+  const toggleSelect = (index: number) => {
+    const product = currentProducts[index];
+    if (product) {
+      setSelectedIds((prev) =>
+        prev.includes(product.id)
+          ? prev.filter((id) => id !== product.id)
+          : [...prev, product.id]
+      );
+    }
   };
 
 

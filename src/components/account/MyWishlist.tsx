@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 interface WishlistItem {
   id: string;
   name: string;
@@ -42,7 +44,7 @@ export default function MyWishlist() {
               key={item.id}
               className="border border-[#E3E3E3] flex items-center bg-white gap-4 p-6"
             >
-              <img
+              <Image
                 src={item.image}
                 alt={item.name}
                 className="w-16 h-16 object-cover rounded"

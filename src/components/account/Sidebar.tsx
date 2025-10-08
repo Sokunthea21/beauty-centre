@@ -1,6 +1,4 @@
 "use client";
-
-import { useState } from "react";
 import { User, MapPin, ShoppingBag, Heart, Key, LogOut } from "lucide-react";
 import Image from "next/image";
 import { assets } from "@/app/assets/assets";

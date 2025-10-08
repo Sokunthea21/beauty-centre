@@ -13,7 +13,7 @@ export default function PaymentPage() {
   };
 
   const [payment, setPayment] = useState<string | null>(null);
-  const [selectedDelivery, setSelectedDelivery] = useState<{
+  const [selectedDelivery] = useState<{
     id: string;
     name: string;
     description: string;
@@ -58,7 +58,7 @@ export default function PaymentPage() {
 
         <DeliveryOptions
           selectedDelivery={selectedDelivery ? selectedDelivery.id : null}
-          onChange={function (id: string): void {
+          onChange={function (): void {
             throw new Error("Function not implemented.");
           }}
         />

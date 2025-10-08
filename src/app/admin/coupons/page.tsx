@@ -4,7 +4,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { MoreVertical, Filter, Tag, Plus } from "lucide-react";
+import { MoreVertical, Filter, Plus } from "lucide-react";
 
 // --- MOCK DATA FOR COUPON TABLE ---
 const coupons = [
@@ -24,7 +24,7 @@ const statusColor = (status: string) =>
     : "bg-red-100 text-red-600";
 
 export default function CouponManagementPage() {
-  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [selectedIds] = useState<number[]>([]);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   

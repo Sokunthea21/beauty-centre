@@ -8,9 +8,8 @@ interface AuthImageProps {
   alt: string;
 }
 
-const AuthImage: React.FC<AuthImageProps> = ({ src, alt }) => {
+const AuthImage: React.FC<AuthImageProps> = ({ alt }) => {
   // The path now points to the /public/asset/ folder
-  const imagePath = `/asset/${src}`;
 
   return (
     <div className="hidden lg:block lg:w-1/2 h-screen relative">

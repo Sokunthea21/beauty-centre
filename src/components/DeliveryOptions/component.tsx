@@ -1,13 +1,14 @@
 "use client";
 import { assets } from "@/app/assets/assets";
-import { useState } from "react";
 import Image from "next/image";
+
+import type { StaticImageData } from "next/image";
 
 interface DeliveryOption {
   id: string;
   name: string;
   description: string;
-  logo: any;
+  logo: StaticImageData;
 }
 
 interface Props {

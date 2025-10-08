@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
-import Link from 'next/link';
 import { Upload, Plus } from 'lucide-react';
+import Image from 'next/image';
 
 // --- Interface and Initial State ---
 
@@ -66,8 +66,8 @@ const ImageUploadArea: React.FC<ImageUploadAreaProps> = ({ imageFile, onImageCha
                 style={{ height: '200px' }} // Set a fixed height for a better visual card size
             >
                 {imageFile ? (
-                    // Use standard HTML <img> for preview
-                    <img
+                    // Use Next.js <Image> component for optimized image loading
+                    <Image
                         src={URL.createObjectURL(imageFile)}
                         alt="Slider Preview"
                         className="absolute inset-0 z-0 opacity-80 w-full h-full object-cover"
@@ -127,7 +127,7 @@ export default function SliderManagementPage() {
         
         // --- PLACEHOLDER API CALL ---
         console.log('--- Submitting Slider Data ---');
-        for (let [key, value] of data.entries()) {
+        for (const [key, value] of data.entries()) {
             console.log(key, value);
         }
 
