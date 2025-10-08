@@ -5,9 +5,9 @@ import { productData } from "@/app/assets/productData";
 import ProductCard from "../ProductCard/component";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-
 import "swiper/css";
 import "swiper/css/navigation";
+
 
 const NewArrivals: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -115,7 +115,7 @@ const NewArrivals: React.FC = () => {
             },
           }}
         >
-          {productData.map((product, index) => {
+          {productData.map((product: { price: string; title: any; id: { toString: () => any; }; description: any; Image: string | { src: string } }, index: React.Key | null | undefined) => {
             const cleanPrice = Number(product.price.replace(/[^0-9.]/g, ""));
             return (
               <SwiperSlide key={index}>
@@ -129,7 +129,7 @@ const NewArrivals: React.FC = () => {
                     image: [
                       typeof product.Image === "string"
                         ? product.Image
-                        : product.Image?.src ?? "",
+                        : (product.Image as { src: string })?.src ?? "",
                     ],
                     offerPrice: 0,
                   }}
@@ -140,19 +140,19 @@ const NewArrivals: React.FC = () => {
         </Swiper>
         {/* Pagination Dots Below Carousel */}
         <div className="flex justify-center gap-2 mt-4">
-          {Array.from({ length: Math.ceil(productData.length / 5) }).map(
+            {Array.from({ length: Math.ceil(productData.length / 5) }).map(
             (_, index) => (
               <button
-                key={index}
-                onClick={() => handlePaginationClick(index * 5)}
-                className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
-                  currentSlide >= index * 5 && currentSlide < (index + 1) * 5
-                    ? "bg-[var(--primary)] scale-125"
-                    : "bg-gray-300"
-                }`}
+              key={index}
+              onClick={() => handlePaginationClick(index * 5)}
+              className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
+                currentSlide >= index * 5 && currentSlide < (index + 1) * 5
+                ? "bg-[var(--primary)] scale-125"
+                : "bg-gray-300"
+              }`}
               ></button>
             )
-          )}
+            )}
         </div>
       </div>
     </div>
