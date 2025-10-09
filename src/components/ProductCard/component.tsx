@@ -3,10 +3,12 @@ import Image from "next/image";
 import { assets } from "@/app/assets/assets";
 import { useAppContext } from "@/context/AppContext";
 
+// 1. UPDATED: Added isLoggedIn to AppContextType
 type AppContextType = {
   currency: string;
   router: { push: (path: string) => void };
   addToCart: (itemId: string, quantity: number) => void;
+  isLoggedIn: boolean; // 👈 ADDED: To check authentication status
 };
 
 type ProductDataType = {
@@ -32,20 +34,29 @@ const ProductCard = ({
   isCompact = false,
   gridCols,
 }: ProductCardProps) => {
-  const { currency, router, addToCart } = useAppContext() as AppContextType;
+  // 2. UPDATED: Destructure isLoggedIn from context
+  const { currency, router, addToCart, isLoggedIn } = useAppContext() as AppContextType;
 
   const handleClick = () => {
     router.push("/product/" + productData._id);
     scrollTo(0, 0);
   };
-  // 💡 NEW: Handler for clicking the "Add to bag" button
+  
+  // 3. UPDATED: Conditional logic to check login status
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation(); // Prevents the card's handleClick from running
     
-    // Assuming a default quantity of 1 for a product card add action
+    if (!isLoggedIn) {
+      // Redirect user to login page if not authenticated
+      console.log("User not logged in. Redirecting to /login.");
+      // You may want to store the current URL to redirect back after login
+      router.push("/login"); 
+      return; 
+    }
+    
+    // If logged in, proceed to add to cart
     addToCart(productData._id, 1); 
     
-    // Optional: Add some user feedback (e.g., a toast notification)
     console.log(`Added product ${productData.name} to cart.`);
   };
 
@@ -61,7 +72,7 @@ const ProductCard = ({
       onClick={handleClick}
       className={`${baseStyle} ${
         isList ? listStyle : isCompact ? compactStyle : gridStyle
-      }  shadow-sm`}
+      } 	shadow-sm`}
     >
       {/* Image */}
       <div
@@ -78,7 +89,7 @@ const ProductCard = ({
         <Image
           src={productData.image[0]}
           alt={productData.name ? `Product image of ${productData.name}` : "Product image"}
-          className={`object-cover  ${
+          className={`object-cover 	${
         isList ? "w-full h-full" : "w-full h-full"
           }`}
           width={800}
@@ -149,7 +160,6 @@ const ProductCard = ({
           } flex justify-center`}
         >
           <button 
-            // 💡 ATTACHED THE NEW HANDLER
             onClick={handleAddToCart} 
             className="mt-2 w-full px-6 py-1.5 text-black hover:text-white border border-black text-xs hover:bg-black transition"
           >

@@ -27,6 +27,10 @@ interface AppContextType {
     updateCartQuantity: (itemId: string, quantity: number) => Promise<void>;
     getCartCount: () => number;
     getCartAmount: () => number;
+
+    // --- NEW: Authentication Status ---
+    isLoggedIn: boolean; 
+    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -49,6 +53,10 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
     const [userData, setUserData] = useState<typeof userDummyData | null>(null);
     const [isSeller, setIsSeller] = useState<boolean>(true);
     const [cartItems, setCartItems] = useState<Record<string, number>>({});
+    
+    // --- NEW: Authentication State ---
+    // In a real app, this would be derived from checking a token or userData !== null
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); 
 
     const fetchProductData = async () => {
         // Replace this with a real fetch call when using API
@@ -67,6 +75,11 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
     const fetchUserData = async () => {
         // Replace this with a real fetch call when using API
         setUserData(userDummyData);
+        // --- NEW: Simulate successful login on fetching user data ---
+        // In a real app, you'd check if the fetch succeeded and if a user object was returned.
+        if (userDummyData) {
+            setIsLoggedIn(true);
+        }
     };
 
     /** Adds 1 to the quantity of the specified item in the cart. */
@@ -129,6 +142,9 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
         updateCartQuantity,
         getCartCount,
         getCartAmount,
+        // --- NEW: Pass down the authentication state and setter ---
+        isLoggedIn, 
+        setIsLoggedIn,
     };
 
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
