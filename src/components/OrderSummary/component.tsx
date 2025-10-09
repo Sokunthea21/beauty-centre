@@ -1,11 +1,16 @@
 interface OrderSummaryProps {
   subtotal: number;
   deliveryFee: number;
+  onCheckout: () => void;
+  // 1. New prop to set the button text dynamically
+  checkoutLabel: string; 
 }
 
 export default function OrderSummary({
   subtotal,
   deliveryFee,
+  onCheckout,
+  checkoutLabel, // 2. Destructure the new prop
 }: OrderSummaryProps) {
   const total = (subtotal + deliveryFee).toFixed(2);
 
@@ -31,11 +36,14 @@ export default function OrderSummary({
         <span>${total}</span>
       </div>
       <div className="mt-6">
-        <a href="/checkout">
-          <button className="mt-4 w-full bg-[var(--primary)] text-white py-2 ">
-            Proceed to Checkout
-          </button>
-        </a>
+        <button
+          className="mt-4 w-full bg-[var(--primary)] text-white py-2"
+          onClick={onCheckout}
+        >
+          {/* 3. Use the dynamic prop for the button text */}
+          {checkoutLabel}
+        </button>
+
         <button className="mt-2 w-full border py-2 ">Cancel</button>
       </div>
     </div>

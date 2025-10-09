@@ -18,7 +18,7 @@ type Product = {
   Image: string | { src: string };
 };
 
-const NewArrivals: React.FC = () => {
+const Bestseller: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
 
@@ -48,7 +48,7 @@ const NewArrivals: React.FC = () => {
         </p>
       </div>
 
-      <div className="relative">
+       <div className="relative">
         {/* Custom Prev Button */}
         <div className="absolute top-1/2 left-4 transform -translate-y-1/2 z-10">
           <button className="custom-prev bg-white/80 p-3 rounded-full shadow hover:bg-pink-500 transition">
@@ -97,14 +97,12 @@ const NewArrivals: React.FC = () => {
             nextEl: ".custom-next",
           }}
           loop={true}
-          slidesPerView={5}
-          spaceBetween={16}
-          slidesPerGroup={5}
+          spaceBetween={20}
           onSwiper={setSwiperInstance}
           onSlideChange={(swiper) => {
             setCurrentSlide(swiper.realIndex);
           }}
-          className="mySwiper"
+          className="mySwiper "
           breakpoints={{
             320: {
               slidesPerView: 1,
@@ -115,52 +113,53 @@ const NewArrivals: React.FC = () => {
               slidesPerGroup: 2,
             },
             1024: {
+              slidesPerView: 3,
+              slidesPerGroup: 3,
+            },
+            1280: {
               slidesPerView: 5,
               slidesPerGroup: 5,
             },
           }}
         >
-          {productData.map((product: Product, index: number) => {
-            return (
-              <SwiperSlide key={index}>
-                <ProductCard
-                  key={product.title + index}
-                  productData={{
-                    _id: product.id?.toString() ?? "",
-                    name: product.title ?? "Unnamed Product",
-                    price: 32,
-                    description: product.description ?? "",
-                    image: [
-                      typeof product.Image === "string"
-                        ? product.Image
-                        : (product.Image as { src: string })?.src ?? "",
-                    ],
-                    offerPrice: 0,
-                  }}
-                />
-              </SwiperSlide>
-            );
-          })}
+          {productData.map((product, index) => (
+            <SwiperSlide key={index}>
+              <ProductCard
+                productData={{
+                  _id: product.id.toString(),
+                  name: product.title,
+                  price: Number(product.price),
+                  description: product.description,
+                  offerPrice: Number(product.price),
+                  image: [
+                    typeof product.Image === "string"
+                      ? product.Image
+                      : product.Image?.src ?? "",
+                  ],
+                }}
+              />
+            </SwiperSlide>
+          ))}
         </Swiper>
         {/* Pagination Dots Below Carousel */}
         <div className="flex justify-center gap-2 mt-4">
-            {Array.from({ length: Math.ceil(productData.length / 5) }).map(
+          {Array.from({ length: Math.ceil(productData.length / 5) }).map(
             (_, index) => (
               <button
-              key={index}
-              onClick={() => handlePaginationClick(index * 5)}
-              className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
-                currentSlide >= index * 5 && currentSlide < (index + 1) * 5
-                ? "bg-[var(--primary)] scale-125"
-                : "bg-gray-300"
-              }`}
+                key={index}
+                onClick={() => handlePaginationClick(index * 5)}
+                className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
+                  currentSlide >= index * 5 && currentSlide < (index + 1) * 5
+                    ? "bg-[var(--primary)] scale-125"
+                    : "bg-gray-300"
+                }`}
               ></button>
             )
-            )}
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default NewArrivals;
+export default Bestseller;

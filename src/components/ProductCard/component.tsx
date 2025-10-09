@@ -6,6 +6,7 @@ import { useAppContext } from "@/context/AppContext";
 type AppContextType = {
   currency: string;
   router: { push: (path: string) => void };
+  addToCart: (itemId: string, quantity: number) => void;
 };
 
 type ProductDataType = {
@@ -31,11 +32,21 @@ const ProductCard = ({
   isCompact = false,
   gridCols,
 }: ProductCardProps) => {
-  const { currency, router } = useAppContext() as AppContextType;
+  const { currency, router, addToCart } = useAppContext() as AppContextType;
 
   const handleClick = () => {
     router.push("/product/" + productData._id);
     scrollTo(0, 0);
+  };
+  // 💡 NEW: Handler for clicking the "Add to bag" button
+  const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation(); // Prevents the card's handleClick from running
+    
+    // Assuming a default quantity of 1 for a product card add action
+    addToCart(productData._id, 1); 
+    
+    // Optional: Add some user feedback (e.g., a toast notification)
+    console.log(`Added product ${productData.name} to cart.`);
   };
 
   const baseStyle = `cursor-pointer bg-white hover:shadow-lg transition-all duration-200`;
@@ -137,7 +148,11 @@ const ProductCard = ({
             isList ? "max-w-[34%]" : ""
           } flex justify-center`}
         >
-          <button className="mt-2 w-full px-6 py-1.5 text-black hover:text-white border border-black text-xs hover:bg-black transition">
+          <button 
+            // 💡 ATTACHED THE NEW HANDLER
+            onClick={handleAddToCart} 
+            className="mt-2 w-full px-6 py-1.5 text-black hover:text-white border border-black text-xs hover:bg-black transition"
+          >
             Add to bag
           </button>
         </div>

@@ -1,6 +1,6 @@
 "use client"; // ✅ client component
 import { useEffect, useState } from "react";
-import ProductDetails from "@/components/productDetails/component";
+import ProductDetails from "@/components/ProductDetails/component";
 import { findProductById } from "@/api/product.api";
 
 const STATIC_PRODUCT = {
