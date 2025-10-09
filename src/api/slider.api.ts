@@ -35,52 +35,52 @@ type ApiResponse = {
     message: string;
 }
 
-export const getBrands = async (payload: getSliderPayload): Promise<getSliderResponse> => {
+export const getSliders = async (payload?: getSliderPayload): Promise<getSliderResponse> => {
     const response = await apiFetch<getSliderResponse>("/sliders/get-all-sliders", {
         method: "POST",
-        data: payload
+        data: payload ?? {}
     });
 
     return response;
 }
 
-export const createBrand = async (payload: createSliderPayload): Promise<ApiResponse> => {
+export const createSlider = async (payload: createSliderPayload): Promise<ApiResponse> => {
     const formData = new FormData();
 
-    formData.append("brand", payload.title);
-    formData.append("branSlug", payload.description);
+    formData.append("title", payload.title);
+    formData.append("description", payload.description);
 
     if(payload.sliderImage) {
-        formData.append("brandImage", payload.sliderImage);
+        formData.append("sliderImage", payload.sliderImage);
     }
 
     const response = await apiFetch<ApiResponse>("/sliders/create-slider", {
         method: "POST",
         data: formData,
-    }, true)
+    })
 
     return response;
 }
 
-export const updateBrand = async (id: number, payload: updateSliderPayload): Promise<ApiResponse> => {
+export const updateSlider = async (id: number, payload: updateSliderPayload): Promise<ApiResponse> => {
     const formData = new FormData();
 
-    formData.append("brand", payload.title);
-    formData.append("brandSlug", payload.description);
+    formData.append("title", payload.title);
+    formData.append("description", payload.description);
 
     if(payload.sliderImage) {
-        formData.append("brandImage", payload.sliderImage);
+        formData.append("sliderImage", payload.sliderImage);
     }
 
     const response = await apiFetch<ApiResponse>(`/sliders/edit-slider/${id}`, {
         method: "PATCH",
         data: formData,
-    }, true);
+    });
 
     return response;
 }
 
-export const deleteBrand = async (id: number): Promise<ApiResponse> => {
+export const deleteSlider = async (id: number): Promise<ApiResponse> => {
     const response = await apiFetch<ApiResponse>(`/sliders/delete-slider/${id}`, {
         method: "DELETE"
     });

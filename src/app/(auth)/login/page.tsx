@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/lib/firebase/firebase";
 import AuthImage from "@/components/Login & Register/AuthImage";
+import { customerLogin } from "@/api/customer.api";
 
 // Reusable Icon components
 const EyeIcon = () => (
@@ -63,38 +64,24 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const response = await customerLogin({ email, password });
 
-      if (!userCredential.user.emailVerified) {
-        setError(
-          "Please verify your email address before logging in. Check your inbox."
-        );
-        await auth.signOut();
+      if (!response.success) {
+        setError(response.message);
         setLoading(false);
         return;
       }
 
-      if (userCredential.user.email === "ngylyteng@gmail.com") {
-        router.push("/account");
-      } else {
-        router.push("/account");
+      localStorage.setItem("token", response.access_token);
+
+      if (email === "notecambodia789@gmail.com") {
+        router.push("/admin/dashboard");
+        return;
       }
-    } catch (err: unknown) {
-      if (typeof err === "object" && err !== null && "code" in err) {
-        const errorWithCode = err as { code: string };
-        if (errorWithCode.code === "auth/invalid-credential") {
-          setError("Invalid email or password.");
-        } else {
-          setError("An error occurred. Please try again.");
-        }
-      } else {
-        setError("An error occurred. Please try again.");
-      }
-      console.error(err);
+
+      router.push("/");
+    } catch (err: any) {
+      setError(err.response.data.message);
     } finally {
       setLoading(false);
     }

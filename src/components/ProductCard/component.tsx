@@ -19,6 +19,7 @@ type ProductDataType = {
   image: string[];
   rating?: number; // Optional, in case not all products have a rating
   offerPrice: number;
+  ratingCount?: number;
 };
 
 type ProductCardProps = {
@@ -87,7 +88,7 @@ const ProductCard = ({
         `}
       >
         <Image
-          src={productData.image[0]}
+          src={`http://localhost:8080${productData.image}`}
           alt={productData.name ? `Product image of ${productData.name}` : "Product image"}
           className={`object-cover 	${
         isList ? "w-full h-full" : "w-full h-full"
@@ -144,7 +145,7 @@ const ProductCard = ({
           </div>
           {typeof productData.rating === "number" && (
             <p className="text-sm text-gray-500/70 max-sm:hidden">
-              {productData.rating} ({Math.floor(Math.random() * 1000)} reviews)
+              {productData.rating} ({productData.ratingCount} reviews)
             </p>
           )}
         </div>

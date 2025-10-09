@@ -2,15 +2,10 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosHeaders } from "axios";
 
 const BASE_URL = "http://localhost:8080/api";
 
-// Create axios instance
 const api: AxiosInstance = axios.create({
   baseURL: BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
-// Request interceptor (attach token)
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -22,33 +17,31 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor (global error handling)
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    console.error("API Error:", error.response?.data || error.message);
-    return Promise.reject(error.response?.data || error);
-  }
-);
-
-// Wrapper function
 export async function apiFetch<T = any>(
   endpoint: string,
-  options: AxiosRequestConfig = {},
-  isFormData: boolean = false
+  options: AxiosRequestConfig = {}
 ): Promise<T> {
-  const headers = options.headers || {};
+  const { data, headers, method = "GET" } = options;
 
-  // Only set JSON header if not form data
+  const isFormData = data instanceof FormData;
+
+  // ✅ Let’s allow all header value types (no strict string type)
+  const finalHeaders: Record<string, any> = {
+    ...(headers || {}),
+  };
+
   if (!isFormData) {
-    headers["Content-Type"] = "application/json";
+    finalHeaders["Content-Type"] = "application/json";
+  } else {
+    // Remove content-type for FormData (browser sets boundary automatically)
+    delete finalHeaders["Content-Type"];
   }
 
   const response = await api.request<T>({
     url: endpoint,
-    method: options.method || "GET",
-    data: options.data,
-    headers,
+    method,
+    data,
+    headers: finalHeaders,
     ...options,
   });
 

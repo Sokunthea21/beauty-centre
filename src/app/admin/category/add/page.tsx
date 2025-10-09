@@ -1,10 +1,11 @@
 "use client";
+
 import React, { useState } from "react";
-import Image from 'next/image';
+import Image from "next/image";
 import { Upload } from "lucide-react";
+import { createCategory } from "@/api/category.api"; // ✅ Make sure path is correct
 
-// --- Interface and Initial State ---
-
+// --- Interfaces ---
 interface CategoryFormData {
   category: string;
   slug: string;
@@ -15,7 +16,7 @@ const initialFormData: CategoryFormData = {
   slug: "",
 };
 
-// --- Reusable Component Helpers (for consistent styling) ---
+// --- Reusable Components ---
 
 const Card: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
@@ -54,6 +55,7 @@ const InputField: React.FC<InputFieldProps> = ({
   </div>
 );
 
+// --- Image Upload Component ---
 interface ImageUploadAreaProps {
   imageFile: File | null;
   onImageChange: (file: File | null) => void;
@@ -73,14 +75,16 @@ const ImageUploadArea: React.FC<ImageUploadAreaProps> = ({
       <label
         htmlFor="category-image-upload"
         className="block border-2 border-dashed border-gray-300 p-8 rounded-xl text-center cursor-pointer hover:border-pink-400 transition duration-150 relative overflow-hidden"
-        style={{ height: "200px" }} // Set a fixed height for a better visual card size
+        style={{ height: "200px" }}
       >
         {imageFile ? (
-          // Use Next.js <Image> component for optimized image loading
           <Image
             src={URL.createObjectURL(imageFile)}
             alt="Category Preview"
-            className="absolute inset-0 z-0 opacity-80 w-full h-full object-cover"
+            width={400} // ✅ required
+            height={200} // ✅ required
+            unoptimized // ✅ needed for blob URLs
+            className="absolute inset-0 z-0 opacity-90 w-full h-full object-cover"
           />
         ) : (
           <div className="flex flex-col items-center justify-center space-y-3 h-full">
@@ -102,12 +106,14 @@ const ImageUploadArea: React.FC<ImageUploadAreaProps> = ({
   );
 };
 
-// --- Main Component ---
+// --- Main Page Component ---
 
 export default function AddNewCategoryPage() {
   const [formData, setFormData] = useState<CategoryFormData>(initialFormData);
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Handle text input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -116,54 +122,51 @@ export default function AddNewCategoryPage() {
     }));
   };
 
+  // Handle image file changes
   const handleImageChange = (file: File | null) => {
     setImageFile(file);
   };
 
+  // Handle form submit
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Basic Validation
-    if (!formData.category || !formData.slug || !imageFile) {
-      // Using a simple alert for now as custom modals take more code
-      alert("Please fill in Category Name, Slug, and upload an Image.");
+    if (!formData.category || !formData.slug) {
+      alert("⚠️ Please fill in both Category Name and Slug.");
       return;
     }
 
-    // 1. Create FormData object
-    const data = new FormData();
-    data.append("categoryName", formData.category);
-    data.append("categorySlug", formData.slug);
-    data.append("categoryImage", imageFile);
-
-    // --- PLACEHOLDER API CALL ---
-    console.log("--- Submitting Category Data ---");
-    for (const [key, value] of data.entries()) {
-      console.log(key, value);
-    }
-
     try {
-      // Placeholder: Simulate network delay and success
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      setIsSubmitting(true);
 
-      console.log("Category submission successful!");
-      alert(
-        `✅ Category '${formData.category}' added successfully! Check the console for the submitted data.`
-      );
+      // ✅ Build payload
+      const payload = {
+        category: formData.category,
+        categorySlug: formData.slug,
+        categoryImage: imageFile || undefined,
+      };
 
-      // Clear the form after success
-      setFormData(initialFormData);
-      setImageFile(null);
+      // ✅ Call backend API
+      const response = await createCategory(payload);
+
+      if (response.success) {
+        alert(`✅ Category '${formData.category}' created successfully!`);
+        setFormData(initialFormData);
+        setImageFile(null);
+      } else {
+        alert(`❌ Failed: ${response.message || "Unknown error occurred"}`);
+      }
     } catch (error) {
-      console.error("Submission error:", error);
-      alert("❌ An error occurred during category upload.");
+      console.error("Error creating category:", error);
+      alert("❌ An error occurred while creating the category.");
+    } finally {
+      setIsSubmitting(false);
     }
-    // --- END PLACEHOLDER API CALL ---
   };
 
   return (
     <div className="p-6 min-h-screen">
-      {/* Header: Title and Upload Button */}
+      {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-semibold text-gray-800">
           Add New Category
@@ -172,17 +175,19 @@ export default function AddNewCategoryPage() {
           type="submit"
           form="add-category-form"
           className="bg-[#F6A5C1] hover:bg-pink-500 text-white font-medium py-2 px-4 rounded-lg shadow-md transition duration-150 flex items-center"
+          disabled={isSubmitting}
         >
-          <Upload size={18} className="mr-1" /> Upload Category
+          <Upload size={18} className="mr-1" />
+          {isSubmitting ? "Uploading..." : "Upload Category"}
         </button>
       </div>
 
-      {/* Form Card Container */}
-      <div className=" mx-auto">
+      {/* Form */}
+      <div className="mx-auto">
         <form id="add-category-form" onSubmit={handleSubmit}>
           <Card>
             <div className="space-y-6">
-              {/* Category Name Input */}
+              {/* Category Name */}
               <InputField
                 label="Category Name"
                 placeholder="e.g., Skincare, Makeup, Fragrance"
@@ -191,7 +196,7 @@ export default function AddNewCategoryPage() {
                 onChange={handleChange}
               />
 
-              {/* Category Slug Input */}
+              {/* Category Slug */}
               <InputField
                 label="Category Slug (URL path)"
                 placeholder="e.g., skincare, makeup-deals"
@@ -200,7 +205,7 @@ export default function AddNewCategoryPage() {
                 onChange={handleChange}
               />
 
-              {/* Category Image Upload */}
+              {/* Category Image */}
               <div className="space-y-1">
                 <label className="text-sm font-medium text-gray-700">
                   Category Image

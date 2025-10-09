@@ -1,35 +1,27 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { assets } from "@/app/assets/assets";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import Image from "next/image";
+import { getSliders } from "@/api/slider.api";
 
 const HeaderSlider = () => {
-  const sliderData = [
-    {
-      id: 1,
-      imgSrc: assets.Slider1,
-      alt: "Discover your beauty with Beauty Centre",
-      heading: "DISCOVER YOUR BEAUTY WITH BEAUTY CENTRE",
-      description: "Great gift for yourself and loved ones",
-    },
-    {
-      id: 2,
-      imgSrc: assets.Slider2,
-      alt: "Unveil the radiance with every touch",
-    },
-    {
-      id: 3,
-      imgSrc: assets.Slider3,
-      alt: "Glow like never before",
-    },
-  ];
-
   const [currentSlide, setCurrentSlide] = useState(0);
   const [swiperInstance, setSwiperInstance] = useState<import('swiper').Swiper | null>(null);
+  const [sliderData, setSliderData] = useState([]);
+
+  useEffect(() => {
+    async function fetchSliders() {
+      const response = await getSliders();
+
+      setSliderData(response.data);
+    }
+
+    fetchSliders();
+  }, []);
 
   const handlePaginationClick = (index: number) => {
     setCurrentSlide(index);
@@ -93,19 +85,19 @@ const HeaderSlider = () => {
         }}
         className="mySwiper"
       >
-        {sliderData.map((slider) => (
+        {sliderData.map((slider: any) => (
           <SwiperSlide
             key={slider.id}
             className="relative min-w-full flex justify-center items-center"
           >
             <Image
-              src={slider.imgSrc}
-              alt={slider.alt || "Slide Image"}
+              src={`http://localhost:8080${slider.sliderImage}`}
+              alt={slider.title || "Slide Image"}
               width={800}
               height={400}
               style={{ width: "100%", height: "auto" }}
             />
-            <div className="absolute inset-0 flex flex-col justify-center p-20">
+            {/* <div className="absolute inset-0 flex flex-col justify-center p-20">
               {slider.heading && (
                 <h1 className="max-w-[420px] text-2xl md:text-4xl font-bold text-[#e91e63] mb-2">
                   {slider.heading}
@@ -121,7 +113,7 @@ const HeaderSlider = () => {
                   Shop Now
                 </button>
               )}
-            </div>
+            </div> */}
           </SwiperSlide>
         ))}
       </Swiper>

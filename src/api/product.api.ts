@@ -61,15 +61,15 @@ export const createProduct = async (payload: createProductPayload): Promise<ApiR
     const response = await apiFetch("/products/create-product", {
         method: "POST",
         data: formData,
-    }, true);
+    });
 
     return response;
 }
 
-export const getAllProducts = async (payload: getAllProductsPayload) => {
+export const getAllProducts = async (payload?: getAllProductsPayload) => {
     const response = await apiFetch("/products/get-all-products", {
         method: "POST",
-        data: payload,
+        data: payload ?? {},
     });
 
     return response;
@@ -104,7 +104,7 @@ export const updateProductImage = async (payload: updateProductImagePayload): Pr
     const response = await apiFetch<ApiResponse>("/products/edit-product-image", {
         method: "POST",
         data: formData
-    }, true);
+    });
 
     return response;
 }
@@ -121,7 +121,7 @@ export const addProductImage = async (payload: addProductImagePayload): Promise<
     const response = await apiFetch("/products/add-product-image", {
         method: "POST",
         data: formData
-    }, true);
+    });
 
     return response;
 }

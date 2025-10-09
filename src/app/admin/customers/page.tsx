@@ -1,39 +1,39 @@
 // app/customers/page.tsx
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MoreVertical, Filter, User } from "lucide-react";
-
-// --- MOCK DATA FOR CUSTOMER TABLE ---
-const customers = [
-  { id: 1, number: '01', name: "Sarah Hassan", phone: "012 234 5678", email: "sarahhassan@gmail.com", address: "Siem Reap", image: "/avatar1.jpg" },
-  { id: 2, number: '02', name: "John Doe", phone: "012 234 5678", email: "johndoe@gmail.com", address: "Phnom Penh", image: "/avatar2.jpg" },
-  { id: 3, number: '03', name: "Alex Smith", phone: "012 234 5678", email: "alexsmith@gmail.com", address: "Battambang", image: "/avatar3.jpg" },
-  { id: 4, number: '04', name: "Alice Johnson", phone: "012 234 5678", email: "alicej@gmail.com", address: "Sihanoukville", image: "/avatar4.jpg" },
-  { id: 5, number: '05', name: "David Williams", phone: "012 234 5678", email: "davidw@gmail.com", address: "Kep", image: "/avatar5.jpg" },
-  { id: 6, number: '06', name: "Emily Brown", phone: "012 234 5678", email: "emilyb@gmail.com", address: "Kampot", image: "/avatar6.jpg" },
-  { id: 7, number: '07', name: "Michael Clark", phone: "012 234 5678", email: "michaelc@gmail.com", address: "Takeo", image: "/avatar7.jpg" },
-  // Adding more customers for pagination testing
-];
+import { getAllCustomers } from "@/api/customer.api";
 
 export default function CustomersListTable() {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
+  const [customerData, setCustomerData] = useState([]);
+
+  useEffect(() => {
+    async function fetchCustomers() {
+      const response = await getAllCustomers();
+
+      setCustomerData(response.data);
+    }
+
+    fetchCustomers();
+  }, []);
   
-  const totalItems = customers.length;
+  const totalItems = customerData.length;
   const totalPages = Math.ceil(totalItems / rowsPerPage);
   const startRange = (currentPage - 1) * rowsPerPage;
   const endRange = Math.min(currentPage * rowsPerPage, totalItems);
   
-  const currentCustomers = customers.slice(startRange, endRange);
-  const isAllSelected = currentCustomers.length > 0 && currentCustomers.every((c) => selectedIds.includes(c.id));
+  const currentCustomers = customerData.slice(startRange, endRange);
+  const isAllSelected = currentCustomers.length > 0 && currentCustomers.every((c: any) => selectedIds.includes(c.id));
 
   const toggleSelectAll = () => {
     // Basic logic for select all
     if (isAllSelected) {
-      setSelectedIds(prev => prev.filter(id => !currentCustomers.some(c => c.id === id)));
+      setSelectedIds(prev => prev.filter(id => !currentCustomers.some((c: any) => c.id === id)));
     } else {
-      setSelectedIds(prev => [...prev, ...currentCustomers.filter(c => !prev.includes(c.id)).map(c => c.id)]);
+      setSelectedIds(prev => [...prev, ...currentCustomers.filter((c: any) => !prev.includes(c.id)).map((c: any) => c.id)]);
     }
   };
   
@@ -86,7 +86,7 @@ export default function CustomersListTable() {
               
               {/* Table Body */}
               <tbody className="divide-y divide-gray-100 text-gray-700 text-sm">
-                {currentCustomers.map((customer) => (
+                {currentCustomers.map((customer: any) => (
                   <tr key={customer.id} className="hover:bg-pink-50/20 transition duration-100">
                     <td className="p-4">
                       <input
@@ -96,8 +96,12 @@ export default function CustomersListTable() {
                         className="form-checkbox h-4 w-4 text-pink-500 rounded border-gray-300 focus:ring-pink-500"
                       />
                     </td>
-                    <td className="p-4 font-medium">{customer.number}</td>
-                    <td className="p-4 font-medium text-gray-800">{customer.name}</td>
+                    <td className="p-4 font-medium">{customer.id}</td>
+                    <td className="p-4 font-medium text-gray-800">
+                      {customer.firstName && customer.lastName
+                        ? `${customer.firstName} ${customer.lastName}`
+                        : customer.email}
+                    </td>
                     <td className="p-4">
                        <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
                           {/* Placeholder image that looks like the image provided */}
@@ -107,9 +111,9 @@ export default function CustomersListTable() {
                           */}
                        </div>
                     </td>
-                    <td className="p-4">{customer.phone}</td>
+                    <td className="p-4">{customer.profile.phoneNumber}</td>
                     <td className="p-4">{customer.email}</td>
-                    <td className="p-4">{customer.address}</td>
+                    <td className="p-4">{customer.profile.addressLine}</td>
                     <td className="p-4 text-center">
                       {/* Action Menu represented by vertical ellipsis */}
                       <button className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100">

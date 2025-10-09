@@ -116,10 +116,10 @@ export const fillCustomerProfile = async (payload: fillCustomerProfilePayload): 
   return response;
 }
 
-export const getAllCustomers = async (payload: getAllCustomerPayload) => {
+export const getAllCustomers = async (payload?: getAllCustomerPayload) => {
   const response = await apiFetch("/customers/find-all-customers", {
     method: "POST",
-    data: payload
+    data: payload ?? {}
   });
 
   return response;

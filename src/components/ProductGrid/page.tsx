@@ -1,14 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductCard from "../ProductCard/component";
 import { productData } from "@/app/assets/productData";
+import { getAllProducts } from "@/api/product.api";
 
 type ViewMode = "grid-2" | "grid-3" | "grid-4" | "list";
 
 export default function ProductGrid() {
   const [viewMode, setViewMode] = useState<ViewMode>("grid-2");
   const [currentPage, setCurrentPage] = useState(1);
+  const [productData, setProductData] = useState([]);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      const response = await getAllProducts();
+
+      setProductData(response.data);
+    }
+
+    fetchProducts();
+  }, []);
 
   const itemsPerPage = viewMode === "list" ? 4 : 4; // Adjust as needed for other modes
   const totalPages = Math.ceil(productData.length / itemsPerPage);
@@ -219,20 +231,20 @@ export default function ProductGrid() {
 
       {/* Product Grid */}
       <div className={`grid ${getGridCols()} gap-6`}>
-        {visibleProducts.map((product, index) => (
+        {visibleProducts.map((product: any, index) => (
           <ProductCard
             key={product.title + index}
             productData={{
               _id: product.id?.toString() ?? "",
-              name: product.title ?? "Unnamed Product",
-              price: 32,
+              name: product.name ?? "Unnamed Product",
+              price: product.price,
               description: product.description ?? "",
               image: [
-                typeof product.Image === "string"
-                  ? product.Image
-                  : product.Image?.src ?? "",
+                product.productImages[0].productImage
               ],
               offerPrice: 0,
+              rating: product.ratingSum,
+              ratingCount: product.ratingCount
             }}
             isList={viewMode === "list"} // If ProductCard handles layout difference
             isCompact={viewMode === "grid-2"} // For 2-column layout

@@ -35,52 +35,52 @@ type ApiResponse = {
     message: string;
 }
 
-export const getBrands = async (payload: getCategoryPayload): Promise<getCategoryResponse> => {
+export const getCategories = async (payload?: getCategoryPayload): Promise<getCategoryResponse> => {
     const response = await apiFetch<getCategoryResponse>("/categories/get-all-categories", {
         method: "POST",
-        data: payload
+        data: payload ?? {}
     });
 
     return response;
 }
 
-export const createBrand = async (payload: createCategoryPayload): Promise<ApiResponse> => {
+export const createCategory = async (payload: createCategoryPayload): Promise<ApiResponse> => {
     const formData = new FormData();
 
-    formData.append("brand", payload.category);
-    formData.append("branSlug", payload.categorySlug);
+    formData.append("category", payload.category);
+    formData.append("categorySlug", payload.categorySlug);
 
     if(payload.categoryImage) {
-        formData.append("brandImage", payload.categoryImage);
+        formData.append("categoryImage", payload.categoryImage);
     }
 
     const response = await apiFetch<ApiResponse>("/categories/create-category", {
         method: "POST",
         data: formData,
-    }, true)
+    })
 
     return response;
 }
 
-export const updateBrand = async (id: number, payload: updateCategoryPayload): Promise<ApiResponse> => {
+export const updateCategory = async (id: number, payload: updateCategoryPayload): Promise<ApiResponse> => {
     const formData = new FormData();
 
-    formData.append("brand", payload.category);
-    formData.append("brandSlug", payload.categorySlug);
+    formData.append("category", payload.category);
+    formData.append("categorySlug", payload.categorySlug);
 
     if(payload.categoryImage) {
-        formData.append("brandImage", payload.categoryImage);
+        formData.append("categoryImage", payload.categoryImage);
     }
 
     const response = await apiFetch<ApiResponse>(`/categories/edit-category/${id}`, {
         method: "PATCH",
         data: formData,
-    }, true);
+    });
 
     return response;
 }
 
-export const deleteBrand = async (id: number): Promise<ApiResponse> => {
+export const deleteCategory = async (id: number): Promise<ApiResponse> => {
     const response = await apiFetch<ApiResponse>(`/categories/delete-category/${id}`, {
         method: "DELETE"
     });

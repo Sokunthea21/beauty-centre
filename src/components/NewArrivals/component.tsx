@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { assets } from "@/app/assets/assets";
 import { productData } from "@/app/assets/productData";
@@ -8,10 +8,22 @@ import { Navigation } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/navigation";
+import { getAllProducts } from "@/api/product.api";
 
 const NewArrivals: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [swiperInstance, setSwiperInstance] = useState<import("swiper").Swiper | null>(null);
+  const [productData, setProductData] = useState([]);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      const response = await getAllProducts({ page: 0, limit: 10});
+
+      setProductData(response.data);
+    }
+
+    fetchProducts();
+  }, []);
 
   const handlePaginationClick = (index: number) => {
     setCurrentSlide(index);
@@ -113,7 +125,7 @@ const NewArrivals: React.FC = () => {
             },
           }}
         >
-          {productData.map((product, index) => (
+          {productData.map((product: any, index) => (
             <SwiperSlide key={index}>
               <ProductCard
                 productData={{
@@ -123,10 +135,10 @@ const NewArrivals: React.FC = () => {
                   description: product.description,
                   offerPrice: Number(product.price),
                   image: [
-                    typeof product.Image === "string"
-                      ? product.Image
-                      : product.Image?.src ?? "",
+                    product.productImages[0].productImage
                   ],
+                  rating: product.ratingSum,
+                  ratingCount: product.ratingCount
                 }}
               />
             </SwiperSlide>

@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { assets, categoryList } from "@/app/assets/assets"; // Adjust if needed
 import Link from "next/link";
+import { getCategories } from "@/api/category.api";
 
 const Categories = () => {
+  const [categoryData, setCategoryData] = useState([]);
+
+  useEffect(() => {
+    async function fetchCategories() {
+      const response = await getCategories();
+
+      setCategoryData(response.data);
+    }
+
+    fetchCategories();
+  }, []);
+
   return (
     <div className="container mx-auto py-12">
       {/* Section Title */}
@@ -30,20 +43,20 @@ const Categories = () => {
 
       {/* Category Grid */}
       <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-8">
-        {categoryList.map((cat, index) => (
+        {categoryData.map((cat: any, index) => (
           <div key={index} className="flex flex-col items-center space-y-2">
             <div className="w-[126px] h-[126px] rounded-md bg-[#F1F1F1] flex items-center justify-center">
               <Image
-                src={cat.Image}
+                src={`http://localhost:8080${cat.categoryImage}`}
                 width={100}
                 height={100}
                 className="object-contain transition-all duration-200 hover:scale-105"
                 loading="lazy"
-                alt={cat.title}
+                alt={cat.category}
               />
             </div>
             <p className="text-lg text-black font-normal text-center leading-tight">
-              {cat.title}
+              {cat.category}
             </p>
           </div>
         ))}

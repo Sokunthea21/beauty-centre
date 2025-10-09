@@ -1,35 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Plus } from "lucide-react";
-
-// --- MOCK DATA FOR BRAND CARDS (Increased for better pagination demonstration) ---
-const brands = [
-  { id: 1, name: "Anua", productCount: 100, image: "/brand_anua.png" },
-  { id: 2, name: "Beauty of Joseon", productCount: 100, image: "/brand_boj.png" },
-  { id: 3, name: "Mary & May", productCount: 100, image: "/brand_marymay.png" },
-  { id: 4, name: "Skin1004", productCount: 100, image: "/brand_skin1004.png" },
-  { id: 5, name: "Innisfree", productCount: 100, image: "/brand_innisfree.png" },
-  { id: 6, name: "COSRX", productCount: 100, image: "/brand_cosrx.png" },
-  { id: 7, name: "Round Lab", productCount: 100, image: "/brand_roundlab.png" },
-  // Adding more brands to demonstrate pagination over multiple pages (12 total items = 2 pages)
-  { id: 8, name: "Pyunkang Yul", productCount: 100, image: "/brand_anua.png" },
-  { id: 9, name: "Dr. Jart+", productCount: 100, image: "/brand_boj.png" },
-  { id: 10, name: "Laneige", productCount: 100, image: "/brand_marymay.png" },
-  { id: 11, name: "Sulwhasoo", productCount: 100, image: "/brand_skin1004.png" },
-  { id: 12, name: "Missha", productCount: 100, image: "/brand_innisfree.png" },
-];
+import { getBrands } from "@/api/brand.api";
 
 export default function BrandGrid() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [brandData, setBrandData] = useState([]);
+
+  useEffect(() => {
+    async function fetchBrands() {
+      const response = await getBrands();
+
+      setBrandData(response.data);
+    }
+
+    fetchBrands();
+  }, []);
+
   const itemsPerPage = 6; // 3 columns, 2 rows
 
   // Pagination Logic
-  const totalItems = brands.length;
+  const totalItems = brandData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const currentBrands = brands.slice(
+  const currentBrands = brandData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -110,7 +106,7 @@ export default function BrandGrid() {
 
       {/* --- Main Content: Brand Grid Cards --- */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {currentBrands.map((brand) => (
+        {currentBrands.map((brand: any) => (
           <div
             key={brand.id}
             className="bg-white rounded-lg shadow-sm overflow-hidden transition duration-300 hover:shadow-lg"
@@ -118,8 +114,8 @@ export default function BrandGrid() {
             {/* Brand Image/Logo Area */}
             <div className="relative w-full h-60 p-10 flex items-center justify-center"> {/* Added padding for logos */}
               <Image
-                src={brand.image}
-                alt={brand.name}
+                src={`http://localhost:8080${brand.brandImage}`}
+                alt={brand.brand}
                 layout="fill"
                 objectFit="contain" // Use 'contain' for logos to prevent cropping and respect aspect ratio
                 className="p-10" // Padding on the image for better logo display
@@ -129,11 +125,8 @@ export default function BrandGrid() {
             {/* Brand Info */}
             <div className="p-8">
               <h3 className="text-lg font-semibold text-gray-800">
-                {brand.name}
+                {brand.brand}
               </h3>
-              <p className="text-gray-500 text-sm">
-                Product ({brand.productCount})
-              </p>
             </div>
           </div>
         ))}

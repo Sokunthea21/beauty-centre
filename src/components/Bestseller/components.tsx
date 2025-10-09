@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { assets } from "@/app/assets/assets";
 import { productData } from "@/app/assets/productData";
@@ -8,6 +8,7 @@ import { Navigation } from "swiper/modules";
 import type { Swiper as SwiperClass } from "swiper/types";
 import "swiper/css";
 import "swiper/css/navigation";
+import { getAllProducts } from "@/api/product.api";
 
 
 type Product = {
@@ -21,6 +22,17 @@ type Product = {
 const Bestseller: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
+  const [productData, setProductData] = useState([]);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      const response = await getAllProducts({ page: 0, limit: 10 });
+
+      setProductData(response.data);
+    }
+
+    fetchProducts();
+  }, []);
 
   const handlePaginationClick = (index: number) => {
     setCurrentSlide(index);
@@ -122,7 +134,7 @@ const Bestseller: React.FC = () => {
             },
           }}
         >
-          {productData.map((product, index) => (
+          {productData.map((product: any, index) => (
             <SwiperSlide key={index}>
               <ProductCard
                 productData={{
@@ -132,10 +144,10 @@ const Bestseller: React.FC = () => {
                   description: product.description,
                   offerPrice: Number(product.price),
                   image: [
-                    typeof product.Image === "string"
-                      ? product.Image
-                      : product.Image?.src ?? "",
+                    product.productImages[0].productImage
                   ],
+                  rating: product.ratingSum,
+                  ratingCount: product.ratingCount
                 }}
               />
             </SwiperSlide>

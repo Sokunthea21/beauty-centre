@@ -35,10 +35,10 @@ type ApiResponse = {
     message: string;
 }
 
-export const getBrands = async (payload: getBrandPayload): Promise<getBrandResponse> => {
+export const getBrands = async (payload?: getBrandPayload): Promise<getBrandResponse> => {
     const response = await apiFetch<getBrandResponse>("/brands/get-all-brands", {
         method: "POST",
-        data: payload
+        data: payload ?? {}
     });
 
     return response;
@@ -48,7 +48,7 @@ export const createBrand = async (payload: createBrandPayload): Promise<ApiRespo
     const formData = new FormData();
 
     formData.append("brand", payload.brand);
-    formData.append("branSlug", payload.brandSlug);
+    formData.append("brandSlug", payload.brandSlug);
 
     if(payload.brandImage) {
         formData.append("brandImage", payload.brandImage);
@@ -57,7 +57,7 @@ export const createBrand = async (payload: createBrandPayload): Promise<ApiRespo
     const response = await apiFetch<ApiResponse>("/brands/create-brand", {
         method: "POST",
         data: formData,
-    }, true)
+    });
 
     return response;
 }
@@ -75,7 +75,7 @@ export const updateBrand = async (id: number, payload: updateBrandPayload): Prom
     const response = await apiFetch<ApiResponse>(`/brands/edit-brand/${id}`, {
         method: "PATCH",
         data: formData,
-    }, true);
+    });
 
     return response;
 }
