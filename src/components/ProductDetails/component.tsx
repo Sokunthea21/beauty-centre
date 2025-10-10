@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import { assets } from "@/app/assets/assets";
 import ProductCard from "../ProductCard/component";
+import { addOrRemoveProductWhiteList, getWhiteList } from "@/api/whitelist.api";
+import { addProductToCart, getCart } from "@/api/cart.api";
 
 // =====================================================================
 // 1. INTERFACES & MOCK DATA
@@ -51,12 +53,12 @@ interface Review {
   customerName: string;
   isVerified: boolean;
   date: string;
-  rating: number; // 1 to 5
-  title: string; // Added title for reviews as seen in the visual
+  rating: number;
+  title: string;
   comment: string;
-  images?: string[]; // Array of image URLs
-  avatarUrl?: string; // Changed to avatarUrl for specific images, like Cathy's
-  avatarInitial?: string; // Kept as fallback for generic avatars
+  images?: string[];
+  avatarUrl?: string;
+  avatarInitial?: string;
 }
 
 const mockReviews: Review[] = [
@@ -64,19 +66,19 @@ const mockReviews: Review[] = [
     id: 1,
     customerName: "Cathy K.",
     isVerified: true,
-    date: "26/02/23", // Updated date to match visual
+    date: "26/02/23",
     rating: 5,
     title: "Very outstanding",
     comment:
       "I didn't know how effective the gel cream would be since I was skeptical of the texture, but my sensitive skin loved it and I didn't even break out when I first started using it. Love it!",
-    images: ["uploaded:image_b1d9cd.png-5f663d2d-8d99-45a4-b64c-84dcd0025de4"], // Placeholder image matching the visual
+    images: ["uploaded:image_b1d9cd.png-5f663d2d-8d99-45a4-b64c-84dcd0025de4"],
     avatarUrl:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Example avatar
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3",
   },
   {
     id: 2,
     customerName: "Aileen R.",
-    isVerified: true, // Assuming Aileen is also verified for the example
+    isVerified: true,
     date: "12/02/23",
     rating: 4,
     title: "Really light and not sticky.",
@@ -85,14 +87,14 @@ const mockReviews: Review[] = [
     images: [
       "uploaded:image_b1d9cd.png-5f663d2d-8d99-45a4-b64c-84dcd0025de4",
       "uploaded:image_b1d9cd.png-5f663d2d-8d99-45a4-b64c-84dcd0025de4",
-    ], // Two placeholder images
-    avatarInitial: "A", // Initial for generic avatar
+    ],
+    avatarInitial: "A",
   },
   {
     id: 3,
     customerName: "Cathy K.",
     isVerified: true,
-    date: "02/02/23", // Updated date to match visual
+    date: "02/02/23",
     rating: 4,
     title: "Tried the kit since it",
     comment:
@@ -106,7 +108,6 @@ const mockReviews: Review[] = [
 // 2. HELPER COMPONENTS (Stars & Review Card)
 // =====================================================================
 
-// Product Rating (Average)
 const RatingStars: React.FC<{ rating: number; reviewCount: number }> = ({
   rating,
   reviewCount,
@@ -133,7 +134,6 @@ const RatingStars: React.FC<{ rating: number; reviewCount: number }> = ({
   );
 };
 
-// Review Card Stars (Individual Review)
 const ReviewStars: React.FC<{ rating: number }> = ({ rating }) => {
   const stars = Array(5)
     .fill(null)
@@ -141,7 +141,6 @@ const ReviewStars: React.FC<{ rating: number }> = ({ rating }) => {
       <Star
         key={i}
         className={`w-3.5 h-3.5 ${
-          // Slightly smaller stars for individual review
           i < rating
             ? "text-pink-500 fill-pink-500"
             : "text-gray-300 fill-gray-300/50"
@@ -151,7 +150,6 @@ const ReviewStars: React.FC<{ rating: number }> = ({ rating }) => {
   return <div className="flex gap-0.5">{stars}</div>;
 };
 
-// Individual Review Card
 const ReviewCard: React.FC<{ review: Review }> = ({ review }) => {
   const avatarColors = ["bg-gray-400", "bg-pink-400", "bg-blue-400"];
   const colorIndex = review.avatarInitial
@@ -159,11 +157,9 @@ const ReviewCard: React.FC<{ review: Review }> = ({ review }) => {
     : 0;
 
   return (
-    // Review card background matching the example, with subtle shadow and rounded corners
     <div className="py-6 border-b border-gray-100 last:border-b-0">
       <div className="flex justify-between items-start mb-2">
         <div className="flex items-center gap-3">
-          {/* Avatar - conditional rendering for image vs. initial */}
           {review.avatarUrl ? (
             <img
               src={review.avatarUrl}
@@ -189,13 +185,10 @@ const ReviewCard: React.FC<{ review: Review }> = ({ review }) => {
             )}
           </div>
         </div>
-        <span className="text-xs text-gray-500 mt-1">{review.date}</span>{" "}
-        {/* Align date with customer name */}
+        <span className="text-xs text-gray-500 mt-1">{review.date}</span>
       </div>
 
       <div className="pl-14">
-        {" "}
-        {/* Aligned with the name/rating block */}
         <ReviewStars rating={review.rating} />
         <p className="font-semibold text-gray-900 mt-1 mb-1 text-sm">
           {review.title}
@@ -203,7 +196,6 @@ const ReviewCard: React.FC<{ review: Review }> = ({ review }) => {
         <p className="mt-1 text-gray-700 leading-relaxed text-sm whitespace-pre-line">
           {review.comment}
         </p>
-        {/* Review Images */}
         {review.images && review.images.length > 0 && (
           <div className="flex gap-3 mt-3">
             {review.images.map((imgSrc, index) => (
@@ -212,7 +204,7 @@ const ReviewCard: React.FC<{ review: Review }> = ({ review }) => {
                 className="w-20 h-20 rounded-lg overflow-hidden border border-gray-200"
               >
                 <img
-                  src={imgSrc} // Use the actual image source now
+                  src={imgSrc}
                   alt={`Review by ${review.customerName} image ${index + 1}`}
                   className="w-full h-full object-cover"
                 />
@@ -225,7 +217,6 @@ const ReviewCard: React.FC<{ review: Review }> = ({ review }) => {
   );
 };
 
-// Customer Reviews Section
 const CustomerReviews: React.FC<{
   reviews: Review[];
   totalReviews: number;
@@ -254,8 +245,6 @@ const CustomerReviews: React.FC<{
       className="mt-20 bg-white p-8 pt-12 rounded-xs border border-gray-100"
       style={{ backgroundColor: "#FFF8F8" }}
     >
-      {" "}
-      {/* Light pink background */}
       <div className="text-center mb-10 relative">
         <div className="flex justify-center items-center gap-2">
           <Image
@@ -271,19 +260,15 @@ const CustomerReviews: React.FC<{
           />
         </div>
         <p className="text-sm text-pink-500 mb-4 font-medium cursor-pointer hover:underline">
-          4 reviews
-        </p>{" "}
-        {/* Hardcoded count as in visual */}
-        {/* Summary Rating */}
+          {totalReviews} reviews
+        </p>
         <div className="flex justify-center items-center flex-col">
           <div className="flex">{stars}</div>
         </div>
-        {/* Write a review button */}
         <button className="mt-4 px-6 py-2 border border-gray-300 text-gray-700 rounded-md font-medium hover:bg-white transition-colors">
           Write a Review
         </button>
       </div>
-      {/* List of Reviews */}
       <div className="max-w-3xl mx-auto">
         {reviews.map((review) => (
           <ReviewCard key={review.id} review={review} />
@@ -299,13 +284,12 @@ const CustomerReviews: React.FC<{
 
 const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
   const [quantity, setQuantity] = useState<number>(1);
-
-  // Constants and calculated values
+  const [wishlist, setWishlist] = useState<boolean>(false);
+  const [inCart, setInCart] = useState<boolean>(false);
   const BASE_URL: string = "http://localhost:8080";
 
-  const getImageUrl = (path: string): string => {
-    return path.startsWith("http") ? path : `${BASE_URL}${path}`;
-  };
+  const getImageUrl = (path: string): string =>
+    path.startsWith("http") ? path : `${BASE_URL}${path}`;
 
   const mainImageObj: ProductImage | undefined = product.productImages?.[0];
   const [mainImage, setMainImage] = useState<{ url: string; alt: string }>({
@@ -313,30 +297,18 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
     alt: product.name,
   });
 
-  const brandName: string = product.brand?.brand || "Unknown";
-  const categoryName: string = product.category?.category || "Uncategorized";
   const price: number = parseFloat(product.price) || 0;
-  const rating: number =
-    product.ratingCount && product.ratingCount > 0
-      ? product.ratingSum / product.ratingCount
-      : 0;
-  const reviewCount: number = product.ratingCount || 0;
   const subtotal: number = price * quantity;
-  const recommendedFor: string = product.recommendedFor || "N/A";
-  const ingredients: string = product.ingredients || "Ingredients not listed.";
 
-  // Quantity handler
-  const handleQuantityChange = (delta: number): void => {
+  const handleQuantityChange = (delta: number) => {
     setQuantity((prev) => Math.min(product.stock, Math.max(1, prev + delta)));
   };
 
-  // Price formatting
   const formattedPrice: string = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
   }).format(price);
 
-  // How To Use formatting
   const howToUseData: string | string[] | undefined = product.howToUse;
   let howToUseSteps: string[] = [];
 
@@ -351,6 +323,72 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
     }
   }
 
+  // ===================== FETCH WISHLIST =====================
+  const fetchWishlist = async () => {
+    try {
+      const response = await getWhiteList();
+      if (response.success && response.data) {
+        const isAdded = response.data.some(
+          (item: any) => item.products.id === product.id
+        );
+        setWishlist(isAdded);
+      }
+    } catch (err: any) {
+      console.error("Failed to fetch wishlist:", err);
+    }
+  };
+
+  // ===================== FETCH CART =====================
+  const fetchCart = async () => {
+    try {
+      const response = await getCart();
+      if (response.success && response.data?.orderItems) {
+        const isInCart = response.data.orderItems.some(
+          (item: any) => item.productId === product.id
+        );
+        setInCart(isInCart);
+      }
+    } catch (err: any) {
+      console.error("Failed to fetch cart:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchWishlist();
+    fetchCart();
+  }, [product.id]);
+
+  // ===================== HANDLERS =====================
+  const handleAddToWishlist = async () => {
+    try {
+      const response = await addOrRemoveProductWhiteList(product.id);
+      if (!response.success) throw new Error(response.message || "Failed to update wishlist");
+      setWishlist((prev) => !prev);
+      alert(response.message || (wishlist ? "Removed from wishlist" : "Added to wishlist"));
+    } catch (err: any) {
+      console.error(err);
+      alert("Please Login");
+    }
+  };
+
+  const handleAddToBag = async () => {
+    try {
+      const payload = {
+        productId: product.id,
+        quantity: quantity,
+      };
+      const response = await addProductToCart(payload);
+      if (!response.success) throw new Error(response.message || "Failed to add to cart");
+      setInCart(true);
+      alert(response.message || "Product added to bag!");
+    } catch (err: any) {
+      console.error(err);
+      alert("Please Login");
+    }
+  };
+
+  // ====================================================
+
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
       {/* Breadcrumbs */}
@@ -358,17 +396,13 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
         <a href="/" className="hover:underline">
           Home
         </a>{" "}
-        {/* &gt; <a href="#" className="hover:underline">{categoryName}</a> Added Category link */}
         &gt; <span className="font-semibold">{product.name}</span>
       </nav>
 
-      {/* Product Grid: Image Gallery & Details */}
       <div className="lg:grid lg:grid-cols-2 lg:gap-12">
-        {/* Left Column: Images */}
+        {/* Left Column */}
         <div className="flex flex-col gap-6">
-          {/* Main Image - (The URL/source comes from the database) */}
           <div className="bg-gray-100 rounded-xs overflow-hidden border border-gray-100">
-            {/* Added aspect ratio styling to maintain image layout */}
             <img
               src={mainImage.url}
               alt={mainImage.alt}
@@ -376,27 +410,23 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
             />
           </div>
 
-          {/* Thumbnail Gallery */}
           <div className="flex gap-3 overflow-x-auto pb-2">
             {product.productImages?.map((image, index) => (
               <div
                 key={index}
                 className={`w-20 h-20 flex-shrink-0 border-2 rounded-xs overflow-hidden cursor-pointer transition-colors p-0.5 ${
-                  // Added small padding for better border effect
                   getImageUrl(image.productImage) === mainImage.url
                     ? "border-gray-800"
                     : "border-transparent hover:border-gray-300"
                 }`}
-                onClick={() => {
-                  // Use getImageUrl for consistent URL setting
+                onClick={() =>
                   setMainImage({
                     url: getImageUrl(image.productImage),
                     alt: product.name,
-                  });
-                }}
+                  })
+                }
               >
                 <img
-                  // The original code hardcoded the path, now using getImageUrl to be safer
                   src={getImageUrl(image.productImage)}
                   alt={product.name}
                   className="w-full h-full object-cover"
@@ -406,22 +436,28 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
           </div>
         </div>
 
-        {/* Right Column: Product Info & Actions */}
+        {/* Right Column */}
         <div className="mt-8 lg:mt-0 justify-center">
-          {/* Title from database */}
           <h1 className="text-3xl font-semibold text-gray-900 mb-2">
             {product.name}
           </h1>
+
           <p className="text-sm text-gray-500 mb-2">
             Brand:{" "}
             <span className="text-gray-900 font-medium">
-              {brandName} {/* Used calculated brandName */}
+              {product.brand?.brand || "Unknown"}
             </span>
           </p>
 
-          {/* Rating and Availability */}
           <div className="flex items-center gap-4 mb-2">
-            <RatingStars rating={rating} reviewCount={reviewCount} />
+            <RatingStars
+              rating={
+                product.ratingCount > 0
+                  ? product.ratingSum / product.ratingCount
+                  : 0
+              }
+              reviewCount={product.ratingCount}
+            />
             <span className="text-sm text-gray-500">|</span>
             <span
               className={`text-sm font-medium ${
@@ -433,19 +469,6 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
                 : "Out of Stock"}
             </span>
           </div>
-
-          <p className="text-sm text-gray-500 mb-4 border-b pb-4">
-            Product Type:{" "}
-            <span className="text-gray-900 font-medium">
-              {categoryName} {/* Used calculated categoryName */}
-            </span>
-          </p>
-
-          {/* Short description snippet */}
-          <p className="text-gray-700 mb-6  leading-relaxed">
-            {/* Display full description or a truncated version */}
-            {product.description}
-          </p>
 
           <p className="text-3xl font-medium text-gray-900 mb-6">
             {formattedPrice}
@@ -485,7 +508,7 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
               </button>
             </div>
           </div>
-          {/* Subtotal moved here based on visual, but formatted to be clear */}
+
           <p className="text-sm text-gray-700 mt-4 mb-6">
             Subtotal for {quantity} item(s):{" "}
             <span className="font-semibold text-gray-900">
@@ -496,23 +519,34 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
             </span>
           </p>
 
-          {/* Action Buttons */}
           <div className="flex gap-4">
             <button
-              className="flex-1 px-6 py-3 border border-gray-300 bg-white text-black rounded-xs font-medium hover:bg-pink-500 transition-colors disabled:opacity-50 disabled:bg-pink-400"
-              disabled={product.stock === 0}
+              className={`flex-1 px-6 py-3 border rounded-xs font-medium transition-colors ${
+                inCart
+                  ? "bg-gray-400 text-white cursor-not-allowed border-gray-400"
+                  : "bg-white text-black hover:bg-pink-500 border-gray-300"
+              }`}
+              disabled={inCart || product.stock === 0}
+              onClick={handleAddToBag}
             >
-              Add to bag
+              {inCart ? "Already in Bag" : "Add to Bag"}
             </button>
-            <button className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-xs font-medium hover:bg-gray-50 transition-colors">
-              Add to wishlist
+
+            <button
+              className={`flex-1 px-6 py-3 border rounded-xs font-medium transition-colors ${
+                wishlist
+                  ? "bg-pink-500 text-white hover:bg-pink-600 border-pink-500"
+                  : "bg-white text-gray-700 hover:bg-gray-50 border-gray-300"
+              }`}
+              onClick={handleAddToWishlist}
+            >
+              {wishlist ? "Remove from Wishlist" : "Add to Wishlist"}
             </button>
           </div>
         </div>
       </div>
 
-      {/* -------------------- Description & Details Section -------------------- */}
-
+      {/* Description Section */}
       <div className="mt-20">
         <div className="flex justify-center items-center gap-2">
           <Image
@@ -529,7 +563,6 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
         </div>
 
         <div className="pt-8 space-y-8">
-          {/* Full Description & Recommended For */}
           <section className="text-gray-600">
             <h3 className="text-lg font-bold text-gray-800 mb-2">
               Description:
@@ -537,11 +570,10 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
             <p className="leading-relaxed mb-4">{product.description}</p>
             <p className="font-semibold text-gray-800">
               Recommended for:{" "}
-              <span className="font-normal">{recommendedFor}</span>
+              <span className="font-normal">{product.recommendedFor || "N/A"}</span>
             </p>
           </section>
 
-          {/* How to Use */}
           <section>
             <h3 className="text-lg font-bold text-gray-800 mb-2">
               How to Use:
@@ -555,20 +587,18 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
             </ul>
           </section>
 
-          {/* Ingredients */}
           <section>
             <h3 className="text-lg font-bold text-gray-800 mb-2">
               Ingredients:
             </h3>
             <p className="text-gray-600 leading-relaxed text-sm">
-              {ingredients}
+              {product.ingredients || "Ingredients not listed."}
             </p>
           </section>
         </div>
       </div>
 
-      {/* -------------------- Related Products Section -------------------- */}
-
+      {/* Related Products */}
       <div className="mt-20">
         <div className="text-center mb-4">
           <div className="flex justify-center items-center gap-2">
@@ -592,7 +622,6 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
           </a>
         </div>
 
-        {/* Related Product Cards Placeholder */}
         <div className="flex mt-8 gap-4 overflow-x-auto scrollbar-hidden snap-x snap-mandatory pb-4">
           {Array(6)
             .fill(0)
@@ -614,11 +643,9 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
             ))}
         </div>
       </div>
-      {/* -------------------- CUSTOMER REVIEWS SECTION -------------------- */}
-      <CustomerReviews
-        reviews={mockReviews}
-        totalReviews={mockReviews.length}
-      />
+
+      {/* Customer Reviews */}
+      <CustomerReviews reviews={mockReviews} totalReviews={mockReviews.length} />
     </div>
   );
 };

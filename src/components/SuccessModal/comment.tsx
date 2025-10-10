@@ -1,4 +1,5 @@
 // components/SuccessModal/component.tsx
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 interface SuccessModalProps {
@@ -14,6 +15,7 @@ export default function SuccessModal({
   customerEmail,
   lastFourCardDigits,
 }: SuccessModalProps) {
+  const router = useRouter();
   if (!isVisible) return null;
 
   return (
@@ -66,6 +68,7 @@ export default function SuccessModal({
               console.log("Navigating back home...");
               onClose(); // Close modal after action
               // Example: router.push('/');
+              router.push("/");
             }}
           >
             Back Home

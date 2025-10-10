@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-// Reusable InputField component for consistent styling
+// Reusable InputField component
 const InputField: React.FC<{
   label: string;
   name: string;
@@ -28,10 +28,27 @@ export default function AddressContactForm() {
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
-    address: "",
+    addressLine: "",
     province: "",
-    contactNumber: "",
+    phoneNumber: "",
   });
+
+  // ✅ Load saved customer data from localStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const customerData = localStorage.getItem("customerData");
+      if (customerData) {
+        const parsed = JSON.parse(customerData);
+        setForm({
+          firstName: parsed.firstName || "",
+          lastName: parsed.lastName || "",
+          addressLine: parsed.addressLine || "",
+          province: parsed.province || "",
+          phoneNumber: parsed.phoneNumber || "",
+        });
+      }
+    }
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -40,38 +57,39 @@ export default function AddressContactForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form submitted:", form);
-    // Add form submission logic here
+    // Optionally: update localStorage and call API
+    localStorage.setItem("customerData", JSON.stringify({
+      ...JSON.parse(localStorage.getItem("customerData") || "{}"),
+      ...form
+    }));
+    alert("Address & contact updated!");
   };
 
   return (
-    <div className="p-6 bg-white flex-1"> {/* Added styling for the card-like container */}
-      <form onSubmit={handleSubmit}> {/* Added form tag and vertical spacing */}
+    <div className="p-6 bg-white flex-1">
+      <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {/* First Name */}
           <InputField
             label="First Name"
             name="firstName"
             value={form.firstName}
             onChange={handleChange}
-            placeholder="Enter name"
+            placeholder="Enter first name"
           />
-          {/* Last Name */}
           <InputField
             label="Last Name"
             name="lastName"
             value={form.lastName}
             onChange={handleChange}
-            placeholder="Enter Phone Number" // Placeholder as seen in the image for Last Name
+            placeholder="Enter last name"
           />
-          {/* Address */}
           <InputField
             label="Address"
-            name="address"
-            value={form.address}
+            name="addressLine"
+            value={form.addressLine}
             onChange={handleChange}
             placeholder="Address"
           />
-          {/* Province */}
           <InputField
             label="Province"
             name="province"
@@ -79,24 +97,20 @@ export default function AddressContactForm() {
             onChange={handleChange}
             placeholder="Province"
           />
-          {/* Contact Number */}
-          <div className="col-span-1"> {/* This input takes only one column */}
-            <InputField
-              label="Contact Number"
-              name="contactNumber"
-              value={form.contactNumber}
-              onChange={handleChange}
-              placeholder="contact Number"
-              type="tel"
-            />
-          </div>
+          <InputField
+            label="Contact Number"
+            name="phoneNumber"
+            value={form.phoneNumber}
+            onChange={handleChange}
+            placeholder="Contact Number"
+            type="tel"
+          />
         </div>
 
-        {/* Save Button - right-aligned on its own row */}
         <div className="flex justify-end pt-4">
           <button
             type="submit"
-            className="bg-[#F6A5C1] hover:bg-pink-400 text-white font-medium py-3 px-8 transition duration-150" // Adjusted padding and color for the button
+            className="bg-[#F6A5C1] hover:bg-pink-400 text-white font-medium py-3 px-8 transition duration-150"
           >
             Save
           </button>
@@ -104,4 +118,4 @@ export default function AddressContactForm() {
       </form>
     </div>
   );
-}  
+}

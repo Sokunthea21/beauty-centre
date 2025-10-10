@@ -1,8 +1,6 @@
 "use client";
 import { assets } from "@/app/assets/assets";
-import Image from "next/image";
-
-import type { StaticImageData } from "next/image";
+import Image, { StaticImageData } from "next/image";
 
 interface DeliveryOption {
   id: string;
@@ -13,16 +11,13 @@ interface DeliveryOption {
 }
 
 interface DeliveryOptionsProps {
-  // The list of all available options
   options: DeliveryOption[]; 
-  // The ID of the currently selected option
   selectedDelivery: string | null; 
-  // The function to call when a new option is selected (passing its ID)
   onChange: (newId: string) => void; 
 }
 
 export default function DeliveryOptions({ options, selectedDelivery, onChange }: DeliveryOptionsProps) {
-  const deliveryOptions: DeliveryOption[] = [
+  const deliveryOptions: DeliveryOption[] = options.length ? options : [
     {
       id: "jnt",
       name: "J&T Express",
@@ -58,7 +53,17 @@ export default function DeliveryOptions({ options, selectedDelivery, onChange }:
             }`}
             onClick={() => onChange(opt.id)}
           >
-            <Image src={opt.logo} alt={opt.name} className="w-12 h-12 object-contain" />
+            {/* ✅ Fix: Ensure string logos work correctly with Next/Image */}
+            <div className="w-12 h-12 relative">
+              <Image
+                src={typeof opt.logo === "string" ? opt.logo : opt.logo}
+                alt={opt.name}
+                fill
+                sizes="48px"
+                className="object-contain"
+                unoptimized
+              />
+            </div>
             <div>
               <p className="font-medium">{opt.name}</p>
               <p className="text-sm text-gray-500">{opt.description}</p>

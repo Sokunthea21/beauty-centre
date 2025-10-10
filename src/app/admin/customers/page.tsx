@@ -98,9 +98,9 @@ export default function CustomersListTable() {
                     </td>
                     <td className="p-4 font-medium">{customer.id}</td>
                     <td className="p-4 font-medium text-gray-800">
-                      {customer.firstName && customer.lastName
-                        ? `${customer.firstName} ${customer.lastName}`
-                        : customer.email}
+                      {customer.profile.firstName && customer.profile.lastName
+                        ? `${customer.profile.firstName} ${customer.profile.lastName}`
+                        : "Guest"}
                     </td>
                     <td className="p-4">
                        <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">

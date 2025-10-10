@@ -10,18 +10,18 @@ type proceedCartPayload = {
         productId: number;
         price: number;
         qty: number;
-    };
+    }[];
     comment: string;
 }
 
 type checkOutPayload = {
-  orderId: number;
-  pickerName: string;
-  pickerContact: string;
-  deliveryAddress: string;
-  subTotal: number;
-  latitude: number;
-  longitude: number;
+  orderId?: number;
+  pickerName?: string;
+  pickerContact?: string;
+  deliveryAddress?: string;
+  subTotal?: number;
+  latitude?: string;
+  longitude?: string;
 }
 
 type paymentPayload = {
@@ -45,6 +45,12 @@ export const getCart = async () => {
     return response;
 }
 
+export const getOrders = async () => {
+    const response = await apiFetch("/carts/orders");
+
+    return response;
+}
+ 
 export const proceedCart = async (payload: proceedCartPayload) => {
     const response = await apiFetch("/carts/proceed-cart", {
         method: "POST",
@@ -54,7 +60,7 @@ export const proceedCart = async (payload: proceedCartPayload) => {
     return response;
 }
 
-export const checkOut = async (payload: checkOutPayload) => {
+export const checkOut = async (payload?: checkOutPayload) => {
     const response = await apiFetch("/carts/check-out", {
         method: "POST",
         data: payload

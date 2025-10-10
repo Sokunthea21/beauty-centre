@@ -8,6 +8,7 @@ type createProductPayload = {
     price: number;
     categoryId: number;
     brandId: number;
+    stock: number;
     productImages: File[];
 }
 
@@ -53,6 +54,7 @@ export const createProduct = async (payload: createProductPayload): Promise<ApiR
     formData.append("price", payload.price.toString());
     formData.append("categoryId", payload.categoryId.toString());
     formData.append("brandId", payload.brandId.toString());
+    formData.append("stock", payload.stock.toString());
 
     payload.productImages.forEach((file: any, index: any) => {
         formData.append("productImages", file); // backend should handle as array

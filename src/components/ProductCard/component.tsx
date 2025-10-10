@@ -1,14 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { assets } from "@/app/assets/assets";
 import { useAppContext } from "@/context/AppContext";
+import { addProductToCart, getCart } from "@/api/cart.api";
 
-// 1. UPDATED: Added isLoggedIn to AppContextType
 type AppContextType = {
   currency: string;
   router: { push: (path: string) => void };
-  addToCart: (itemId: string, quantity: number) => void;
-  isLoggedIn: boolean; // 👈 ADDED: To check authentication status
 };
 
 type ProductDataType = {
@@ -17,15 +15,15 @@ type ProductDataType = {
   price: number;
   description: string;
   image: string[];
-  rating?: number; // Optional, in case not all products have a rating
   offerPrice: number;
+  rating?: number;
   ratingCount?: number;
 };
 
 type ProductCardProps = {
   productData: ProductDataType;
   isList?: boolean;
-  isCompact?: boolean; // For 2-column layout
+  isCompact?: boolean;
   gridCols?: "grid-2" | "grid-3" | "grid-4" | "list";
 };
 
@@ -35,30 +33,50 @@ const ProductCard = ({
   isCompact = false,
   gridCols,
 }: ProductCardProps) => {
-  // 2. UPDATED: Destructure isLoggedIn from context
-  const { currency, router, addToCart, isLoggedIn } = useAppContext() as AppContextType;
+  const { currency, router } = useAppContext() as AppContextType;
+
+  const [inCart, setInCart] = useState(false);
+
+  // Fetch cart and check if the product is already in the cart
+  const fetchCartData = async () => {
+    try {
+      const response = await getCart();
+      if (response.success && response.data?.orderItems) {
+        const exists = response.data.orderItems.some(
+          (item: any) => item.productId === productData._id
+        );
+        setInCart(exists);
+      }
+    } catch (err) {
+      console.error("Failed to fetch cart:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCartData();
+  }, [productData._id]);
+
+  // Handle adding product to cart
+  const handleAddToCart = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    if (inCart) return;
+
+    try {
+      const payload = { productId: Number(productData._id), quantity: 1 };
+      const response = await addProductToCart(payload);
+      if (!response.success) throw new Error(response.message || "Failed to add to cart");
+
+      setInCart(true);
+      alert(response.message || "Product added to bag!");
+    } catch (err: any) {
+      console.error(err);
+      alert("Please Login");
+    }
+  };
 
   const handleClick = () => {
     router.push("/product/" + productData._id);
     scrollTo(0, 0);
-  };
-  
-  // 3. UPDATED: Conditional logic to check login status
-  const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation(); // Prevents the card's handleClick from running
-    
-    if (!isLoggedIn) {
-      // Redirect user to login page if not authenticated
-      console.log("User not logged in. Redirecting to /login.");
-      // You may want to store the current URL to redirect back after login
-      router.push("/login"); 
-      return; 
-    }
-    
-    // If logged in, proceed to add to cart
-    addToCart(productData._id, 1); 
-    
-    console.log(`Added product ${productData.name} to cart.`);
   };
 
   const baseStyle = `cursor-pointer bg-white hover:shadow-lg transition-all duration-200`;
@@ -73,55 +91,30 @@ const ProductCard = ({
       onClick={handleClick}
       className={`${baseStyle} ${
         isList ? listStyle : isCompact ? compactStyle : gridStyle
-      } 	shadow-sm`}
+      } shadow-sm`}
     >
       {/* Image */}
       <div
-        className={`relative bg-gray-100 flex items-center justify-center
-          ${
-        isList
-          ? "min-w-[200px] max-w-[200px] h-[200px]"
-          : isCompact
-          ? "w-full h-[300px]"
-          : "w-full h-52"
-          }
-        `}
+        className={`relative bg-gray-100 flex items-center justify-center ${
+          isList
+            ? "min-w-[200px] max-w-[200px] h-[200px]"
+            : isCompact
+            ? "w-full h-[300px]"
+            : "w-full h-52"
+        }`}
       >
         <Image
-          src={`http://localhost:8080${productData.image}`}
-          alt={productData.name ? `Product image of ${productData.name}` : "Product image"}
-          className={`object-cover 	${
-        isList ? "w-full h-full" : "w-full h-full"
-          }`}
+          src={`http://localhost:8080${productData.image[0]}`}
+          alt={productData.name}
+          className="object-cover w-full h-full"
           width={800}
           height={800}
         />
-        <button className="absolute top-2 right-2 p-2">
-          <svg
-        width="19"
-        height="18"
-        viewBox="0 0 19 18"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-          >
-        <path
-          d="M0.371865 8.59832C-0.701135 5.24832 0.552865 1.41932 4.06987 0.286322C5.91987 -0.310678 7.96187 0.0413219 9.49987 1.19832C10.9549 0.0733218 13.0719 -0.306678 14.9199 0.286322C18.4369 1.41932 19.6989 5.24832 18.6269 8.59832C16.9569 13.9083 9.49987 17.9983 9.49987 17.9983C9.49987 17.9983 2.09787 13.9703 0.371865 8.59832Z"
-          fill="#B0A6BD"
-        />
-          </svg>
-        </button>
       </div>
 
       {/* Content */}
-      <div
-        className={`flex flex-col justify-between p-6 ${
-          isList ? "w-full" : "w-full pt-2"
-        }`}
-      >
-        <p className="md:text-base font-medium w-full truncate">
-          {productData.name}
-        </p>
-
+      <div className="flex flex-col justify-between p-6 w-full pt-2">
+        <p className="md:text-base font-medium w-full truncate">{productData.name}</p>
         <p className="text-xs mt-2 text-gray-500/70 max-sm:hidden truncate">
           {productData.description}
         </p>
@@ -132,11 +125,7 @@ const ProductCard = ({
               <Image
                 key={index}
                 className="h-3 w-3"
-                src={
-                  index < Math.floor(4.5)
-                    ? assets.star_icon
-                    : assets.star_dull_icon
-                }
+                src={index < Math.floor(productData.rating || 0) ? assets.star_icon : assets.star_dull_icon}
                 alt="star_icon"
                 width={12}
                 height={12}
@@ -145,26 +134,24 @@ const ProductCard = ({
           </div>
           {typeof productData.rating === "number" && (
             <p className="text-sm text-gray-500/70 max-sm:hidden">
-              {productData.rating} ({productData.ratingCount} reviews)
+              {productData.rating} ({productData.ratingCount || 0} reviews)
             </p>
           )}
         </div>
 
         <p className="text-base mt-2 font-medium">
-          {currency}
-          {productData.price}
+          {currency}${productData.price}
         </p>
 
-        <div
-          className={`w-full ${
-            isList ? "max-w-[34%]" : ""
-          } flex justify-center`}
-        >
-          <button 
-            onClick={handleAddToCart} 
-            className="mt-2 w-full px-6 py-1.5 text-black hover:text-white border border-black text-xs hover:bg-black transition"
+        <div className={`w-full ${isList ? "max-w-[34%]" : ""} flex justify-center`}>
+          <button
+            onClick={handleAddToCart}
+            disabled={inCart}
+            className={`mt-2 w-full px-6 py-1.5 text-black border border-black text-xs transition ${
+              inCart ? "bg-gray-300 cursor-not-allowed" : "hover:bg-black hover:text-white"
+            }`}
           >
-            Add to bag
+            {inCart ? "Added" : "Add to bag"}
           </button>
         </div>
       </div>

@@ -33,16 +33,16 @@ type getAllCustomerPayload = {
 }
 
 type fillCustomerProfilePayload = {
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  gender: string;
-  birthdate: Date | string; // send as ISO string
-  addressLine: string;
-  city: string;
-  province: string;
-  postalCode: string;
-  country: string;
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: string;
+  gender?: string;
+  birthdate?: Date | string; // send as ISO string
+  addressLine?: string;
+  city?: string;
+  province?: string;
+  postalCode?: string;
+  country?: string;
   profileImage?: File;
 }
 
@@ -90,28 +90,28 @@ export const findCustomerById = async (id: number) => {
   return response;
 }
 
-export const fillCustomerProfile = async (payload: fillCustomerProfilePayload): Promise<ApiResponse> => {
+export const fillCustomerProfile = async (payload: fillCustomerProfilePayload, customerId: number): Promise<ApiResponse> => {
   const formData = new FormData();
 
-  formData.append("firstName", payload.firstName);
-  formData.append("lastName", payload.lastName);
-  formData.append("phoneNumber", payload.phoneNumber);
-  formData.append("gender", payload.gender);
-  formData.append("birthdate", payload.birthdate instanceof Date ? payload.birthdate.toISOString() : payload.birthdate);
-  formData.append("addressLine", payload.addressLine);
-  formData.append("city", payload.city);
-  formData.append("province", payload.province);
-  formData.append("postalCode", payload.postalCode);
-  formData.append("country", payload.country);
+  formData.append("firstName", payload.firstName ?? "");
+  formData.append("lastName", payload.lastName ?? "");
+  formData.append("phoneNumber", payload.phoneNumber ?? "");
+  formData.append("gender", payload.gender ?? "");
+  formData.append("birthdate", payload.birthdate instanceof Date ? payload.birthdate.toISOString() : payload.birthdate ?? "");
+  formData.append("addressLine", payload.addressLine ?? "");
+  formData.append("city", payload.city ?? "");
+  formData.append("province", payload.province ?? "");
+  formData.append("postalCode", payload.postalCode ?? "");
+  formData.append("country", payload.country ?? "");
 
   if (payload.profileImage) {
     formData.append("profileImage", payload.profileImage);
   }
 
-  const response = await apiFetch<ApiResponse>("/customers/fill-profile", {
+  const response = await apiFetch<ApiResponse>(`/customers/fill-customer-profile/${customerId}`, {
     method: "PATCH", // or POST depending on your API
     data: formData,
-  }, true); // true = FormData
+  }); // true = FormData
 
   return response;
 }

@@ -2,6 +2,8 @@
 import { User, MapPin, ShoppingBag, Heart, Key, LogOut } from "lucide-react";
 import Image from "next/image";
 import { assets } from "@/app/assets/assets";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const menuItems = [
   { id: "profile", label: "My Profile", icon: <User size={18} /> },
@@ -17,6 +19,30 @@ interface Props {
 }
 
 export default function Sidebar({ selected, onSelect }: Props) {
+  const router = useRouter();
+  const [user, setUser] = useState<any>(null);
+
+  // ✅ Load user from localStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const customerData = localStorage.getItem("customerData");
+      if (customerData) {
+        setUser(JSON.parse(customerData));
+      }
+    }
+  }, []);
+
+  // ✅ Logout handler
+  const handleLogout = () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("customerData");
+      localStorage.removeItem("customerId");
+      localStorage.removeItem("token");
+    }
+    setUser(null);
+    window.location.href = "/";
+  };
+
   return (
     <div className="bg-white p-6 w-full md:w-72">
       <div className="flex gap-6 items-center mb-6">
@@ -25,7 +51,11 @@ export default function Sidebar({ selected, onSelect }: Props) {
           alt="User"
           className="w-14 h-14 rounded-full"
         />
-        <h2 className="font-semibold">MAO SOKUNTHEA</h2>
+        <h2 className="font-semibold">
+          {user && (user.firstName || user.lastName)
+            ? `${user.firstName || ""} ${user.lastName || ""}`.trim()
+            : "Guest"}
+        </h2>
       </div>
 
       <div className="space-y-2">
@@ -47,11 +77,7 @@ export default function Sidebar({ selected, onSelect }: Props) {
         {/* Logout */}
         <div
           className="flex items-center gap-2 px-4 py-2 mt-4 text-gray-600 cursor-pointer hover:bg-gray-50 rounded"
-          onClick={() => {
-            console.log("User logged out");
-            // Add your logout logic here, e.g., remove auth token and redirect
-            // router.push("/login"); // if using next/navigation
-          }}
+          onClick={handleLogout}
         >
           <LogOut size={18} /> LogOut
         </div>
