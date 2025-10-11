@@ -74,8 +74,9 @@ export default function LoginPage() {
 
       localStorage.setItem("token", response.access_token);
       localStorage.setItem("customerId", response.user.id);
+      localStorage.setItem("customerData", JSON.stringify(response.user));
 
-      if (email === "notecambodia789@gmail.com") {
+      if (email === "kuntheam821@gmail.com") {
         router.push("/admin/dashboard");
         return;
       }

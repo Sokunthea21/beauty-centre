@@ -5,7 +5,7 @@ const db = mysql.createPool({
   host: 'localhost',
   user: 'root',
   password: '', // change if you set a password in XAMPP
-  database: 'beautycentre_db',
+  database: 'beauty_centre_dev',
 });
 
 export default db;

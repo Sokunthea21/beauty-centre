@@ -4,8 +4,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import { auth } from '@/lib/firebase/firebase';
+// import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+// import { auth } from '@/lib/firebase/firebase';
 import AuthImage from '@/components/Login & Register/AuthImage';
 import { customerRegister } from '@/api/customer.api';
 
