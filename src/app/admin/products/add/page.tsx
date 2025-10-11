@@ -281,6 +281,8 @@ export default function AddProductForm() {
                     <Card title="General Information">
                         <InputField label="Product Name*" id="productName" value={formData.productName} onChange={handleChange} placeholder="Enter product name" required/>
                         <InputField label="Product Description" id="productDescription" textarea value={formData.productDescription} onChange={handleChange} placeholder="Enter product description"/>
+                        <InputField label="How to Use" id="howToUse" textarea value={formData.howToUse} onChange={handleChange} placeholder="Enter how to use"/>
+                        <InputField label="Ingredients" id="ingredients" textarea value={formData.ingredients} onChange={handleChange} placeholder="Enter ingredients"/>
                         <Dropdown label="Category*" placeholder="Select category" id="categoryId" value={formData.categoryId} onChange={handleChange} options={categories.map(c => ({id: c.id, name: c.category}))}/>
                         <Dropdown label="Brand*" placeholder="Select brand" id="brandId" value={formData.brandId} onChange={handleChange} options={brands.map(b => ({id: b.id, name: b.brand}))}/>
                         <div className="flex items-end space-x-4">

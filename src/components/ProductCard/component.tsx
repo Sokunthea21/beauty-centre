@@ -105,7 +105,7 @@ const ProductCard = ({
       >
         <Image
           src={`http://localhost:8080${productData.image[0]}`}
-          alt={productData.name}
+          alt={productData.name || "Product image"}
           className="object-cover w-full h-full"
           width={800}
           height={800}
@@ -115,7 +115,7 @@ const ProductCard = ({
       {/* Content */}
       <div className="flex flex-col justify-between p-6 w-full pt-2">
         <p className="md:text-base font-medium w-full truncate">{productData.name}</p>
-        <p className="text-xs mt-2 text-gray-500/70 max-sm:hidden truncate">
+        <p className="text-xs mt-2 text-gray-500/70 max-sm:hidden max-w-[700px] truncate">
           {productData.description}
         </p>
 

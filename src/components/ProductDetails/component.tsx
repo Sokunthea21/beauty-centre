@@ -331,7 +331,7 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
     setLoadingRelated(true);
     try {
       const params: any = {};
-      
+
       // Prioritize same category
       if (product.category?.id) {
         params.categoryId = product.category.id;
@@ -342,13 +342,13 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
       }
 
       const response = await getAllProducts(params);
-      
+
       if (response.success && response.data) {
         // Filter out current product and limit to 6 items
         const filtered = response.data
           .filter((p: any) => p.id !== product.id)
           .slice(0, 6);
-        
+
         setRelatedProducts(filtered);
       }
     } catch (error) {
@@ -399,9 +399,13 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
   const handleAddToWishlist = async () => {
     try {
       const response = await addOrRemoveProductWhiteList(product.id);
-      if (!response.success) throw new Error(response.message || "Failed to update wishlist");
+      if (!response.success)
+        throw new Error(response.message || "Failed to update wishlist");
       setWishlist((prev) => !prev);
-      alert(response.message || (wishlist ? "Removed from wishlist" : "Added to wishlist"));
+      alert(
+        response.message ||
+          (wishlist ? "Removed from wishlist" : "Added to wishlist")
+      );
     } catch (err: any) {
       console.error(err);
       alert("Please Login");
@@ -415,7 +419,8 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
         quantity: quantity,
       };
       const response = await addProductToCart(payload);
-      if (!response.success) throw new Error(response.message || "Failed to add to cart");
+      if (!response.success)
+        throw new Error(response.message || "Failed to add to cart");
       setInCart(true);
       alert(response.message || "Product added to bag!");
     } catch (err: any) {
@@ -607,7 +612,9 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
             <p className="leading-relaxed mb-4">{product.description}</p>
             <p className="font-semibold text-gray-800">
               Recommended for:{" "}
-              <span className="font-normal">{product.recommendedFor || "N/A"}</span>
+              <span className="font-normal">
+                {product.recommendedFor || "N/A"}
+              </span>
             </p>
           </section>
 
@@ -665,22 +672,25 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
         ) : relatedProducts.length > 0 ? (
           <div className="flex mt-8 gap-4 overflow-x-auto scrollbar-hidden snap-x snap-mandatory pb-4">
             {relatedProducts.map((relatedProduct) => (
-              <ProductCard
-                key={`related-product-${relatedProduct.id}`}
-                productData={{
-                  _id: relatedProduct.id.toString(),
-                  name: relatedProduct.name,
-                  price: Number(relatedProduct.price),
-                  description: relatedProduct.description,
-                  offerPrice: Number(relatedProduct.price),
-                  rating: relatedProduct.ratingSum,
-                  ratingCount: relatedProduct.ratingCount,
-                  image:
-                    relatedProduct.productImages && relatedProduct.productImages.length > 0
-                      ? [relatedProduct.productImages[0].productImage]
-                      : [""],
-                }}
-              />
+              <div className="min-w-[300px] max-w-[300px] sm:min-w-[350px] sm:max-w-[350px] snap-center">
+                <ProductCard
+                  key={`related-product-${relatedProduct.id}`}
+                  productData={{
+                    _id: relatedProduct.id.toString(),
+                    name: relatedProduct.name,
+                    price: Number(relatedProduct.price),
+                    description: relatedProduct.description,
+                    offerPrice: Number(relatedProduct.price),
+                    rating: relatedProduct.ratingSum,
+                    ratingCount: relatedProduct.ratingCount,
+                    image:
+                      relatedProduct.productImages &&
+                      relatedProduct.productImages.length > 0
+                        ? [relatedProduct.productImages[0].productImage]
+                        : [""],
+                  }}
+                />
+              </div>
             ))}
           </div>
         ) : (
@@ -691,7 +701,10 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
       </div>
 
       {/* Customer Reviews */}
-      <CustomerReviews reviews={mockReviews} totalReviews={mockReviews.length} />
+      <CustomerReviews
+        reviews={mockReviews}
+        totalReviews={mockReviews.length}
+      />
     </div>
   );
 };
