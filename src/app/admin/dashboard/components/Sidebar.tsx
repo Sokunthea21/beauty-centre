@@ -19,14 +19,14 @@ import { usePathname } from "next/navigation";
 const menuItems = [
   // Href paths are simplified/relative here, adjust as needed for your Next.js routing
   { name: "Dashboard", icon: <House size={18} />, href: "dashboard" },
-  { name: "Products", icon: <Package size={18} />, href: "products" },
-  { name: "Orders", icon: <ShoppingCart size={18} />, href: "orders" },
-  { name: "Category", icon: <Grid2x2 size={18} />, href: "category" },
-  { name: "Brand", icon: <Star size={18} />, href: "brand" },
-  { name: "Customer", icon: <Users size={18} />, href: "customers" },
-  { name: "Slider", icon: <ImageIcon size={18} />, href: "slider" },
-  { name: "Coupon", icon: <TicketPercent size={18} />, href: "coupons" },
-  { name: "Settings", icon: <Settings size={18} />, href: "settings" },
+  { name: "Products", icon: <Package size={18} />, href: "/admin/products" },
+  { name: "Orders", icon: <ShoppingCart size={18} />, href: "/admin/orders" },
+  { name: "Category", icon: <Grid2x2 size={18} />, href: "/admin/category" },
+  { name: "Brand", icon: <Star size={18} />, href: "/admin/brand" },
+  { name: "Customer", icon: <Users size={18} />, href: "/admin/customers" },
+  { name: "Slider", icon: <ImageIcon size={18} />, href: "/admin/slider" },
+  { name: "Coupon", icon: <TicketPercent size={18} />, href: "/admin/coupons" },
+  { name: "Settings", icon: <Settings size={18} />, href: "/admin/settings" },
 ];
 
 export default function Sidebar() {

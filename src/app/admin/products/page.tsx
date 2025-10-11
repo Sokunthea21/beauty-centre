@@ -2,10 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { List, Grid, MoreVertical, Trash2, Edit } from "lucide-react";
+import { List, Grid, MoreVertical } from "lucide-react";
 import Link from "next/link";
 import { getAllProducts } from "@/api/product.api";
-import { divIcon } from "leaflet";
 
 const statusColor = (stock: number) =>
   stock > 0 ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600";
@@ -17,7 +16,6 @@ export default function ProductTable() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [statusFilter, setStatusFilter] = useState("All Stock");
-  const [activeMenuId, setActiveMenuId] = useState<number | null>(null);
 
   // Fetch products from API
   useEffect(() => {
@@ -33,16 +31,6 @@ export default function ProductTable() {
     };
     fetchProducts();
   }, []);
-  const handleEdit = (id: number) => {
-    alert(`Edit product with ID: ${id}`);
-    setActiveMenuId(null); // Close menu after action
-  };
-  const handleDelete = (id: number) => {
-    if (window.confirm(`Are you sure you want to delete product ID: ${id}?`)) {
-      alert(`Deleting product ID: ${id}`);
-    }
-    setActiveMenuId(null);
-  };
 
   // Filter products based on stock
   const filteredProducts =
@@ -216,28 +204,6 @@ export default function ProductTable() {
                       <button className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100">
                         <MoreVertical size={20} />
                       </button>
-                      {activeMenuId === product.id && (
-                        <div
-                          id={`menu-${product.id}`}
-                          className="absolute right-0 mt-2 w-32 bg-white rounded-lg shadow-xl z-10 border border-gray-100 origin-top-right"
-                          onClick={() => setActiveMenuId(null)} // Close menu when an action is clicked
-                        >
-                          <button
-                            onClick={() => handleEdit(product.id)}
-                            className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-pink-50/50 hover:text-pink-600 rounded-t-lg"
-                          >
-                            <Edit size={16} className="mr-2" />
-                            Edit
-                          </button>
-                          <button
-                            onClick={() => handleDelete(product.id)}
-                            className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50/50 hover:text-red-700 rounded-b-lg"
-                          >
-                            <Trash2 size={16} className="mr-2" />
-                            Delete
-                          </button>
-                        </div>
-                      )}
                     </td>
                   </tr>
                 ))}
@@ -254,7 +220,10 @@ export default function ProductTable() {
               >
                 <div className="relative w-full h-60">
                   <Image
-                    src={product.productImages[0]?.productImage || "/placeholder.png"}
+                    src={
+                      `http://localhost:8080${product.productImages[0].productImage}` ||
+                      "/placeholder.png"
+                    }
                     alt={product.name}
                     layout="fill"
                     objectFit="cover"
