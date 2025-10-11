@@ -52,27 +52,8 @@ const dropdownData: Record<string, MenuItem[] | MegaMenuSection[]> = {
   ],
 };
 
-// Customer interface
-interface Customer {
-  id: number;
-  customerId: number;
-  firstName: string | null;
-  lastName: string | null;
-  phoneNumber: string | null;
-  gender: string | null;
-  birthdate: string | null;
-  profileImage: string;
-  addressLine: string | null;
-  city: string | null;
-  province: string | null;
-  postalCode: string | null;
-  country: string | null;
-  createdAt: string;
-  updatedAt: string;
-}
-
 const Navbar: React.FC = () => {
-  const [user, setUser] = useState<Customer | null>(null);
+  const [user, setUser] = useState<any>(null);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [customerId, setCustomerId]: any = useState<string | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -251,6 +232,28 @@ const Navbar: React.FC = () => {
             />
             <span className="mt-2">WISHLIST</span>
           </Link>
+
+          {/* Admin Portal Link (only for admins) */}
+          {user?.role === "admin" && (
+            <Link href="/admin" className="flex flex-col items-center">
+              {/* Inline portal icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-[24px] w-auto"
+              >
+                <path d="M3 12h18M3 6h18M3 18h18" /> {/* Example menu-like icon */}
+              </svg>
+              <span className="mt-2">PORTAL</span>
+            </Link>
+          )}
 
           {/* ✅ Profile / Account */}
           {user ? (

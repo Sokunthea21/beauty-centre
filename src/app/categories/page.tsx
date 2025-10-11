@@ -3,10 +3,8 @@ import { useState } from "react";
 import Layout from "../../components/Layout/component";
 import CategorySidebar from "../../components/CategorySidebar/component";
 import BrandFilter from "../../components/BrandFilter/component";
-import Filters from "../../components/Filters/component";
 import ProductGrid from "../../components/ProductGrid/page";
 
-// Funnel Icon Component
 const FunnelIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     {...props}
@@ -26,15 +24,33 @@ const FunnelIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 export default function Home() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [selectedBrand, setSelectedBrand] = useState<number | null>(null);
+
   const toggleFilters = () => {
     setIsFilterOpen(!isFilterOpen);
   };
 
-  // Define the exact width for the mobile drawer to match the visual
+  const handleCategorySelect = (categoryId: number | null) => {
+    setSelectedCategory(categoryId);
+    // Close mobile filter drawer after selection
+    if (window.innerWidth < 768) {
+      setIsFilterOpen(false);
+    }
+  };
+
+  const handleBrandSelect = (brandId: number | null) => {
+    setSelectedBrand(brandId);
+    // Close mobile filter drawer after selection
+    if (window.innerWidth < 768) {
+      setIsFilterOpen(false);
+    }
+  };
+
   const drawerWidth = "w-[280px]";
 
   return (
-    <Layout title="Sunscreen">
+    <Layout title="">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row">
         {/* Filter Toggle Button (Mobile Only) */}
         <div className="w-full flex justify-start mb-4 md:hidden">
@@ -47,33 +63,31 @@ export default function Home() {
           </button>
         </div>
 
-        {/* MOBILE FILTER DRAWER - External Close Button Structure */}
+        {/* MOBILE FILTER DRAWER */}
         <div
           className={`
-                        fixed top-0 bottom-0 left-0 z-50 transform transition-transform duration-300 ease-in-out
-                        ${drawerWidth} 
-                        md:relative md:block md:w-[19%] md:mr-5 md:space-y-6 md:sticky md:top-6 md:z-10 md:h-fit
-                        ${
-                          isFilterOpen
-                            ? "translate-x-0"
-                            : "-translate-x-full md:translate-x-0"
-                        }
-                        ${!isFilterOpen && "hidden md:block"} 
-                    `}
+            fixed top-0 bottom-0 left-0 z-50 transform transition-transform duration-300 ease-in-out
+            ${drawerWidth} 
+            md:relative md:block md:w-[19%] md:mr-5 md:space-y-6 md:sticky md:top-6 md:z-10 md:h-fit
+            ${
+              isFilterOpen
+                ? "translate-x-0"
+                : "-translate-x-full md:translate-x-0"
+            }
+            ${!isFilterOpen && "hidden md:block"}
+          `}
         >
-          {/* Dark Close Bar (Fixed position relative to the viewport) */}
+          {/* Close Button */}
           {isFilterOpen && (
             <div
-              className={`fixed top-0 md:hidden z-50`}
+              className="fixed top-0 md:hidden z-50"
               style={{ left: "280px" }}
             >
               <button
                 onClick={toggleFilters}
-                // Dark square styling for the close button
                 className="h-14 w-14 flex items-center justify-center bg-gray-800 text-white"
                 aria-label="Close filters"
               >
-                {/* Close Icon (X) */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"
@@ -91,24 +105,29 @@ export default function Home() {
               </button>
             </div>
           )}
-  
-          {/* Filter Content Panel (White background, full height) */}
-          <div className=" h-full overflow-y-auto">
-            {/* Filter Content: padding starts here */}
-            <div className="p-4 space-y-6 pb-20">
-              <CategorySidebar />
-              <BrandFilter />
-              <Filters />
-            </div>
+
+          {/* Filter Content */}
+          <div className="h-full overflow-y-auto p-4 space-y-6 pb-20 bg-white">
+            <CategorySidebar
+              selectedCategory={selectedCategory}
+              onSelectCategory={handleCategorySelect}
+            />
+            <BrandFilter
+              selectedBrand={selectedBrand}
+              onSelectBrand={handleBrandSelect}
+            />
           </div>
         </div>
 
-        {/* Product Grid Section */}
+        {/* Product Grid */}
         <div className="w-full md:w-[80%]">
-          <ProductGrid />
+          <ProductGrid
+            selectedCategory={selectedCategory}
+            selectedBrand={selectedBrand}
+          />
         </div>
 
-        {/* Backdrop Overlay */}
+        {/* Overlay */}
         {isFilterOpen && (
           <div
             onClick={toggleFilters}

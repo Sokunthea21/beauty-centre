@@ -17,9 +17,11 @@ type ApiResponse = {
     message: string;
 }
 
-type getAllProductsPayload = {
-    page: number;
-    limit: number;
+export interface getAllProductsPayload {
+  categoryId?: number;
+  brandId?: number;
+  page?: number;
+  limit?: number;
 }
 
 type updateProductPayload = {

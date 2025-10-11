@@ -7,6 +7,7 @@ import { assets } from "@/app/assets/assets";
 import ProductCard from "../ProductCard/component";
 import { addOrRemoveProductWhiteList, getWhiteList } from "@/api/whitelist.api";
 import { addProductToCart, getCart } from "@/api/cart.api";
+import { getAllProducts } from "@/api/product.api"; // Import the API function
 
 // =====================================================================
 // 1. INTERFACES & MOCK DATA
@@ -286,6 +287,8 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
   const [quantity, setQuantity] = useState<number>(1);
   const [wishlist, setWishlist] = useState<boolean>(false);
   const [inCart, setInCart] = useState<boolean>(false);
+  const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
+  const [loadingRelated, setLoadingRelated] = useState<boolean>(true);
   const BASE_URL: string = "http://localhost:8080";
 
   const getImageUrl = (path: string): string =>
@@ -323,6 +326,39 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
     }
   }
 
+  // ===================== FETCH RELATED PRODUCTS =====================
+  const fetchRelatedProducts = async () => {
+    setLoadingRelated(true);
+    try {
+      const params: any = {};
+      
+      // Prioritize same category
+      if (product.category?.id) {
+        params.categoryId = product.category.id;
+      }
+      // Or same brand if no category
+      else if (product.brand?.id) {
+        params.brandId = product.brand.id;
+      }
+
+      const response = await getAllProducts(params);
+      
+      if (response.success && response.data) {
+        // Filter out current product and limit to 6 items
+        const filtered = response.data
+          .filter((p: any) => p.id !== product.id)
+          .slice(0, 6);
+        
+        setRelatedProducts(filtered);
+      }
+    } catch (error) {
+      console.error("Failed to fetch related products:", error);
+      setRelatedProducts([]);
+    } finally {
+      setLoadingRelated(false);
+    }
+  };
+
   // ===================== FETCH WISHLIST =====================
   const fetchWishlist = async () => {
     try {
@@ -356,6 +392,7 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
   useEffect(() => {
     fetchWishlist();
     fetchCart();
+    fetchRelatedProducts();
   }, [product.id]);
 
   // ===================== HANDLERS =====================
@@ -614,34 +651,43 @@ const ProductDetailPage: React.FC<ProductDetailsProps> = ({ product }) => {
               className="h-[50px] w-[60px]"
             />
           </div>
-          <a
-            href="#"
-            className="text-sm text-gray-500 mt-1 cursor-pointer hover:underline"
-          >
-            See All
-          </a>
+          {product.category && (
+            <p className="text-sm text-gray-500 mt-1">
+              More from {product.category.category}
+            </p>
+          )}
         </div>
 
-        <div className="flex mt-8 gap-4 overflow-x-auto scrollbar-hidden snap-x snap-mandatory pb-4">
-          {Array(6)
-            .fill(0)
-            .map((_, i) => (
+        {loadingRelated ? (
+          <div className="flex justify-center items-center py-12">
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-pink-500"></div>
+          </div>
+        ) : relatedProducts.length > 0 ? (
+          <div className="flex mt-8 gap-4 overflow-x-auto scrollbar-hidden snap-x snap-mandatory pb-4">
+            {relatedProducts.map((relatedProduct) => (
               <ProductCard
-                key={`related-product-${i}`}
+                key={`related-product-${relatedProduct.id}`}
                 productData={{
-                  _id: product.id.toString(),
-                  name: product.title,
-                  price: Number(product.price),
-                  description: product.description,
-                  offerPrice: Number(product.price),
+                  _id: relatedProduct.id.toString(),
+                  name: relatedProduct.name,
+                  price: Number(relatedProduct.price),
+                  description: relatedProduct.description,
+                  offerPrice: Number(relatedProduct.price),
+                  rating: relatedProduct.ratingSum,
+                  ratingCount: relatedProduct.ratingCount,
                   image:
-                    product.productImages && product.productImages.length > 0
-                      ? [product.productImages[0].productImage]
+                    relatedProduct.productImages && relatedProduct.productImages.length > 0
+                      ? [relatedProduct.productImages[0].productImage]
                       : [""],
                 }}
               />
             ))}
-        </div>
+          </div>
+        ) : (
+          <div className="text-center py-12 text-gray-500">
+            No related products found
+          </div>
+        )}
       </div>
 
       {/* Customer Reviews */}
