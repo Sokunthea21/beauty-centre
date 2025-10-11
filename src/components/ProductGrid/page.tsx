@@ -2,27 +2,64 @@
 
 import { useEffect, useState } from "react";
 import ProductCard from "../ProductCard/component";
-import { productData } from "@/app/assets/productData";
 import { getAllProducts } from "@/api/product.api";
 
 type ViewMode = "grid-2" | "grid-3" | "grid-4" | "list";
 
-export default function ProductGrid() {
+interface ProductGridProps {
+  selectedCategory?: number | null;
+  selectedBrand?: number | null;
+}
+
+export default function ProductGrid({ selectedCategory, selectedBrand }: ProductGridProps) {
   const [viewMode, setViewMode] = useState<ViewMode>("grid-2");
   const [currentPage, setCurrentPage] = useState(1);
   const [productData, setProductData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchProducts() {
-      const response = await getAllProducts();
+      setLoading(true);
+      setError(null);
+      
+      try {
+        // Build query parameters based on props
+        const params: any = {};
+        
+        if (selectedCategory !== null && selectedCategory !== undefined) {
+          params.categoryId = selectedCategory;
+        }
+        
+        if (selectedBrand !== null && selectedBrand !== undefined) {
+          params.brandId = selectedBrand;
+        }
 
-      setProductData(response.data);
+        console.log('Fetching products with params:', params);
+        
+        const response = await getAllProducts(params);
+        
+        console.log('API Response:', response);
+        
+        setProductData(response.data || []);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        setError("Failed to load products. Please try again.");
+        setProductData([]);
+      } finally {
+        setLoading(false);
+      }
     }
 
     fetchProducts();
-  }, []);
+  }, [selectedCategory, selectedBrand]);
 
-  const itemsPerPage = viewMode === "list" ? 4 : 4; // Adjust as needed for other modes
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory, selectedBrand]);
+
+  const itemsPerPage = 4;
   const totalPages = Math.ceil(productData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const visibleProducts = productData.slice(
@@ -52,16 +89,60 @@ export default function ProductGrid() {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+          <p className="text-gray-600">Loading products...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
+          <div className="text-red-500 text-lg">⚠️</div>
+          <p className="text-gray-600">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-black text-white rounded hover:bg-gray-800 transition"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (productData.length === 0) {
+    return (
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
+          <div className="text-gray-400 text-6xl">🔍</div>
+          <p className="text-gray-600 text-lg">No products found</p>
+          <p className="text-gray-500 text-sm">Try adjusting your filters</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="max-w-6xl mx-auto px-4 ">
+    <div className="max-w-6xl mx-auto px-4">
       {/* Header with view mode icons */}
-      <div className="flex items-center justify-between mb-6 border-t border-gray-200  pt-4">
+      <div className="flex items-center justify-between mb-6 border-t border-gray-200 pt-4">
         <div className="flex items-center gap-1 text-gray-600">
           <span className="text-md font-medium tracking-wide text-[var(--primary)]">
             VIEW AS
           </span>
 
-          <button onClick={() => setViewMode("grid-2")}>
+          <button 
+            onClick={() => setViewMode("grid-2")} 
+            aria-label="2 column grid view"
+            className="p-1 hover:bg-gray-100 rounded transition"
+          >
             <svg
               width="36"
               height="35"
@@ -96,7 +177,11 @@ export default function ProductGrid() {
             </svg>
           </button>
 
-          <button onClick={() => setViewMode("grid-3")}>
+          <button 
+            onClick={() => setViewMode("grid-3")} 
+            aria-label="3 column grid view"
+            className="p-1 hover:bg-gray-100 rounded transition"
+          >
             <svg
               width="50"
               height="35"
@@ -137,7 +222,12 @@ export default function ProductGrid() {
               />
             </svg>
           </button>
-          <button onClick={() => setViewMode("grid-4")}>
+
+          <button 
+            onClick={() => setViewMode("grid-4")} 
+            aria-label="4 column grid view"
+            className="p-1 hover:bg-gray-100 rounded transition"
+          >
             <svg
               width="62"
               height="35"
@@ -185,7 +275,12 @@ export default function ProductGrid() {
               />
             </svg>
           </button>
-          <button onClick={() => setViewMode("list")}>
+
+          <button 
+            onClick={() => setViewMode("list")} 
+            aria-label="list view"
+            className="p-1 hover:bg-gray-100 rounded transition"
+          >
             <svg
               width="49"
               height="35"
@@ -227,64 +322,74 @@ export default function ProductGrid() {
             </svg>
           </button>
         </div>
+
+        <div className="text-sm text-gray-600">
+          Showing {startIndex + 1}-{Math.min(startIndex + itemsPerPage, productData.length)} of {productData.length} products
+        </div>
       </div>
 
       {/* Product Grid */}
       <div className={`grid ${getGridCols()} gap-6`}>
         {visibleProducts.map((product: any, index) => (
           <ProductCard
-            key={product.title + index}
+            key={product.id ? `${product.id}-${index}` : `product-${index}`}
             productData={{
               _id: product.id?.toString() ?? "",
               name: product.name ?? "Unnamed Product",
-              price: product.price,
+              price: product.price ?? 0,
               description: product.description ?? "",
               image: [
-                product.productImages[0].productImage
+                product.productImages?.[0]?.productImage ?? ""
               ],
-              offerPrice: 0,
-              rating: product.ratingSum,
-              ratingCount: product.ratingCount
+              offerPrice: product.offerPrice ?? 0,
+              rating: product.ratingSum ?? 0,
+              ratingCount: product.ratingCount ?? 0
             }}
-            isList={viewMode === "list"} // If ProductCard handles layout difference
-            isCompact={viewMode === "grid-2"} // For 2-column layout
-            gridCols={viewMode} // Pass the current view mode
+            isList={viewMode === "list"}
+            isCompact={viewMode === "grid-2"}
+            gridCols={viewMode}
           />
         ))}
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-center items-center gap-2 mt-8">
-        <button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="text-gray-500 disabled:opacity-30"
-        >
-          &lt;
-        </button>
-
-        {[...Array(totalPages)].map((_, index) => (
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center gap-2 mt-8 mb-8">
           <button
-            key={index}
-            className={`w-8 h-8 text-sm rounded-full ${
-              index + 1 === currentPage
-                ? "bg-black text-white"
-                : "text-gray-600"
-            }`}
-            onClick={() => handlePageChange(index + 1)}
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-3 py-1 text-gray-500 disabled:opacity-30 disabled:cursor-not-allowed hover:text-black transition"
+            aria-label="Previous page"
           >
-            {index + 1}
+            &lt;
           </button>
-        ))}
 
-        <button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className="text-gray-500 disabled:opacity-30"
-        >
-          &gt;
-        </button>
-      </div>
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index}
+              className={`w-8 h-8 text-sm rounded-full transition ${
+                index + 1 === currentPage
+                  ? "bg-black text-white"
+                  : "text-gray-600 hover:bg-gray-100"
+              }`}
+              onClick={() => handlePageChange(index + 1)}
+              aria-label={`Page ${index + 1}`}
+              aria-current={index + 1 === currentPage ? "page" : undefined}
+            >
+              {index + 1}
+            </button>
+          ))}
+
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="px-3 py-1 text-gray-500 disabled:opacity-30 disabled:cursor-not-allowed hover:text-black transition"
+            aria-label="Next page"
+          >
+            &gt;
+          </button>
+        </div>
+      )}
     </div>
   );
 }

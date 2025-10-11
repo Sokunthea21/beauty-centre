@@ -254,10 +254,7 @@ export default function ProductTable() {
               >
                 <div className="relative w-full h-60">
                   <Image
-                    src={
-                      product.productImages[0]?.productImage ||
-                      "/placeholder.png"
-                    }
+                    src={product.productImages[0]?.productImage || "/placeholder.png"}
                     alt={product.name}
                     layout="fill"
                     objectFit="cover"
