@@ -9,6 +9,7 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import { getAllProducts } from "@/api/product.api";
+import Link from "next/link";
 
 const NewArrivals: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -46,9 +47,11 @@ const NewArrivals: React.FC = () => {
             className="h-[50px] w-[60px]"
           />
         </div>
-        <p className="text-sm text-gray-500 mt-1 cursor-pointer hover:underline">
-          See All
-        </p>
+        <Link href="/newarrivals" className="mt-2 inline-block">
+          <span className="text-sm text-gray-500 cursor-pointer hover:underline">
+            See All
+          </span>
+        </Link>
       </div>
 
       <div className="relative">

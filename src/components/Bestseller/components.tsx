@@ -9,6 +9,7 @@ import type { Swiper as SwiperClass } from "swiper/types";
 import "swiper/css";
 import "swiper/css/navigation";
 import { getAllProducts } from "@/api/product.api";
+import Link from "next/link";
 
 
 type Product = {
@@ -55,9 +56,11 @@ const Bestseller: React.FC = () => {
             className="h-[50px] w-[60px]"
           />
         </div>
-        <p className="text-sm text-gray-500 mt-1 cursor-pointer hover:underline">
-          See All
-        </p>
+        <Link href="/bestsellers" className="mt-2 inline-block">
+          <span className="text-sm text-gray-500 cursor-pointer hover:underline">
+            See All
+          </span>
+        </Link>
       </div>
 
        <div className="relative">
