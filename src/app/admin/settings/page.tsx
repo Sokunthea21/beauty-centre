@@ -11,6 +11,7 @@ const accountTabs = [
   { id: "backup", name: "Backup", icon: Lock }, // Tab is already defined
 ];
 
+
 // --- Reusable Component Helpers (Simplified for this view) ---
 
 interface ActionInputFieldProps {
