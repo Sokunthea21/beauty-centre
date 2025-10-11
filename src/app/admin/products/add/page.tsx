@@ -280,6 +280,7 @@ export default function AddProductForm() {
                 <div className="lg:col-span-2 space-y-6">
                     <Card title="General Information">
                         <InputField label="Product Name*" id="productName" value={formData.productName} onChange={handleChange} placeholder="Enter product name" required/>
+                        <InputField label="Recommended for" id="recommendedFor" value={formData.recommendedFor} onChange={handleChange} placeholder="Enter recommended for" required/>
                         <InputField label="Product Description" id="productDescription" textarea value={formData.productDescription} onChange={handleChange} placeholder="Enter product description"/>
                         <InputField label="How to Use" id="howToUse" textarea value={formData.howToUse} onChange={handleChange} placeholder="Enter how to use"/>
                         <InputField label="Ingredients" id="ingredients" textarea value={formData.ingredients} onChange={handleChange} placeholder="Enter ingredients"/>
